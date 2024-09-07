@@ -19,6 +19,8 @@ public class Rectangle{
     private int yPosition;
     private String color;
     private boolean isVisible;
+    private boolean pegante;
+    private CuadrosPegados pegados;
 
     /**
      * Create a new rectangle at default position with default color.
@@ -30,9 +32,15 @@ public class Rectangle{
         yPosition = 15;
         color = "magenta";
         isVisible = false;
+        pegante = false;
     }
     
-
+    /**
+     * Make a square with the rectangle.
+     */
+    public void tile(){
+        changeSize(50, 50);
+    }
     /**
      * Make this rectangle visible. If it was already visible, do nothing.
      */
@@ -151,13 +159,40 @@ public class Rectangle{
     
     /**
      * Change the color. 
-     * @param color the new color. Valid colors are "red", "yellow", "blue", "green",
-     * "magenta" and "black".
+     * @param color the new color. Valid chars are 'r', 'y', 'b', 'g' and 'm'.
      */
-    public void changeColor(String newColor){
-        color = newColor;
-        draw();
+    public void changeColor(char newColorChar){
+        String newColor = charToColor(newColorChar);
+        if (newColor == null){
+            System.out.println("el color no es correcto");
+        }else{
+            color = newColor;
+            draw();
+        }
     }
+    /**
+     * Add glue to this tile.
+     */
+    public void addGlue() {
+        pegante = true;
+        System.out.println("Glue added to tile.");
+    }
+    /**
+     * Remove glue from this tile.
+     */
+    public void removeGlue() {
+        pegante = false;
+        System.out.println("Glue removed from tile.");
+    }
+    /**
+     * Check if the tile has glue.
+     * @return true if the tile has glue, false otherwise.
+     */
+    public boolean hasGlue() {
+        return pegante;
+    }
+  
+ 
 
     /*
      * Draw the rectangle with current specifications on screen.
@@ -182,5 +217,47 @@ public class Rectangle{
             canvas.erase(this);
         }
     }
+    /**
+     * Move the tile in the puzzle.
+     * @param vertical move in puzzle,must be >0 and < widthPuzzle
+     */
+    
+    public void puzzleMoveVertical(int position){
+        moveVertical(50*position);
+    }
+    /** Move the tile in the puzzle.
+     * @param horizontal move in puzzle,must be >0 and < widthPuzzle
+     */
+    
+    public void puzzleMoveHorizontal(int position){
+        moveHorizontal(50*position);
+    }
+    
+    /*
+     * change char for a color
+     * @param color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
+     * @return the nes color String. Must be "red","yellow","blue","green" 
+     * and "magenta".
+     */
+    private String charToColor(char color){
+        
+        if (color == 'r'){
+            return "red";
+        }
+        if (color =='y'){
+            return "yellow";    
+        }
+        if (color == 'b'){
+            return "blue";    
+        }
+        if (color == 'g'){
+            return "green";
+        }
+        if (color == 'm'){
+            return "magenta";
+        }
+        return null;
+    }
 }
 
+    
