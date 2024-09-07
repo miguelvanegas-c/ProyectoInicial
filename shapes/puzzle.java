@@ -1,8 +1,8 @@
 
 /**
  * A puzzle that can be manipulated, and created with a lot of configurations.
- * 
  * @author Miguel Angel Vanegas Cardenas 
+ * @author Allan Steef Contreras Rodriguez 
  * @version (a version number or a date)
  */
 public class puzzle
