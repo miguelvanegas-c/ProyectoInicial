@@ -170,6 +170,29 @@ public class Rectangle{
             draw();
         }
     }
+    /**
+     * Add glue to this tile.
+     */
+    public void addGlue() {
+        pegante = true;
+        System.out.println("Glue added to tile.");
+    }
+    /**
+     * Remove glue from this tile.
+     */
+    public void removeGlue() {
+        pegante = false;
+        System.out.println("Glue removed from tile.");
+    }
+    /**
+     * Check if the tile has glue.
+     * @return true if the tile has glue, false otherwise.
+     */
+    public boolean hasGlue() {
+        return pegante;
+    }
+  
+ 
 
     /*
      * Draw the rectangle with current specifications on screen.
