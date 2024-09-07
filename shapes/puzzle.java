@@ -157,5 +157,65 @@ public class puzzle
             isVisible = false;
         }
     }
-        
-}
+    /**
+     * Tilt the puzzle in a given direction (up, down, left, right).
+     * 
+     * @param direction The direction to tilt: "up", "down", "left", "right".
+     */
+    public void tilt(String direction) {
+        if (!isVisible) {
+            System.out.println("Puzzle is not visible.");
+            return;
+        }
+
+        switch (direction.toLowerCase()) {
+            case "up":
+                for (int row = 1; row < height; row++) {
+                    for (int col = 0; col < width; col++) {
+                        if (board[row][col] != null && board[row - 1][col] == null) {
+                            board[row - 1][col] = board[row][col];
+                            board[row][col] = null;
+                            board[row - 1][col].puzzleMoveVertical(row - 1);
+                        }
+                    }
+                }
+                break;
+            case "down":
+                for (int row = height - 2; row >= 0; row--) {
+                    for (int col = 0; col < width; col++) {
+                        if (board[row][col] != null && board[row + 1][col] == null) {
+                            board[row + 1][col] = board[row][col];
+                            board[row][col] = null;
+                            board[row + 1][col].puzzleMoveVertical(row + 1);
+                        }
+                    }
+                }
+                break;
+            case "left":
+                for (int col = 1; col < width; col++) {
+                    for (int row = 0; row < height; row++) {
+                        if (board[row][col] != null && board[row][col - 1] == null) {
+                            board[row][col - 1] = board[row][col];
+                            board[row][col] = null;
+                            board[row][col - 1].puzzleMoveHorizontal(col - 1);
+                        }
+                    }
+                }
+                break;
+            case "right":
+                for (int col = width - 2; col >= 0; col--) {
+                    for (int row = 0; row < height; row++) {
+                        if (board[row][col] != null && board[row][col + 1] == null) {
+                            board[row][col + 1] = board[row][col];
+                            board[row][col] = null;
+                            board[row][col + 1].puzzleMoveHorizontal(col + 1);
+                        }
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid direction. Use: up, down, left, right.");
+        }
+    }
+
+    
