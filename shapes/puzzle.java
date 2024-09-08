@@ -114,7 +114,35 @@ public class puzzle
         }
         
     }
-    
+
+    public void actualArrangement() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (board[row][col] != null) {
+                    System.out.print(board[row][col].getColor().charAt(0) + " "); // Mostrar la primera letra del color
+                } else {
+                    System.out.print(". "); // Espacio vacío
+                }
+            }
+            System.out.println(); // Salto de línea para la siguiente fila
+        }
+    }
+     */
+    public boolean isGoal() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if ((board[row][col] == null && ending[row][col] != null) ||
+                    (board[row][col] != null && ending[row][col] == null)) {
+                    return false;
+                }
+                if (board[row][col] != null && !board[row][col].getColor().equals(ending[row][col].getColor())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+     */
     public void makeVisible(){
         if (isVisible == false){
             base.makeVisible();
