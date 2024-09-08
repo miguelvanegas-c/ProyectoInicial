@@ -19,8 +19,8 @@ public class Rectangle{
     private int yPosition;
     private String color;
     private boolean isVisible;
-    private boolean pegante;
-    private CuadrosPegados pegados;
+    private boolean glue;
+    private SquaredGlued glued;
 
     /**
      * Create a new rectangle at default position with default color.
@@ -30,9 +30,9 @@ public class Rectangle{
         width = 40;
         xPosition = 70;
         yPosition = 15;
-        color = "magenta";
+        color = "black";
         isVisible = false;
-        pegante = false;
+        glue = false;
     }
     
     /**
@@ -157,10 +157,15 @@ public class Rectangle{
         draw();
     }
     
+    public void changeColor(String newColor){
+        color = newColor;
+        draw();
+    }
     /**
      * Change the color. 
      * @param color the new color. Valid chars are 'r', 'y', 'b', 'g' and 'm'.
      */
+    
     public void changeColor(char newColorChar){
         String newColor = charToColor(newColorChar);
         if (newColor == null){
@@ -234,6 +239,49 @@ public class Rectangle{
             return "magenta";
         }
         return null;
+    }
+    
+    public char colorToChar(String color){
+        if (color == "red"){
+            return 'r';
+        }
+        if (color =="yellow"){
+            return 'y';    
+        }
+        if (color == "blue"){
+            return 'b';    
+        }
+        if (color == "green"){
+            return 'g';
+        }
+        if (color == "magenta"){
+            return 'm';
+        }
+        return ' ';
+    }
+    public void makeGlue(){
+        if (!glue){
+            glue = true;
+            
+        }
+    }
+    
+    public void makeNoGlue(){
+        if (glue){
+            glue = false;
+        }
+    }
+    
+    public boolean isGlue(){
+        return glue;
+    }
+    
+    public void setGlued(SquaredGlued newGlued){
+        glued = newGlued;
+    }
+    
+    public SquaredGlued getGlued(){
+        return glued;
     }
 }
 
