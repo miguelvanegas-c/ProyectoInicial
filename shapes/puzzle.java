@@ -1,4 +1,4 @@
-
+import javax.swing.*;
 /**
  * A puzzle that can be manipulated, and created with a lot of configurations.
  * 
@@ -197,11 +197,17 @@ public class puzzle
                 board[row][colum].changeColor(color);
                 startingMatriz[row][colum] = board[row][colum].colorToChar(color); 
             }else{
-                System.out.println("cambiar por error de ya esta ocupada ");
+                JOptionPane.showMessageDialog(null,
+                                         "ese movimiento no se puede realizar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
             }
             
         }else{
-            System.out.println("cambiar por error de fuera de rango");
+            JOptionPane.showMessageDialog(null,
+                                         "fuera de rango",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
         }
     }
     /**
@@ -214,14 +220,20 @@ public class puzzle
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
             if (board[row][colum] == null){
-                System.out.println("cambiar por error de no hay nada que borrar");
+                JOptionPane.showMessageDialog(null,
+                                         "no hay nada que borrar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
             }else{
                 board[row][colum].makeInvisible();
                 board[row][colum] = null;
                 startingMatriz[row][colum] = '.';
             }
         }else{
-            System.out.println("cambiar por error de fuera de rango");
+            JOptionPane.showMessageDialog(null,
+                                         "fuera de rango",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
         }
     }
     
@@ -239,7 +251,10 @@ public class puzzle
             rowFrom >= 0 & columFrom >= 0 & rowFrom < height
             & columFrom < width){
             if (board[rowFrom][columFrom] == null || board[rowTo][columTo] != null ){
-                System.out.println("cambiar error no hay en from o si hay en to ");
+                JOptionPane.showMessageDialog(null,
+                                         "ese movimiento no se puede realizar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
             }else{
                 board[rowTo][columTo] = board[rowFrom][columFrom];
                 board[rowTo][columTo].puzzleMoveVertical(rowTo-rowFrom);
@@ -250,7 +265,10 @@ public class puzzle
                 
             }
         }else{
-            System.out.println("cambiar por error de fuera de rango");
+            JOptionPane.showMessageDialog(null,
+                                         "fuera de rango",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
         }
     }
     /**
@@ -266,13 +284,19 @@ public class puzzle
          if (row >= 0 & colum >= 0 & row < height & colum < width){
             
             if (board[row][colum].isGlue() || board[row][colum].getGlued()!= null){
-                System.out.println("cambiar por error de ya esta pegada");
+                JOptionPane.showMessageDialog(null,
+                                         "ese movimiento no se puede realizar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
             }else{
                 SquaredGlued newGlued = new SquaredGlued(startingMatriz,board,row,colum);
                 board[row][colum].setGlued(newGlued);
             }
         }else{
-            System.out.println("cambiar por error de fuera de rango");
+            JOptionPane.showMessageDialog(null,
+                                         "fuera de rango",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);
         }
     }
     /**
@@ -286,7 +310,10 @@ public class puzzle
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
             if (board[row][colum] != null && board[row][colum].getGlued() == null){
-                System.out.println("cambiar por error de no tiene pegante");
+                JOptionPane.showMessageDialog(null,
+                                         "ese movimiento no se puede realizar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
             }else if (board[row][colum] != null){
                 Rectangle[][] gluedBoard = board[row][colum].getGlued().getGluedBoard();
                 int newRow = gluedBoard.length;
@@ -301,7 +328,10 @@ public class puzzle
                 board[row][colum].setGlued(null);
             }
         }else{
-            System.out.println("cambiar por error de fuera de rango");
+            JOptionPane.showMessageDialog(null,
+                                         "fuera de rango",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
         }
     }
     
@@ -464,7 +494,10 @@ public class puzzle
                 }
                 break;
             default:
-                System.out.println("la direccion es incorrecta");
+                JOptionPane.showMessageDialog(null,
+                                         "la direccion es incorrecta",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
         }
     }
     /**
