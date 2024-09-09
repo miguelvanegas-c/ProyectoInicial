@@ -78,7 +78,11 @@ public class puzzle
             }
         }
     }
-    
+    /**
+     * Constructor for objects of class puzzle 
+     * @param starting config de starting
+     * @param ending config de ending
+     */
     public puzzle(char[][] starting, char[][] ending){
         int h = ending.length;
         int w = ending[0].length;
@@ -125,6 +129,9 @@ public class puzzle
         }
         
     }
+    /**
+     * draw the boards on the screen
+     */
     
     public void makeVisible(){
         if (isVisible == false){
@@ -147,6 +154,9 @@ public class puzzle
             isVisible = true;
         }
     }
+    /**
+     * erase teh boards
+     */
     public void makeInvisible(){
         if (isVisible){
             base.makeInvisible();
@@ -168,7 +178,12 @@ public class puzzle
             isVisible = false;
         }
     }
-    
+    /** 
+     * add new tile
+     * @param row, row of the add
+     * @param colum, colum of the add
+     * @param color, color of the new tile
+     */
     public void addTile(int row, int colum, String color){ 
         row-=1;
         colum-=1;
@@ -189,7 +204,11 @@ public class puzzle
             System.out.println("cambiar por error de fuera de rango");
         }
     }
-    
+    /**
+     * delete a tile of the board
+     * @param row, row of the tile
+     * @param colum, colum of the tile
+     */
     public void deleteTile(int row, int colum){
         row-=1;
         colum-=1;
@@ -206,6 +225,11 @@ public class puzzle
         }
     }
     
+    /**
+     * relocate a tile
+     * @param form, position of tile 
+     * @param to, position of the end position of tile
+     */
     public void relocateTile(int [] from, int [] to ){
         int rowFrom = from[0]-1;
         int columFrom = from[1]-1;
@@ -229,7 +253,11 @@ public class puzzle
             System.out.println("cambiar por error de fuera de rango");
         }
     }
-    
+    /**
+     * add glue to a tile
+     * @param row, row of tile
+     * @param colum, colum of tile
+     */
     
     
     public void addGlue(int row, int colum){
@@ -247,6 +275,11 @@ public class puzzle
             System.out.println("cambiar por error de fuera de rango");
         }
     }
+    /**
+     * delete glue to a tile
+     * @param row, row of tile
+     * @param colum, colum of tile
+     */
     
     public void deleteGlue(int row, int colum){
         row-=1;
@@ -254,7 +287,7 @@ public class puzzle
         if (row >= 0 & colum >= 0 & row < height & colum < width){
             if (board[row][colum] != null && board[row][colum].getGlued() == null){
                 System.out.println("cambiar por error de no tiene pegante");
-            }else{
+            }else if (board[row][colum] != null){
                 Rectangle[][] gluedBoard = board[row][colum].getGlued().getGluedBoard();
                 int newRow = gluedBoard.length;
                 int newColum = gluedBoard[0].length;
@@ -272,38 +305,140 @@ public class puzzle
         }
     }
     
+    /**
+     * move all the tile
+     * @param 'u' go up, 'd' gp dpwn, 'l' go left and 'r' go right
+     */
     public void tilt(char direction) {
         switch (direction) {
             case 'u':
                 for (int row = 1; row < height; row++) {
                     for (int col = 0; col < width; col++) {
-                        if (board[row][col] != null && board[row - 1][col] == null) {
-                            board[row - 1][col] = board[row][col];
-                            board[row][col] = null;
-                            board[row - 1][col].puzzleMoveVertical(-1);
-                            row = 1;
-                            col = 0;
+                        if (board[row][col] != null && board[row][col].isGlue() == false){
+                            if (board[row - 1][col] == null) {
+                                startingMatriz[row - 1][col] = startingMatriz[row][col];
+                                startingMatriz[row][col] = '.';
+                                board[row - 1][col] = board[row][col];
+                                board[row][col] = null;
+                                board[row - 1][col].puzzleMoveVertical(-1);
+                                row = 1;
+                                col = 0;
+                                System.out.println("1");
+                            }
+                        }else if(board[row][col] != null && 
+                        board[row][col].getGlued() != null){
+                            Rectangle[][] glued = board[row][col].getGlued().getGluedBoard();
+                            if (row -1 > 0){
+                                boolean bandera = true;
+                                for (int gluedRow = 0; gluedRow < glued.length; gluedRow++){
+                                    for (int gluedColum = 0; gluedColum < glued.length; gluedColum++){
+                                        if (gluedRow != 0){
+                                            if (!(glued[gluedRow][gluedColum]!= null && 
+                                            glued[gluedRow-1][gluedColum] == null && 
+                                            board[row-2+gluedRow][col-1+gluedColum] == null)){
+                                                bandera = false;
+                                            }
+                                            
+                                        }else{
+                                            if (glued[gluedRow][gluedColum] != null && 
+                                            board[row-2+gluedRow][col-1+gluedColum] != null){
+                                                bandera = false;
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                                if (bandera){
+                                    for (int newRow = row-1; newRow < row+1; row++) {
+                                        for (int newCol = col-1; newCol < col+1; col++) {
+                                            if (board[newRow][newCol] != null && 
+                                            board[newRow][newCol].isGlue() == false){
+                                                if (board[newRow - 1][newCol] == null) {
+                                                    startingMatriz[newRow - 1][newCol] = 
+                                                    startingMatriz[newRow][newCol];
+                                                    startingMatriz[newRow][newCol] = '.';
+                                                    board[newRow - 1][newCol] = board[newRow][newCol];
+                                                    board[newRow][newCol] = null;
+                                                    board[newRow - 1][newCol].puzzleMoveVertical(-1);
+                                                    row = 1;
+                                                    col = 0;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }  
                         }
                     }
                 }
+                
+                
                 break;
             case 'd':
                 for (int row = 0; row < height-1; row++) {
                     for (int col = 0; col < width; col++) {
                         if (board[row][col] != null && board[row + 1][col] == null) {
+                            startingMatriz[row + 1][col] = startingMatriz[row][col];
+                            startingMatriz[row][col] = '.';
                             board[row + 1][col] = board[row][col];
                             board[row][col] = null;
                             board[row + 1][col].puzzleMoveVertical(1);
                             row = 0;
                             col = 0;
+                        }else if(board[row][col] != null && 
+                        board[row][col].getGlued() != null){
+                            Rectangle[][] glued = board[row][col].getGlued().getGluedBoard();
+                            if (row + 1 < width-1){
+                                boolean bandera = true;
+                                for (int gluedRow = 0; gluedRow < glued.length; gluedRow++){
+                                    for (int gluedColum = 0; gluedColum < glued.length; gluedColum++){
+                                        if (gluedRow != 2){
+                                            if (!(glued[gluedRow][gluedColum]!= null && 
+                                            glued[gluedRow+1][gluedColum] == null && 
+                                            board[row+gluedRow][col-1+gluedColum] == null)){
+                                                bandera = false;
+                                            }
+                                            
+                                        }else{
+                                            if (glued[gluedRow][gluedColum] != null && 
+                                            board[row+gluedRow][col-1+gluedColum] != null){
+                                                bandera = false;
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                                if (bandera){
+                                    for (int newRow = row-1; newRow < row+1; row++) {
+                                        for (int newCol = col-1; newCol < col+1; col++) {
+                                            if (board[newRow][newCol] != null && 
+                                            board[newRow][newCol].isGlue() == false){
+                                                if (board[newRow + 1][newCol] == null) {
+                                                    startingMatriz[newRow + 1][newCol] = 
+                                                    startingMatriz[newRow][newCol];
+                                                    startingMatriz[newRow][newCol] = '.';
+                                                    board[newRow + 1][newCol] = board[newRow][newCol];
+                                                    board[newRow][newCol] = null;
+                                                    board[newRow + 1][newCol].puzzleMoveVertical(-1);
+                                                    row = row-1;
+                                                    col = col-1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }  
                         }
                     }
                 }
+                
                 break;
             case 'l':
                 for (int col = 1; col < width; col++) {
                     for (int row = 0; row < height; row++) {
                         if (board[row][col] != null && board[row][col - 1] == null) {
+                            startingMatriz[row - 1][col] = startingMatriz[row][col];
+                            startingMatriz[row][col] = '.';
                             board[row][col - 1] = board[row][col];
                             board[row][col] = null;
                             board[row][col - 1].puzzleMoveHorizontal(- 1);
@@ -317,6 +452,8 @@ public class puzzle
                 for (int col = 0; col < width-1; col++) {
                     for (int row = 0; row < height; row++) {
                         if (board[row][col] != null && board[row][col + 1] == null) {
+                            startingMatriz[row + 1][col] = startingMatriz[row][col];
+                            startingMatriz[row][col] = '.';
                             board[row][col + 1] = board[row][col];
                             board[row][col] = null;
                             board[row][col + 1].puzzleMoveHorizontal(1);
@@ -327,7 +464,40 @@ public class puzzle
                 }
                 break;
             default:
-                System.out.println("cambiar por error");
+                System.out.println("la direccion es incorrecta");
         }
+    }
+    /**
+     * show the actual matriz of the board
+     */
+    public void actualArrangement() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if (board[row][col] != null) {
+                    System.out.print(board[row][col].getColor().charAt(0) + " ");
+                } else {
+                    System.out.print(". "); // Espacio vacío
+                }
+            }
+            System.out.println(); 
+        }
+    }
+    
+    /**
+     * show if the actual matriz is the same that the ending
+     */
+    public boolean isGoal() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 0; col < width; col++) {
+                if ((board[row][col] == null && ending[row][col] != null) ||
+                    (board[row][col] != null && ending[row][col] == null)) {
+                    return false;
+                }
+                if (board[row][col] != null && !(board[row][col].getColor().equals(ending[row][col].getColor()))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

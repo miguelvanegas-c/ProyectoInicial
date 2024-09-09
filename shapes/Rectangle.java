@@ -240,7 +240,11 @@ public class Rectangle{
         }
         return null;
     }
-    
+    /**
+     * change color for a char
+     * @param the nes color String. Must be "red","yellow","blue","green" and "magenta".
+     * @return color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
+     */
     public char colorToChar(String color){
         if (color == "red"){
             return 'r';
@@ -259,13 +263,18 @@ public class Rectangle{
         }
         return ' ';
     }
+    /**
+     * make a tile glue, part of a SquaredGlued
+     */
     public void makeGlue(){
         if (!glue){
             glue = true;
             
         }
     }
-    
+    /**
+    * make a tile not glue, not part of a SquaredGlued
+    */
     public void makeNoGlue(){
         if (glue){
             glue = false;
@@ -279,9 +288,15 @@ public class Rectangle{
     public void setGlued(SquaredGlued newGlued){
         glued = newGlued;
     }
-    
+    /**
+     * create a SquaredGlued, with the tile in the midle
+     */
     public SquaredGlued getGlued(){
         return glued;
+    }
+    
+    public String getColor(){
+        return color;
     }
 }
 
