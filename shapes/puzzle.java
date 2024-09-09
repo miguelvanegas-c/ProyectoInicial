@@ -533,4 +533,9 @@ public class puzzle
         }
         return true;
     }
+    public void finish(){
+        if (isGoal()){
+            System.exit(0);
+        }
+    }
 }
