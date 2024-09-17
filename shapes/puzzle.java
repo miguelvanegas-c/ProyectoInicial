@@ -5,12 +5,13 @@ import javax.swing.*;
  * @author Miguel Angel Vanegas Cardenas 
  * @version (a version number or a date)
  */
-public class puzzle
+
+public class Puzzle
 {
-    private Rectangle base;
-    private Rectangle baseEnding;
-    private Rectangle [][] board;
-    private Rectangle [][] ending;
+    private Tile base;
+    private Tile baseEnding;
+    private Tile [][] board;
+    private Tile [][] ending;
     private char [][] endingMatriz;
     private char [][] startingMatriz;
     private int height;
@@ -24,43 +25,44 @@ public class puzzle
      * @param h the height of the board.
      * @param w the width of the board.
      */
-    public puzzle(int h, int w){
+    public Puzzle(int h, int w){
         //creacion base board
-        base = new Rectangle();
+        base = new Tile();
         base.changeSize(h*50,w*50);
         height = h;
         width = w;
         xPosition = 70;
         yPosition = 15;
-        board = new Rectangle[h][w];
-        baseEnding = new Rectangle();
+        board = new Tile[h][w];
+        baseEnding = new Tile();
         baseEnding.changeSize(h*50,w*50);
         baseEnding.moveVertical(w*50+50);
-        this.ending = new Rectangle[h][w];
+        ending = new Tile[h][w];
         isVisible = false;
     }
     /**
      * Constructor for objects of class puzzle with the height and the width.
      * @param ending puzzle final.
      */
-    public puzzle(char[][] ending){
+    public Puzzle(char[][] ending){
         endingMatriz = ending;
         int h = ending.length;
         int w = ending[0].length;
         startingMatriz = new char[h][w];
         //creacion base board
-        base = new Rectangle();
+        base = new Tile();
         base.changeSize(h*50,w*50);
         //creacion y desplazamiento base ending
-        baseEnding = new Rectangle();
+        baseEnding = new Tile();
         baseEnding.changeSize(h*50,w*50);
         baseEnding.moveVertical(w*50+50);
         height = h;
         width = w;
         xPosition = 70;
         yPosition = 15;
-        board = new Rectangle[h][w];
-        this.ending = new Rectangle[h][w];
+        board = new Tile[h][w];
+        this.ending = new Tile[h][w];
+        isVisible = false;
         //creacion de las baldozas
         for(int row = 0; row < h; row+=1){
             for(int colum = 0; colum < w; colum +=1){
@@ -68,12 +70,8 @@ public class puzzle
                 if (ending[row][colum] == '.'){
                     this.ending[row][colum] = null;
                 }else{ 
-                    this.ending[row][colum] = new Rectangle();
-                    this.ending[row][colum].changeColor(ending[row][colum]);
-                    this.ending[row][colum].tile();
-                    this.ending[row][colum].puzzleMoveVertical(row);
-                    this.ending[row][colum].puzzleMoveHorizontal(colum);
-                    this.ending[row][colum].moveVertical(w*50+50);
+                    String color = charToColor(ending[row][colum]);
+                    addTileEnding(row+1,colum+1,color);
                 }
             }
         }
@@ -83,14 +81,14 @@ public class puzzle
      * @param starting config de starting
      * @param ending config de ending
      */
-    public puzzle(char[][] starting, char[][] ending){
+    public Puzzle(char[][] starting, char[][] ending){
         int h = ending.length;
         int w = ending[0].length;
         //creacion base board
-        base = new Rectangle();
+        base = new Tile();
         base.changeSize(h*50,w*50);
         //creacion y desplazamiento base ending
-        baseEnding = new Rectangle();
+        baseEnding = new Tile();
         baseEnding.changeSize(h*50,w*50);
         baseEnding.moveVertical(w*50+50);
         endingMatriz = ending;
@@ -99,8 +97,9 @@ public class puzzle
         width = w;
         xPosition = 70;
         yPosition = 15;
-        board = new Rectangle[h][w];
-        this.ending = new Rectangle[h][w];
+        board = new Tile[h][w];
+        this.ending = new Tile[h][w];
+        isVisible = false;
         //creacion de las baldozas
         for(int row = 0; row < h; row+=1){
             for(int colum = 0; colum < w; colum +=1){
@@ -108,26 +107,102 @@ public class puzzle
                 if (starting[row][colum] == '.'){
                     board[row][colum] = null;
                 }else{ 
-                    board[row][colum] = new Rectangle();
-                    board[row][colum].changeColor(starting[row][colum]);
-                    board[row][colum].tile();
-                    board[row][colum].puzzleMoveVertical(row);
-                    board[row][colum].puzzleMoveHorizontal(colum);
+                    String color = charToColor(starting[row][colum]);
+                    addTile(row+1,colum+1,color);
                 }
                 //config ending
                 if (ending[row][colum] == '.'){
                     this.ending[row][colum] = null;
                 }else{ 
-                    this.ending[row][colum] = new Rectangle();
-                    this.ending[row][colum].changeColor(ending[row][colum]);
-                    this.ending[row][colum].tile();
-                    this.ending[row][colum].puzzleMoveVertical(row);
-                    this.ending[row][colum].puzzleMoveHorizontal(colum);
-                    this.ending[row][colum].moveVertical(w*50+50);
+                    String color = charToColor(ending[row][colum]);
+                    addTileEnding(row+1,colum+1,color);
                 }
             }
         }
+       
+    }
+    
+    /*
+     * add new tile in ending.
+     * @param row, row of the add
+     * @param colum, colum of the add
+     * @param color, color of the new tile
+     */
+    private void addTileEnding(int row, int colum, String color){ 
+        row-=1;
+        colum-=1;
+        if (row >= 0 & colum >= 0 & row < height & colum < width){
+            if (ending[row][colum] == null){
+                ending[row][colum] = new Tile();
+                ending[row][colum].puzzleMoveVertical(row);
+                ending[row][colum].puzzleMoveHorizontal(colum);
+                if (isVisible){
+                    ending[row][colum].makeVisible();
+                }
+                ending[row][colum].changeColor(color);
+                ending[row][colum].moveVertical(width*50+50);
+                endingMatriz[row][colum] = colorToChar(color); 
+            }else{
+                JOptionPane.showMessageDialog(null,
+                                         "ese movimiento no se puede realizar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null,
+                                         "fuera de rango",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
+        }
+    }
+    /**
+     * change char for a color
+     * @param color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
+     * @return the nes color String. Must be "red","yellow","blue","green" 
+     * and "magenta".
+     */
+    public String charToColor(char color){
         
+        if (color == 'r'){
+            return "red";
+        }
+        if (color =='y'){
+            return "yellow";    
+        }
+        if (color == 'b'){
+            return "blue";    
+        }
+        if (color == 'g'){
+            return "green";
+        }
+        if (color == 'm'){
+            return "magenta";
+        }
+        return null;
+    }
+    /**
+     * change color for a char
+     * @param the nes color String. Must be "red","yellow","blue","green" and "magenta".
+     * @return color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
+     */
+    public char colorToChar(String color){
+        if (color == "red"){
+            return 'r';
+        }
+        if (color =="yellow"){
+            return 'y';    
+        }
+        if (color == "blue"){
+            return 'b';    
+        }
+        if (color == "green"){
+            return 'g';
+        }
+        if (color == "magenta"){
+            return 'm';
+        }
+        return ' ';
     }
     /**
      * draw the boards on the screen
@@ -189,11 +264,12 @@ public class puzzle
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
             if (board[row][colum] == null){
-                board[row][colum] = new Rectangle();
-                board[row][colum].tile();
+                board[row][colum] = new Tile();
                 board[row][colum].puzzleMoveVertical(row);
                 board[row][colum].puzzleMoveHorizontal(colum);
-                board[row][colum].makeVisible();
+                if (isVisible){
+                    board[row][colum].makeVisible();
+                }
                 board[row][colum].changeColor(color);
                 startingMatriz[row][colum] = board[row][colum].colorToChar(color); 
             }else{
@@ -209,6 +285,7 @@ public class puzzle
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
         }
+
     }
     /**
      * delete a tile of the board
@@ -256,13 +333,9 @@ public class puzzle
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
             }else{
-                board[rowTo][columTo] = board[rowFrom][columFrom];
-                board[rowTo][columTo].puzzleMoveVertical(rowTo-rowFrom);
-                board[rowTo][columTo].puzzleMoveHorizontal(columTo-columFrom);
-                startingMatriz[rowTo][columTo] = startingMatriz[rowFrom][columFrom];
-                board[rowFrom][columFrom] = null;
-                startingMatriz[rowFrom][columFrom] = '.';
-                
+                String color = charToColor(startingMatriz[rowFrom][columFrom]);
+                deleteTile(rowFrom+1,columFrom+1);
+                addTile(rowTo+1,columTo+1,color);
             }
         }else{
             JOptionPane.showMessageDialog(null,
@@ -270,6 +343,7 @@ public class puzzle
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
         }
+
     }
     /**
      * add glue to a tile
@@ -315,7 +389,7 @@ public class puzzle
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
             }else if (board[row][colum] != null){
-                Rectangle[][] gluedBoard = board[row][colum].getGlued().getGluedBoard();
+                Tile[][] gluedBoard = board[row][colum].getGlued().getGluedBoard();
                 int newRow = gluedBoard.length;
                 int newColum = gluedBoard[0].length;
                 for (int i = 0; i < newRow; i ++){
@@ -357,7 +431,7 @@ public class puzzle
                             }
                         }else if(board[row][col] != null && 
                         board[row][col].getGlued() != null){
-                            Rectangle[][] glued = board[row][col].getGlued().getGluedBoard();
+                            Tile[][] glued = board[row][col].getGlued().getGluedBoard();
                             if (row -1 > 0){
                                 boolean bandera = true;
                                 for (int gluedRow = 0; gluedRow < glued.length; gluedRow++){
@@ -417,7 +491,7 @@ public class puzzle
                             col = 0;
                         }else if(board[row][col] != null && 
                         board[row][col].getGlued() != null){
-                            Rectangle[][] glued = board[row][col].getGlued().getGluedBoard();
+                            Tile[][] glued = board[row][col].getGlued().getGluedBoard();
                             if (row + 1 < width-1){
                                 boolean bandera = true;
                                 for (int gluedRow = 0; gluedRow < glued.length; gluedRow++){

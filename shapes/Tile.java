@@ -8,8 +8,11 @@ import java.awt.*;
  */
 
 
- 
-public class Rectangle{
+
+
+
+
+public class Tile{
 
     public static int EDGES = 4;
     
@@ -19,30 +22,25 @@ public class Rectangle{
     private int yPosition;
     private String color;
     private boolean isVisible;
-    private boolean glue;
-    private SquaredGlued glued;
+    private boolean glued;
+    private boolean gluedMidle;
+    private Glue glue;
 
     /**
      * Create a new rectangle at default position with default color.
      */
-    public Rectangle(){
-        height = 30;
-        width = 40;
+    public Tile(){
+        height = 50;
+        width = 50;
         xPosition = 70;
         yPosition = 15;
         color = "black";
         isVisible = false;
-        glue = false;
+        glued = false;
     }
     
     /**
-     * Make a square with the rectangle.
-     */
-    public void tile(){
-        changeSize(50, 50);
-    }
-    /**
-     * Make this rectangle visible. If it was already visible, do nothing.
+     * Make this tile visible. If it was already visible, do nothing.
      */
     public void makeVisible(){
         isVisible = true;
@@ -50,43 +48,16 @@ public class Rectangle{
     }
     
     /**
-     * Make this rectangle invisible. If it was already invisible, do nothing.
+     * Make this tile invisible. If it was already invisible, do nothing.
      */
     public void makeInvisible(){
         erase();
         isVisible = false;
     }
     
-    /**
-     * Move the rectangle a few pixels to the right.
-     */
-    public void moveRight(){
-        moveHorizontal(20);
-    }
 
     /**
-     * Move the rectangle a few pixels to the left.
-     */
-    public void moveLeft(){
-        moveHorizontal(-20);
-    }
-
-    /**
-     * Move the rectangle a few pixels up.
-     */
-    public void moveUp(){
-        moveVertical(-20);
-    }
-
-    /**
-     * Move the rectangle a few pixels down.
-     */
-    public void moveDown(){
-        moveVertical(20);
-    }
-
-    /**
-     * Move the rectangle horizontally.
+     * Move the tile horizontally.
      * @param distance the desired distance in pixels
      */
     public void moveHorizontal(int distance){
@@ -96,7 +67,7 @@ public class Rectangle{
     }
 
     /**
-     * Move the rectangle vertically.
+     * Move the tile vertically.
      * @param distance the desired distance in pixels
      */
     public void moveVertical(int distance){
@@ -105,45 +76,6 @@ public class Rectangle{
         draw();
     }
 
-    /**
-     * Slowly move the rectangle horizontally.
-     * @param distance the desired distance in pixels
-     */
-    public void slowMoveHorizontal(int distance){
-        int delta;
-
-        if(distance < 0) {
-            delta = -1;
-            distance = -distance;
-        } else {
-            delta = 1;
-        }
-
-        for(int i = 0; i < distance; i++){
-            xPosition += delta;
-            draw();
-        }
-    }
-
-    /**
-     * Slowly move the rectangle vertically.
-     * @param distance the desired distance in pixels
-     */
-    public void slowMoveVertical(int distance){
-        int delta;
-
-        if(distance < 0) {
-            delta = -1;
-            distance = -distance;
-        } else {
-            delta = 1;
-        }
-
-        for(int i = 0; i < distance; i++){
-            yPosition += delta;
-            draw();
-        }
-    }
 
     /**
      * Change the size to the new size
@@ -156,6 +88,11 @@ public class Rectangle{
         width = newWidth;
         draw();
     }
+    
+    /**
+     * Change the color. 
+     * @param color the new color. Valid String. are "red, "yellow, "blue", "green", "black" and "magenta".
+     */
     
     public void changeColor(String newColor){
         color = newColor;
@@ -177,7 +114,7 @@ public class Rectangle{
     }
 
     /*
-     * Draw the rectangle with current specifications on screen.
+     * Draw the tile with current specifications on screen.
      */
 
     private void draw() {
@@ -191,7 +128,7 @@ public class Rectangle{
     }
 
     /*
-     * Erase the rectangle on screen.
+     * Erase the tile on screen.
      */
     private void erase(){
         if(isVisible) {
@@ -240,7 +177,7 @@ public class Rectangle{
         }
         return null;
     }
-    /**
+    /*
      * change color for a char
      * @param the nes color String. Must be "red","yellow","blue","green" and "magenta".
      * @return color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
@@ -266,38 +203,51 @@ public class Rectangle{
     /**
      * make a tile glue, part of a SquaredGlued
      */
-    public void makeGlue(){
-        if (!glue){
-            glue = true;
+    public void makeGlued(){
+        if (!glued){
+            glued = true;
             
         }
     }
     /**
     * make a tile not glue, not part of a SquaredGlued
     */
-    public void makeNoGlue(){
-        if (glue){
-            glue = false;
+    public void makeNoGlued(){
+        if (glued){
+            glued = false;
         }
     }
     
-    public boolean isGlue(){
-        return glue;
+    public boolean isGlued(){
+        return glued;
     }
     
-    public void setGlued(SquaredGlued newGlued){
-        glued = newGlued;
+    public void makeGluedMidle(){
+        if(!gluedMidle){
+            gluedMidle = true;
+        }
+    }
+    
+        public void makeNoGluedMidle(){
+        if(gluedMidle){
+            gluedMidle = false;
+        }
+    }
+    
+    public void setGlue(Glue newGlue){
+        glue = newGlue;
     }
     /**
      * create a SquaredGlued, with the tile in the midle
      */
-    public SquaredGlued getGlued(){
-        return glued;
+    public Glue getGlue(){
+        return glue;
     }
     
     public String getColor(){
         return color;
     }
 }
+ 
 
     
