@@ -24,6 +24,7 @@ public class Tile{
     private boolean isVisible;
     private boolean glued;
     private boolean gluedMidle;
+    private Tile gluedMidleTile;
     private Glue glue;
 
     /**
@@ -228,10 +229,14 @@ public class Tile{
         }
     }
     
-        public void makeNoGluedMidle(){
+    public void makeNoGluedMidle(){
         if(gluedMidle){
             gluedMidle = false;
         }
+    }
+    
+    public boolean isGluedMidle(){
+        return gluedMidle;
     }
     
     public void setGlue(Glue newGlue){
@@ -246,6 +251,23 @@ public class Tile{
     
     public String getColor(){
         return color;
+    }
+    
+    public void setGluedMidleTile(Tile glueMidle){
+        gluedMidleTile = glueMidle;
+    }
+    
+    public Tile getGluedMidleTile(){
+        return gluedMidleTile;
+    }
+    
+    public GlueOfGlue getGlueOfGlue(){
+        if (isGlued()){
+            Tile midle = getGluedMidleTile();
+            GlueOfGlue glueOfGlue = midle.getGlue().getGlueOfGlue();
+            return glueOfGlue;
+        }
+        return null;
     }
 }
  
