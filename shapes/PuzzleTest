@@ -1,0 +1,71 @@
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+
+public class PuzzleTest {
+
+    private Puzzle puzzle;
+
+    @Before
+    public void setUp() {
+        // Configuración inicial del puzzle
+        char[][] starting = {
+            {'.', 'r', '.'},
+            {'b', '.', '.'},
+            {'.', 'g', 'm'}
+        };
+        
+        char[][] ending = {
+            {'r', '.', '.'},
+            {'.', 'b', '.'},
+            {'m', '.', 'g'}
+        };
+        
+        puzzle = new Puzzle(starting, ending);
+    }
+
+    @Test
+    public void testAddTile() {
+        puzzle.addTile(1, 1, "red"); 
+        assertEquals('r', puzzle.getStartingMatriz()[0][0]);
+    }
+
+    @Test
+    public void testDeleteTile() {
+        puzzle.addTile(2, 2, "blue");
+        puzzle.deleteTile(2, 2);
+        assertEquals('.', puzzle.getStartingMatriz()[1][1]);
+    }
+
+    @Test
+    public void testRelocateTile() {
+        puzzle.addTile(3, 3, "magenta");
+        int[] from = {3, 3};
+        int[] to = {1, 1};
+        puzzle.relocateTile(from, to);
+        assertEquals('m', puzzle.getStartingMatriz()[0][0]);
+        assertEquals('.', puzzle.getStartingMatriz()[2][2]);
+    }
+
+    @Test
+    public void testTiltUp() {
+        puzzle.tilt('u');
+        char[][] expectedBoard = {
+            {'b', 'r', 'g'},
+            {'.', '.', 'm'},
+            {'.', '.', '.'}
+        };
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+    
+    @Test
+    public void testTiltDown() {
+        puzzle.tilt('d');
+        char[][] expectedBoard = {
+            {'.', '.', '.'},
+            {'.', 'r', '.'},
+            {'b', 'g', 'm'}
+        };
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+}
