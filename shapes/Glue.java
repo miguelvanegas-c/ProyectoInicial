@@ -60,7 +60,9 @@ public class Glue{
             oldGlueOfGlue.add(this);
         }
     }
-    
+    /**
+     * delete the glue.
+     */
     public void deleteGlue(){
         if (isGlueOfGlue){
             getGlueOfGlue().deleteOfGlues(this);
@@ -92,13 +94,17 @@ public class Glue{
     public int getWidth(){
         return width;
     }
-    
+    /**
+     * make part of GlueOfGlue.
+     */
     public void makeIsGlueOfGlue(){
         if (!isGlueOfGlue()){
             isGlueOfGlue = true;
         }
     }
-    
+    /**
+     * make part of not GlueOfGlue.
+     */
         public void makeNoIsGlueOfGlue(){
         if (isGlueOfGlue()){
             isGlueOfGlue = false;
@@ -116,7 +122,10 @@ public class Glue{
     public void setGlueOfGlue(GlueOfGlue glueOfGlue){
         this.glueOfGlue = glueOfGlue;
     }
-    
+    /*
+     * find the left border of a glue.
+     * @return ArrayList<Integer[]>, list of the border.
+     */
     private ArrayList<Integer[]> leftPositionTiles(){
         ArrayList<Integer[]> leftPositionTiles = new ArrayList<>();
         for (int fila = 0;  fila < height ; fila ++){
@@ -132,44 +141,51 @@ public class Glue{
         }
         return leftPositionTiles;
     }
-
+    /*
+     * find the right border of a glue.
+     * @return ArrayList<Integer[]>, list of the border.
+     */
     private ArrayList<Integer[]> rightPositionTiles(){
         ArrayList<Integer[]> rightPositionTiles = new ArrayList<>();
         for (int fila = 0;  fila < height ; fila ++){
             for (int columna = 0; columna < width ; columna ++){
-                if ( (columna == height - 1 & glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null && columna+1 < width && glueBoard[fila][columna+1] == null)){
+                if ( (columna == width - 1 & glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null && columna+1 < width && glueBoard[fila][columna+1] == null)){
                     Integer filaInt = fila;
                     Integer columnaInt = columna;
                     Integer[] arreglo ={filaInt,columnaInt};
                     rightPositionTiles.add(arreglo);
-                }
-                    
+                }    
             }
         }
         return rightPositionTiles;
     }
-
+    /*
+     * find the down border of a glue.
+     * @return ArrayList<Integer[]>, list of the border.
+     */
     private ArrayList<Integer[]> downPositionTiles(){
         ArrayList<Integer[]> downPositionTiles = new ArrayList<>();
         for (int fila = 0;  fila < height ; fila ++){
             for (int columna = 0; columna < width ; columna ++){
-                if ((fila == width -1 & glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null && fila+1 < height && glueBoard[fila+1][columna] == null)){
+                if ((fila == height -1 & glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null && fila+1 < height && glueBoard[fila+1][columna] == null)){
                     Integer filaInt = fila;
                     Integer columnaInt = columna;
                     Integer[] arreglo ={filaInt,columnaInt};
                     downPositionTiles.add(arreglo);
                 }
-                    
             }
         }
         return downPositionTiles;
     }
-
+    /*
+     * find the up border of a glue.
+     * @return ArrayList<Integer[]>, list of the border.
+     */
     private ArrayList<Integer[]> upPositionTiles(){
         ArrayList<Integer[]> upPositionTiles = new ArrayList<>();
         for (int fila = 0;  fila < height ; fila ++){
             for (int columna = 0; columna < width ; columna ++){
-                if (  (fila == 0 & glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null && fila-1 >= 0 && glueBoard[fila-1][columna] == null)){
+                if ((fila == 0 & glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null && fila-1 >= 0 && glueBoard[fila-1][columna] == null)){
                     Integer filaInt = fila;
                     Integer columnaInt = columna;
                     Integer[] arreglo ={filaInt,columnaInt};
@@ -180,7 +196,10 @@ public class Glue{
         }
         return upPositionTiles;
     }
-    
+    /**
+     * if is posible move the glue to the left with a tilt.
+     * @return boolean, true if you can move, false if not.
+     */
     public boolean isPosibleLeftTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleLeftTilt();
@@ -199,7 +218,10 @@ public class Glue{
             return true;
         }
     }
-    
+    /**
+     * if is posible move the glue to the down with a tilt.
+     * @return boolean, true if you can move, false if not.
+     */
     public boolean isPosibleDownTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleDownTilt();
@@ -218,7 +240,10 @@ public class Glue{
             return true;
         }
     }
-
+    /**
+     * if is posible move the glue to the up with a tilt.
+     * @return boolean, true if you can move, false if not.
+     */
     public boolean isPosibleUpTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleUpTilt();
@@ -237,7 +262,10 @@ public class Glue{
             return true;
         }
     }
-    
+    /**
+     * if is posible move the glue to the right with a tilt.
+     * @return boolean, true if you can move, false if not.
+     */
     public boolean isPosibleRightTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleRightTilt();
@@ -249,14 +277,16 @@ public class Glue{
             for (Integer [] positions: rightPositionTiles){
                 row = positions[0];
                 col = positions[1];
-                if (col >= width-1 || board[row][col+1] != null){
+                if (col == width-1 || board[row][col+1] != null){
                     return false;
                 }
             }
             return true;
         }
     }
-    
+    /**
+     * tilt the glue to left.
+     */
     public void tiltLeft(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltLeft();
@@ -266,9 +296,9 @@ public class Glue{
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
                     if (glueBoard[row][col] != null) {
-                        startingMatriz[row][col - 1] = startingMatriz[row][col];
+                        startingMatriz[row][col - 1] = puzzle.colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
-                        glueMatriz[row][col - 1] = glueMatriz[row][col];
+                        glueMatriz[row][col - 1] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
                         board[row][col - 1] = board[row][col];
                         glueBoard[row][col - 1] = board[row][col];
@@ -280,7 +310,9 @@ public class Glue{
             }
         }
     }
-    
+    /**
+     * tilt the glue to down.
+     */
     public void tiltDown(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltDown();
@@ -290,9 +322,9 @@ public class Glue{
             for (int row = height-1; row >= 0; row--) {
                 for (int col = 0; col < width; col++) {
                     if (glueBoard[row][col] != null) {
-                        startingMatriz[row+1][col] = startingMatriz[row][col];
+                        startingMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
-                        glueMatriz[row+1][col] = glueMatriz[row][col];
+                        glueMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
                         board[row+1][col] = board[row][col];
                         glueBoard[row+1][col] = board[row][col];
@@ -304,7 +336,9 @@ public class Glue{
             }
         }
     } 
-    
+    /**
+     * tilt the glue to up.
+     */
     public void tiltUp(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltUp();
@@ -314,9 +348,9 @@ public class Glue{
             for (int row = 0; row< height; row++) {
                 for (int col = 0; col < width; col++) {
                     if (glueBoard[row][col] != null) {
-                        startingMatriz[row-1][col] = startingMatriz[row][col];
+                        startingMatriz[row-1][col] = puzzle.colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
-                        glueMatriz[row-1][col] = glueMatriz[row][col];
+                        glueMatriz[row-1][col] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
                         board[row-1][col] = board[row][col];
                         glueBoard[row-1][col] = board[row][col];
@@ -328,7 +362,9 @@ public class Glue{
             }
         }
     }
-    
+    /**
+     * tilt the glue to right.
+     */
     public void tiltRight(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltRight();
@@ -338,9 +374,9 @@ public class Glue{
             for (int row = 0; row < height; row++) {
                 for (int col = width-1; col >= 0; col--) {
                     if (glueBoard[row][col] != null) {
-                        startingMatriz[row][col + 1] = startingMatriz[row][col];
+                        startingMatriz[row][col + 1] = puzzle.colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
-                        glueMatriz[row][col+1] = glueMatriz[row][col];
+                        glueMatriz[row][col+1] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
                         board[row][col + 1] = board[row][col];
                         glueBoard[row][col + 1] = board[row][col];

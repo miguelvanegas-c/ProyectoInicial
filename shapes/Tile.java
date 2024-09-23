@@ -26,6 +26,7 @@ public class Tile{
     private boolean gluedMidle;
     private Tile gluedMidleTile;
     private Glue glue;
+    private boolean isHole;
 
     /**
      * Create a new rectangle at default position with default color.
@@ -38,6 +39,7 @@ public class Tile{
         color = "black";
         isVisible = false;
         glued = false;
+        isHole = false;
     }
     
     /**
@@ -156,7 +158,7 @@ public class Tile{
     /*
      * change char for a color
      * @param color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
-     * @return the nes color String. Must be "red","yellow","blue","green" 
+     * @return the nes color String. Must be "red","yellow","blue","green" and "magenta"
      * and "magenta".
      */
     private String charToColor(char color){
@@ -176,6 +178,7 @@ public class Tile{
         if (color == 'm'){
             return "magenta";
         }
+        
         return null;
     }
     /*
@@ -199,10 +202,11 @@ public class Tile{
         if (color == "magenta"){
             return 'm';
         }
+        
         return ' ';
     }
     /**
-     * make a tile glue, part of a SquaredGlued
+     * make a tile glue, part of a Glue
      */
     public void makeGlued(){
         if (!glued){
@@ -211,7 +215,7 @@ public class Tile{
         }
     }
     /**
-    * make a tile not glue, not part of a SquaredGlued
+    * make a tile not glue, not part of a Glue
     */
     public void makeNoGlued(){
         if (glued){
@@ -222,13 +226,17 @@ public class Tile{
     public boolean isGlued(){
         return glued;
     }
-    
+    /**
+     * make a tile the gluedMidle of a Glue
+     */
     public void makeGluedMidle(){
         if(!gluedMidle){
             gluedMidle = true;
         }
     }
-    
+    /**
+     * make a tile no the gluedMidle of a Glue
+     */
     public void makeNoGluedMidle(){
         if(gluedMidle){
             gluedMidle = false;
@@ -260,7 +268,9 @@ public class Tile{
     public Tile getGluedMidleTile(){
         return gluedMidleTile;
     }
-    
+    /**
+     * get the GlueOfGlue of a glue.
+     */
     public GlueOfGlue getGlueOfGlue(){
         if (isGlued()){
             Tile midle = getGluedMidleTile();
@@ -268,6 +278,26 @@ public class Tile{
             return glueOfGlue;
         }
         return null;
+    }
+    
+    public boolean isHole(){
+        return isHole;
+    }
+    /**
+     * make a tile a hole.
+     */
+    public void makeHole(){
+        if (!isHole){
+            isHole = true;
+        }
+    }
+    /**
+     * make a tile no a hole.
+     */
+    public void makeNoHole(){
+        if (isHole){
+            isHole = false;
+        }
     }
 }
  
