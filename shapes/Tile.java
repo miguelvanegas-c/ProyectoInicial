@@ -32,9 +32,9 @@ public class Tile{
      * Create a new rectangle at default position with default color.
      */
     public Tile(){
-        height = 50;
-        width = 50;
-        xPosition = 70;
+        height = 48;
+        width = 48;
+        xPosition = 71;
         yPosition = 15;
         color = "black";
         isVisible = false;

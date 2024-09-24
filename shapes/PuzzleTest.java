@@ -63,8 +63,8 @@ public class PuzzleTest {
     public void testTiltUp() {
         puzzle.tilt('u');
         char[][] expectedBoard = {
-            {'b', 'r', 'g'},
-            {'.', '.', 'm'},
+            {'b', 'r', 'm'},
+            {'.', 'g', '.'},
             {'.', '.', '.'}
         };
         assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
