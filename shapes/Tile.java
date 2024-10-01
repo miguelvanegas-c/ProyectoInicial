@@ -26,7 +26,6 @@ public class Tile{
     private boolean gluedMidle;
     private Tile gluedMidleTile;
     private Glue glue;
-    private boolean isHole;
 
     /**
      * Create a new rectangle at default position with default color.
@@ -35,11 +34,10 @@ public class Tile{
         height = 48;
         width = 48;
         xPosition = 71;
-        yPosition = 15;
+        yPosition = 16;
         color = "black";
         isVisible = false;
         glued = false;
-        isHole = false;
     }
     
     /**
@@ -67,6 +65,14 @@ public class Tile{
         erase();
         xPosition += distance;
         draw();
+    }
+    
+    public void changeXPosition(int x){
+        xPosition += x;
+    }
+    
+    public void changeYPosition(int y){
+        yPosition += y;
     }
 
     /**
@@ -279,26 +285,7 @@ public class Tile{
         }
         return null;
     }
-    
-    public boolean isHole(){
-        return isHole;
-    }
-    /**
-     * make a tile a hole.
-     */
-    public void makeHole(){
-        if (!isHole){
-            isHole = true;
-        }
-    }
-    /**
-     * make a tile no a hole.
-     */
-    public void makeNoHole(){
-        if (isHole){
-            isHole = false;
-        }
-    }
+
 }
  
 

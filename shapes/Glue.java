@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 /**
  * Write a description of class CuadrosPegados here.
  * 
@@ -31,33 +33,48 @@ public class Glue{
         glueMatriz = new char[height][width];
         glueBoard = new Tile[height][width];
         isGlueOfGlue = false;
-        Tile gluedMidleOld = null;
-        boolean banderaNewGlueOfGlue = false;
-        boolean banderaAddToGlueOfGlue = false;
+        Set<Tile> gluedMidleOld = new HashSet<>();
         for (int fila = row - 1;  fila <= row + 1 ; fila ++){
             for (int columna = colum - 1; columna <= colum + 1 ; columna ++){
                 if(fila >= 0 && fila < height && columna >= 0 && columna < width && matriz[fila][columna]!= '.'){
                     glueMatriz[fila][columna] = matriz[fila][columna];   
                     glueBoard[fila][columna] = board[fila][columna];                    
-                    if (board[fila][columna].isGlued() && board[fila][columna].getGlueOfGlue() == null){
-                        banderaNewGlueOfGlue = true;
-                        gluedMidleOld = board[fila][columna].getGluedMidleTile();
-                    }
-                    if (board[fila][columna].isGlued() && board[fila][columna].getGlueOfGlue() != null){
-                        banderaAddToGlueOfGlue = true;
-                        gluedMidleOld = board[fila][columna].getGluedMidleTile();
+                    if (board[fila][columna].isGlued()){
+                        gluedMidleOld.add(board[fila][columna].getGluedMidleTile());
                     }
                     board[fila][columna].makeGlued();
                     board[fila][columna].setGluedMidleTile(gluedMidle);
+                    board[fila][columna].changeSize(49,49);
                 }
             }
         }
-        if (banderaNewGlueOfGlue){
-            glueOfGlue = new GlueOfGlue(puzzle,this,gluedMidleOld.getGlue());
+        gluedMidle.setGlue(this);
+        if (gluedMidleOld.size() > 0){
+            createGlueOfGlue(gluedMidleOld);
         }
-        if (banderaAddToGlueOfGlue){
-            GlueOfGlue oldGlueOfGlue = gluedMidleOld.getGlue().getGlueOfGlue();
-            oldGlueOfGlue.add(this);
+        
+    }
+    
+    private void createGlueOfGlue(Set<Tile> gluedMidleOld){
+        boolean banderaFirstOperation = true; 
+        for (Tile midle:gluedMidleOld){
+            if (banderaFirstOperation){
+                if(midle.getGlueOfGlue() == null){
+                        this.glueOfGlue = new GlueOfGlue(puzzle, this, midle.getGlue());
+                }else{
+                        midle.getGlueOfGlue().add(this);
+                        setGlueOfGlue(midle.getGlueOfGlue());
+                }
+                banderaFirstOperation = false;
+                makeIsGlueOfGlue();
+            }else{
+                if (midle.getGlueOfGlue() == null){
+                    this.getGlueOfGlue().add(midle.getGlue());
+                }else{
+                    this.getGlueOfGlue().join(midle.getGlueOfGlue());
+                }
+            }
+                
         }
     }
     /**
@@ -66,14 +83,17 @@ public class Glue{
     public void deleteGlue(){
         if (isGlueOfGlue){
             getGlueOfGlue().deleteOfGlues(this);
-        }
-        for (int fila = 0;  fila < height ; fila ++){
-            for (int columna = 0; columna < width ; columna ++){
-                if(glueBoard[fila][columna] != null){   
-                    glueBoard[fila][columna].makeNoGlued();
-                    glueBoard[fila][columna].setGluedMidleTile(null);
-                    if (glueBoard[fila][columna].isGluedMidle()){
-                        glueBoard[fila][columna].makeNoGluedMidle();
+        }else{
+            for (int fila = 0;  fila < height ; fila ++){
+                for (int columna = 0; columna < width ; columna ++){
+                    if(glueBoard[fila][columna] != null){   
+                        glueBoard[fila][columna].makeNoGlued();
+                        glueBoard[fila][columna].changeSize(48,48);
+                        glueBoard[fila][columna].setGluedMidleTile(null);
+                        if (glueBoard[fila][columna].isGluedMidle()){
+                            glueBoard[fila][columna].setGlue(null);
+                            glueBoard[fila][columna].makeNoGluedMidle();
+                        }
                     }
                 }
             }
@@ -121,6 +141,10 @@ public class Glue{
     
     public void setGlueOfGlue(GlueOfGlue glueOfGlue){
         this.glueOfGlue = glueOfGlue;
+    }
+    
+    public Tile getGluedMidle(){
+        return gluedMidle;
     }
     /*
      * find the left border of a glue.
@@ -316,6 +340,7 @@ public class Glue{
     public void tiltDown(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltDown();
+            System.out.println(1);
         }else{
             Tile [][] board = puzzle.getBoard(); 
             char [][] startingMatriz = puzzle.getStartingMatriz();

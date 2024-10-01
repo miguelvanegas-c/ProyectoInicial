@@ -50,20 +50,61 @@ public class GlueOfGlue{
      * @param Glue, the glue that will be eliminated.
      */
     public void deleteOfGlues(Glue deleteGlue){
+        Tile [][] glueBoard = deleteGlue.getGlueBoard();
         if (glues.size() == 2){
-            for(Glue g: glues){
-                g.makeNoIsGlueOfGlue();
-                g.setGlueOfGlue(null);
+            for(int index = 0; index < 2; index++){
+                if (glues.get(index).equals(deleteGlue)){
+                    glues.remove(deleteGlue);
+                    deleteGlue.setGlueOfGlue(null);
+                    deleteGlue.makeNoIsGlueOfGlue();
+                    deleteGlue(glueBoard);
+                }else{
+                    glues.get(index).setGlueOfGlue(null);
+                    glues.get(index).makeNoIsGlueOfGlue();
+                }
             }
         }else{
             glues.remove(deleteGlue);
-            for (int row = 0; row < height; row++){
-                for (int colum = 0; colum < width; colum++){
-                    if(!isTileInOtherGlue(glueOfGlueBoard[row][colum])){
-                        glueOfGlueBoard[row][colum] = null;
+            deleteGlue.makeNoIsGlueOfGlue();
+            deleteGlue.setGlueOfGlue(null);
+            deleteGlue(glueBoard);   
+        }
+    }
+    
+    
+    private void deleteGlue(Tile [][] glueBoard){
+        for (int row = 0; row < height; row++){
+            for (int colum = 0; colum < width; colum++){
+                if(!isTileInOtherGlue(glueOfGlueBoard[row][colum])){
+                    glueOfGlueBoard[row][colum] = null;
+                    glueOfGlueMatriz[row][colum] = '\u0000';
+                    if (glueBoard[row][colum] != null){
+                        glueBoard[row][colum].makeNoGlued();
+                        glueBoard[row][colum].changeSize(48,48);
+                        glueBoard[row][colum].setGluedMidleTile(null);
                     }
+                    if (glueBoard[row][colum] != null && glueBoard[row][colum].isGluedMidle()){
+                        glueBoard[row][colum].setGlue(null);
+                        glueBoard[row][colum].makeNoGluedMidle();
+                    }
+                }else{
+                    if (glueBoard[row][colum] != null && glueBoard[row][colum].isGluedMidle()){
+                        glueBoard[row][colum].setGlue(null);
+                        glueBoard[row][colum].makeNoGluedMidle();
+                    }
+                    assignNewGluedMidle(row,colum);
                 }
-            }   
+            }
+        } 
+    }
+    
+    
+    private void assignNewGluedMidle(int row,int colum){
+        for(Glue g: glues){
+            if (g.getGlueBoard()[row][colum] != null){
+                g.getGlueBoard()[row][colum].setGluedMidleTile(g.getGluedMidle());
+                g.getGlueBoard()[row][colum].setGlue(g);
+            }
         }
     }
     /*
@@ -75,7 +116,7 @@ public class GlueOfGlue{
         for(Glue g: glues){
             for (int row = 0; row < height; row++){
                 for (int colum = 0; colum < width; colum++){
-                    if(g.getGlueBoard()[row][colum].equals(tile)){
+                    if(g.getGlueBoard()[row][colum] != null && g.getGlueBoard()[row][colum].equals(tile)){
                         return true;
                     }
                 }
@@ -95,6 +136,8 @@ public class GlueOfGlue{
         glues.add(newGlue);
         char[][] newMatriz = newGlue.getGlueMatriz();
         Tile[][] newBoard = newGlue.getGlueBoard();
+        newGlue.setGlueOfGlue(this);
+        newGlue.makeIsGlueOfGlue();
         for (int row = 0; row < height; row++){
             for (int colum = 0; colum < width; colum++){
                 if(newBoard[row][colum] != null){
@@ -104,6 +147,18 @@ public class GlueOfGlue{
             }
         }
     }
+    
+    public void join(GlueOfGlue newGlueOfGlue){
+        ArrayList<Glue> newGlues = newGlueOfGlue.getGlues();
+        int longitud = newGlues.size();
+        for(int index = 0; index < longitud; index++){
+            add(newGlues.get(index));
+            newGlues.get(index).setGlueOfGlue(this);
+            newGlues.remove(newGlues.get(index));
+        }
+    }
+    
+    
     /*
      * find the left border of a glueOfGlue.
      * @return ArrayList<Integer[]>, list of the border.
@@ -245,8 +300,6 @@ public class GlueOfGlue{
         for (Integer [] positions: rightPositionTiles){
             row = positions[0];
             col = positions[1];
-            System.out.println(row);
-            System.out.println(col);
             if (col >= width-1 || board[row][col+1] != null){
                 return false;
             }
@@ -266,9 +319,9 @@ public class GlueOfGlue{
                         char[][] glueMatriz = g.getGlueMatriz();
                         Tile[][] glueBoard = g.getGlueBoard();
                         glueBoard[row][col-1] = glueBoard[row][col];
-                        glueBoard[row][col] = null;
                         glueMatriz[row][col - 1] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
+                        glueBoard[row][col] = null;
                     }
                     startingMatriz[row][col - 1] = puzzle.colorToChar(board[row][col].getColor());
                     startingMatriz[row][col] = '.';
@@ -296,9 +349,9 @@ public class GlueOfGlue{
                         char[][] glueMatriz = g.getGlueMatriz();
                         Tile[][] glueBoard = g.getGlueBoard();
                         glueBoard[row+1][col] = glueBoard[row][col];
-                        glueBoard[row][col] = null;
                         glueMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
+                        glueBoard[row][col] = null;
                     }
                     startingMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());
                     startingMatriz[row][col] = '.';
@@ -326,9 +379,9 @@ public class GlueOfGlue{
                         char[][] glueMatriz = g.getGlueMatriz();
                         Tile[][] glueBoard = g.getGlueBoard();
                         glueBoard[row-1][col] = glueBoard[row][col];
-                        glueBoard[row][col] = null;
                         glueMatriz[row-1][col] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
+                        glueBoard[row][col] = null;
                     }
                     startingMatriz[row-1][col] = puzzle.colorToChar(board[row][col].getColor());
                     startingMatriz[row][col] = '.';
@@ -356,9 +409,9 @@ public class GlueOfGlue{
                         char[][] glueMatriz = g.getGlueMatriz();
                         Tile[][] glueBoard = g.getGlueBoard();
                         glueBoard[row][col+1] = glueBoard[row][col];
-                        glueBoard[row][col] = null;
                         glueMatriz[row][col + 1] = puzzle.colorToChar(board[row][col].getColor());
                         glueMatriz[row][col] = '\u0000';
+                        glueBoard[row][col] = null;
                     }
                     startingMatriz[row][col + 1] = puzzle.colorToChar(board[row][col].getColor());
                     startingMatriz[row][col] = '.';

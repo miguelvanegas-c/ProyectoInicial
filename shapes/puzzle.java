@@ -22,6 +22,7 @@ public class Puzzle
     private boolean isVisible;
     private boolean isFinal; 
     private boolean [][] matrizPegados;
+    private Tile [][] matrizHole;
     /**
      * Constructor for objects of class puzzle with the height and the width.
      * @param h the height of the board.
@@ -31,17 +32,22 @@ public class Puzzle
         //creacion base board
         base = new Tile();
         base.changeSize(h*50,w*50);
+        base.changeXPosition(-1);
+        base.changeYPosition(-1);
         height = h;
         width = w;
-        matrizPegados = createMatrizPegados();
         xPosition = 70;
         yPosition = 15;
         board = new Tile[h][w];
         baseEnding = new Tile();
+        matrizHole = new Tile[h][w];
         baseEnding.changeSize(h*50,w*50);
         baseEnding.moveVertical(w*50+50);
+        baseEnding.changeXPosition(-1);
+        baseEnding.changeYPosition(-1);
         ending = new Tile[h][w];
         isVisible = false;
+        matrizPegados = createMatrizPegados();
     }
     /**
      * Constructor for objects of class puzzle with the height and the width.
@@ -55,17 +61,21 @@ public class Puzzle
         //creacion base board
         base = new Tile();
         base.changeSize(h*50,w*50);
+        base.changeXPosition(-1);
+        base.changeYPosition(-1);
         //creacion y desplazamiento base ending
         baseEnding = new Tile();
         baseEnding.changeSize(h*50,w*50);
         baseEnding.moveVertical(w*50+50);
+        baseEnding.changeXPosition(-1);
+        baseEnding.changeYPosition(-1);
         height = h;
         width = w;
-        matrizPegados = createMatrizPegados();
         xPosition = 70;
         yPosition = 15;
         board = new Tile[h][w];
         this.ending = new Tile[h][w];
+        matrizHole = new Tile [h][w];
         isVisible = false;
         //creacion de las baldozas
         for(int row = 0; row < h; row+=1){
@@ -79,6 +89,7 @@ public class Puzzle
                 }
             }
         }
+        matrizPegados = createMatrizPegados();
     }
     /**
      * Constructor for objects of class puzzle 
@@ -91,19 +102,23 @@ public class Puzzle
         //creacion base board
         base = new Tile();
         base.changeSize(h*50,w*50);
+        base.changeXPosition(-1);
+        base.changeYPosition(-1);
         //creacion y desplazamiento base ending
         baseEnding = new Tile();
         baseEnding.changeSize(h*50,w*50);
         baseEnding.moveVertical(w*50+50);
+        baseEnding.changeXPosition(-1);
+        baseEnding.changeYPosition(-1);
         endingMatriz = ending;
         startingMatriz = starting;
         height = h;
         width = w;
-        matrizPegados = createMatrizPegados();
         xPosition = 70;
         yPosition = 15;
         board = new Tile[h][w];
         this.ending = new Tile[h][w];
+        matrizHole = new Tile[h][w];
         isVisible = false;
         //creacion de las baldozas
         for(int row = 0; row < h; row+=1){
@@ -124,7 +139,7 @@ public class Puzzle
                 }
             }
         }
-       
+        matrizPegados = createMatrizPegados();
     }
     
     public boolean[][] getMatrizPegados(){
@@ -141,14 +156,22 @@ public class Puzzle
             }
         }
     }
+    
+
     /*
-     * create matrizPegados, a matriz just with false.
+     * create matrizPegados, matriz with true if there is a gluedMidle and false if there isnt.
      */
     private boolean [][] createMatrizPegados(){
         boolean [][] newMatrizPegados = new boolean[height][width];
         for (int row = 0; row < height; row++){
             for(int column = 0; column < width; column++){
-                newMatrizPegados[row][column] = false;
+                if (board[row][column] != null){
+                    if(board[row][column].isGluedMidle()){
+                        newMatrizPegados[row][column] = true;
+                    }
+                }else{
+                    newMatrizPegados[row][column] = false;
+                }
             }
         }
         return newMatrizPegados;
@@ -303,7 +326,7 @@ public class Puzzle
         row-=1;
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
-            if (board[row][colum] == null){
+            if (board[row][colum] == null && matrizHole[row][colum] == null){
                 board[row][colum] = new Tile();
                 board[row][colum].puzzleMoveVertical(row);
                 board[row][colum].puzzleMoveHorizontal(colum);
@@ -321,11 +344,11 @@ public class Puzzle
             
         }else{
             JOptionPane.showMessageDialog(null,
-                                         "las posicion estan fueras del puzzle",
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
         }
-
+        finish();
     }
     /**
      * delete a tile of the board
@@ -336,27 +359,29 @@ public class Puzzle
         row-=1;
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
-            if (board[row][colum] == null){
+            if (board[row][colum] == null || matrizHole[row][colum] != null ){
                 JOptionPane.showMessageDialog(null,
-                                         "En esa posicion no se encuentra ninguna baldoza que borrar",
+                                         "En esa posicion no se encuentra ninguna baldoza para eliminar",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
-            }else if (!board[row][colum].isHole()){
+            }else if (board[row][colum] != null && board[row][colum].isGlued()){
+                JOptionPane.showMessageDialog(null,
+                                         "En esa posicion se encuentra una baldoza, pero esta pegada, por lo tanto no se puede eliminar ",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
+            }else{
                 board[row][colum].makeInvisible();
                 board[row][colum] = null;
                 startingMatriz[row][colum] = '.';
-            }else if(board[row][colum].isHole()){
-                JOptionPane.showMessageDialog(null,
-                                         "En esa posicion se encuentra un agujero",
-                                         "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                
             }
         }else{
             JOptionPane.showMessageDialog(null,
-                                         "las posiciones estan fuera del puzzle",
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
         }
+        finish();
     }
     
     /**
@@ -372,11 +397,16 @@ public class Puzzle
         if (rowTo >= 0 & columTo >= 0 & rowTo < height & columTo < width &
             rowFrom >= 0 & columFrom >= 0 & rowFrom < height
             & columFrom < width){
-            if (board[rowFrom][columFrom] == null || board[rowTo][columTo] != null ){
+            if (board[rowFrom][columFrom] == null || board[rowTo][columTo] != null || matrizHole[rowFrom][columFrom] != null || matrizHole[rowTo][columTo] != null){
                 JOptionPane.showMessageDialog(null,
-                                         "ese movimiento no se puede realizar, es posible que no haya baldoza que relocalizar o haya una baldoza donde se va a relocalizar la baldoza",
+                                         "ese movimiento no se puede realizar, es posible que no haya una baldoza que relocalizar o donde se va a relocalizar la baldoza haya un elemento, ya sea un agujero u otra baldoza, ",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
+            }else if(board[rowFrom][columFrom] != null && board[rowFrom][columFrom].isGlued()){
+                JOptionPane.showMessageDialog(null,
+                                         "ese movimiento no se puede realizar, la baldoza que se va a relocalizar se encuentra pegada, por lo tanto no se puede relocalizar",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);
             }else{
                 String color = charToColor(startingMatriz[rowFrom][columFrom]);
                 deleteTile(rowFrom+1,columFrom+1);
@@ -384,11 +414,11 @@ public class Puzzle
             }
         }else{
             JOptionPane.showMessageDialog(null,
-                                         "La posicion esta fuera del puzzle",
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
         }
-
+        finish();
     }
     /**
      * add glue to a tile
@@ -400,11 +430,16 @@ public class Puzzle
         row-=1;
         colum-=1;
          if (row >= 0 & colum >= 0 & row < height & colum < width){
-            if (board[row][colum].isGluedMidle()){
+            if (board[row][colum] == null || matrizHole[row][colum] != null){
                 JOptionPane.showMessageDialog(null,
-                                         "La baldoza ya tiene un pegante agregado",
+                                         "en esa posicion no se encuentra ninguna baldoza o se encuentra un agujero",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
+            }else if(board[row][colum].isGluedMidle()){
+                JOptionPane.showMessageDialog(null,
+                                         "esa baldoza ya tiene un pegante agregado",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);
             }else{
                 board[row][colum].makeGluedMidle();
                 Glue newGlue = new Glue(startingMatriz,board,row,colum,height,width,this);
@@ -413,7 +448,7 @@ public class Puzzle
             }
         }else{
             JOptionPane.showMessageDialog(null,
-                                         "fuera de rango",
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);
         }
@@ -428,9 +463,15 @@ public class Puzzle
         row-=1;
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
+            if (board[row][colum] == null || matrizHole[row][colum] != null){
+                JOptionPane.showMessageDialog(null,
+                                         "en esa posicion no se encuentra ninguna baldoza o se encuentra un agujero",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);
+            }
             if (board[row][colum] != null && board[row][colum].isGluedMidle() == false){
                 JOptionPane.showMessageDialog(null,
-                                         "ese movimiento no se puede realizar",
+                                         "No se le ha aplicado pegante a esta baldoza",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);;
             }
@@ -439,9 +480,9 @@ public class Puzzle
             }
         }else{
             JOptionPane.showMessageDialog(null,
-                                         "fuera de rango",
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -478,31 +519,40 @@ public class Puzzle
      * tilt the puzzle to up.
      */
     private void tiltUp(){
-        for (int row = 1; row < height; row++) {
+        for (int row = height - 1; row >= 1; row--) {
             for (int col = 0; col < width; col++) {
-                if(board[row][col] != null && !board[row][col].isHole()){
-                    if (board[row - 1][col] == null && !board[row][col].isGlued()&& !board[row][col].isHole()) {
+                if(board[row][col] != null){
+                    if (board[row - 1][col] == null && !board[row][col].isGlued()) {
                         startingMatriz[row - 1][col] = colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
                         board[row - 1][col] = board[row][col];
                         board[row][col] = null;
                         board[row - 1][col].puzzleMoveVertical(-1);
-                        row = 0;
+                        row = height;
                         col =width;
                     }else if( board[row][col].isGluedMidle() && board[row][col].getGlue().isPosibleUpTilt()){
                         board[row][col].getGlue().tiltUp();
-                        row = 0;
+                        row = height;
                         col = width;
-                    }else if(board[row - 1][col] != null && board[row-1][col].isHole() && !board[row][col].isGlued()){
-                        startingMatriz[row][col] = '.';
-                        board[row][col].makeInvisible();
-                        board[row][col] = null;
-                        row = 0;
+                    }else if(( board[row - 1][col] != null && matrizHole[row - 1][col] != null )|| (board[row][col] != null &&
+                            board[row - 1][col] != null && matrizHole[row - 1][col] != null  && !board[row][col].isGlued())){
+                        startingMatriz[row - 1][col] = '.';
+                        board[row - 1][col].makeInvisible();
+                        board[row - 1][col] = null;
+                        row = height;
                         col = width;
                     }
+                }else if ( board[row - 1][col] != null && matrizHole[row - 1][col] != null ){
+                    startingMatriz[row - 1][col] = '.';
+                    board[row - 1][col].makeInvisible();
+                    board[row - 1][col] = null;
+                    row = height;
+                    col = width;    
                 }
             }
         }
+        matrizPegados = createMatrizPegados();
+        finish();
     }
     /*
      * tilt the puzzle to down.
@@ -511,7 +561,7 @@ public class Puzzle
         for (int row = 0; row < height-1; row++) {
             for (int col = 0; col < width; col++) {
                 if(board[row][col] != null){
-                    if (board[row + 1][col] == null && !board[row][col].isGlued() && !board[row][col].isHole()) {
+                    if (board[row + 1][col] == null && !board[row][col].isGlued()) {
                         startingMatriz[row + 1][col] = colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
                         board[row + 1][col] = board[row][col];
@@ -523,46 +573,64 @@ public class Puzzle
                         board[row][col].getGlue().tiltDown();
                         row = -1;
                         col = width;
-                    }else if(board[row + 1][col] != null && board[row + 1][col].isHole() && !board[row][col].isGlued()){
-                        startingMatriz[row][col] = '.';
-                        board[row][col].makeInvisible();
-                        board[row][col] = null;
-                        row = 0;
+                    }else if((board[row + 1][col] != null && matrizHole[row + 1][col] != null )|| (board[row][col] != null &&
+                            board[row + 1][col] != null && matrizHole[row + 1][col] != null  && !board[row][col].isGlued())){
+                        startingMatriz[row + 1][col] = '.';
+                        board[row + 1][col].makeInvisible();
+                        board[row + 1][col] = null;
+                        row = -1;
                         col = width;
                     }
+                }else if(board[row + 1][col] != null && matrizHole[row + 1][col] != null ){
+                    startingMatriz[row + 1][col] = '.';
+                    board[row + 1][col].makeInvisible();
+                    board[row + 1][col] = null;
+                    row = -1;
+                    col = width; 
                 }
             }
         }
+        matrizPegados = createMatrizPegados();
+        finish();
     }
     /*
      * tilt the puzzle to left.
      */
     private void tiltLeft(){
         for (int row = 0; row < height; row++) {
-            for (int col = 1; col < width; col++) {
+            for (int col = width-1; col >= 1; col--) {
                 if(board[row][col] != null ){
-                    if (board[row][col - 1] == null && !board[row][col].isGlued() && !board[row][col].isHole()) {
+                    if (board[row][col - 1] == null && !board[row][col].isGlued()) {
                         startingMatriz[row][col- 1] = colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
                         board[row][col - 1] = board[row][col];
                         board[row][col] = null;
                         board[row][col - 1].puzzleMoveHorizontal(- 1);
                         row = -1;
-                        col =width;
+                        col =0;
                     }else if(board[row][col].isGluedMidle() && board[row][col].getGlue().isPosibleLeftTilt()){
                         board[row][col].getGlue().tiltLeft();
                         row = -1;
-                        col = width;
-                    }else if(board[row][col - 1] != null && board[row][col - 1].isHole() && !board[row][col].isGlued()){
-                        startingMatriz[row][col] = '.';
-                        board[row][col].makeInvisible();
-                        board[row][col] = null;
-                        row = 0;
-                        col = width;
+                        col = 0;
+                    }else if((board[row][col - 1] != null && matrizHole[row][col - 1] != null )|| (board[row][col] != null &&
+                            board[row][col - 1] != null && matrizHole[row][col - 1] != null  && !board[row][col].isGlued())){
+                        startingMatriz[row][col - 1] = '.';
+                        board[row][col - 1].makeInvisible();
+                        board[row][col - 1] = null;
+                        row = -1;
+                        col = 0;
                     }
+                }else if (board[row][col - 1] != null && matrizHole[row][col - 1] != null ){
+                    startingMatriz[row][col - 1] = '.';
+                        board[row][col - 1].makeInvisible();
+                        board[row][col - 1] = null;
+                        row = -1;
+                        col = 0;   
                 }
             }
         }
+        matrizPegados = createMatrizPegados();
+        finish();
     }
     /*
      * tilt the puzzle to right.
@@ -571,7 +639,7 @@ public class Puzzle
         for (int row = 0; row< height; row++) {
             for (int col = 0; col < width-1; col++) {
                 if (board[row][col] != null){
-                    if (board[row][col + 1] == null && !board[row][col].isGlued() && !board[row][col].isHole()) {
+                    if (board[row][col + 1] == null && !board[row][col].isGlued()) {
                         startingMatriz[row][col + 1] = colorToChar(board[row][col].getColor());
                         startingMatriz[row][col] = '.';
                         board[row][col + 1] = board[row][col];
@@ -583,16 +651,25 @@ public class Puzzle
                         board[row][col].getGlue().tiltRight();
                         row = -1;
                         col = width;
-                    }else if(board[row][col + 1] != null && board[row][col + 1].isHole() && !board[row][col].isGlued()){
-                        startingMatriz[row][col] = '.';
-                        board[row][col].makeInvisible();
-                        board[row][col] = null;
-                        row = 0;
+                    }else if((board[row][col + 1] != null && matrizHole[row][col + 1] != null )|| (board[row][col] != null &&
+                            board[row][col + 1] != null && matrizHole[row][col + 1] != null  && !board[row][col].isGlued())){
+                        startingMatriz[row][col + 1] = '.';
+                        board[row][col + 1].makeInvisible();
+                        board[row][col + 1] = null;
+                        row = -1;
                         col = width;
                     }
+                }else if (board[row][col + 1] != null && matrizHole[row][col + 1] != null ){
+                    startingMatriz[row][col + 1] = '.';
+                    board[row][col + 1].makeInvisible();
+                    board[row][col + 1] = null;
+                    row = -1;
+                    col = width; 
                 }
             }
         }
+        matrizPegados = createMatrizPegados();
+        finish();
     }
     
     /**
@@ -612,7 +689,7 @@ public class Puzzle
     }
     
     /**
-     * show if the actual matriz is the same that the ending
+     * show if the actual matriz has the same configuration that the ending.
      * @return false is the actual matriz is diferent tha the ending, True if is the same.
      */
     public boolean isGoal() {
@@ -782,7 +859,7 @@ public class Puzzle
         }
         if (finalMovement == 'i'){
             JOptionPane.showMessageDialog(null,
-                                         "No fue posible determinar un ladeo inteligente",
+                                         "No fue posible determinar un ladeo que permita avanzar para finalizar el puzzle",
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);
         }
@@ -816,21 +893,34 @@ public class Puzzle
      * @param int, row of the position.
      * @param int, column of the position.
      */
-    public void makeHole(int row, int column){
+    public void makeHole(int row, int colum){
         row-=1;
-        column-=1;
-        if (row >= 0 & column >= 0 & row < height & column < width){
-            if(board[row][column] == null){
-                addTile(row+1, column+1,"black");
-                board[row][column].changeColor("white");
-                board[row][column].moveVertical(12);
-                board[row][column].moveHorizontal(12);
-                board[row][column].changeSize(25, 25);
-                board[row][column].makeHole();
-                if(isVisible){
-                    board[row][column].makeVisible();
+        colum-=1;
+        if (row >= 0 & colum >= 0 & row < height & colum < width){
+            if (board[row][colum] == null && matrizHole[row][colum] == null){
+                matrizHole[row][colum] = new Tile();
+                matrizHole[row][colum].puzzleMoveVertical(row);
+                matrizHole[row][colum].puzzleMoveHorizontal(colum);
+                if (isVisible){
+                    matrizHole[row][colum].makeVisible();
                 }
+                matrizHole[row][colum].changeColor("white");
+                matrizHole[row][colum].moveVertical(12);
+                matrizHole[row][colum].moveHorizontal(12);
+                matrizHole[row][colum].changeSize(25, 25);
+            }else{
+                JOptionPane.showMessageDialog(null,
+                                         "En esa posicion ya se encuentra una baldoza o un agujero",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
             }
-        }    
+            
+        }else{
+            JOptionPane.showMessageDialog(null,
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;
+        }   
     }
+    
 }
