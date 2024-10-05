@@ -8,7 +8,7 @@ import java.util.HashSet;
  * @version (a version number or a date)
  */
 public class Glue extends GeneralGlue{
-    private Tile gluedMidle;
+    
     private GlueOfGlue glueOfGlue;
     private boolean isGlueOfGlue;
     /**
@@ -41,6 +41,14 @@ public class Glue extends GeneralGlue{
                 }
             }
         }
+        
+        if (gluedMidle.getGlue() != null && gluedMidle.getGlue().isGlueOfGlue()){
+            Tile midle = gluedMidle.getGluedMidleTile();
+            midle.getGlueOfGlue().add(this);
+            setGlueOfGlue(midle.getGlueOfGlue());
+            makeIsGlueOfGlue();
+            System.out.println(1);
+        }
         gluedMidle.setGlue(this);
         if (gluedMidleOld.size() > 0){
             createGlueOfGlue(gluedMidleOld);
@@ -52,14 +60,24 @@ public class Glue extends GeneralGlue{
         boolean banderaFirstOperation = true; 
         for (Tile midle:gluedMidleOld){
             if (banderaFirstOperation){
-                if(midle.getGlueOfGlue() == null){
-                        this.glueOfGlue = new GlueOfGlue(puzzle, this, midle.getGlue());
+                if(isGlueOfGlue()){
+                    if(midle.getGlueOfGlue() == null){
+                        getGlueOfGlue().add(midle.getGlue());
+                    }else{
+                        midle.getGlueOfGlue().join(getGlueOfGlue());
+                        midle.getGlue().setGlueOfGlue(getGlueOfGlue());
+                    }
+                    banderaFirstOperation = false;
                 }else{
+                    if(midle.getGlueOfGlue() == null){
+                        this.glueOfGlue = new GlueOfGlue(puzzle, this, midle.getGlue());
+                    }else{
                         midle.getGlueOfGlue().add(this);
                         setGlueOfGlue(midle.getGlueOfGlue());
+                    }
+                    banderaFirstOperation = false;
+                    makeIsGlueOfGlue();
                 }
-                banderaFirstOperation = false;
-                makeIsGlueOfGlue();
             }else{
                 if (midle.getGlueOfGlue() == null){
                     this.getGlueOfGlue().add(midle.getGlue());
@@ -144,6 +162,7 @@ public class Glue extends GeneralGlue{
      * if is posible move the glue to the left with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleLeftTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleLeftTilt();
@@ -166,6 +185,7 @@ public class Glue extends GeneralGlue{
      * if is posible move the glue to the down with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleDownTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleDownTilt();
@@ -188,6 +208,7 @@ public class Glue extends GeneralGlue{
      * if is posible move the glue to the up with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleUpTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleUpTilt();
@@ -210,6 +231,7 @@ public class Glue extends GeneralGlue{
      * if is posible move the glue to the right with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleRightTilt(){
         if (isGlueOfGlue()){
             return glueOfGlue.isPosibleRightTilt();
@@ -231,6 +253,7 @@ public class Glue extends GeneralGlue{
     /**
      * tilt the glue to left.
      */
+    @Override
     public void tiltLeft(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltLeft();
@@ -258,10 +281,10 @@ public class Glue extends GeneralGlue{
     /**
      * tilt the glue to down.
      */
+    @Override
     public void tiltDown(){
-        if (isGlueOfGlue()){
+        if (isGlueOfGlue() && getGlueOfGlue()!= null){
             glueOfGlue.tiltDown();
-            System.out.println(1);
         }else{
             Tile [][] board = puzzle.getBoard(); 
             char [][] startingMatriz = puzzle.getStartingMatriz();
@@ -286,6 +309,7 @@ public class Glue extends GeneralGlue{
     /**
      * tilt the glue to up.
      */
+    @Override
     public void tiltUp(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltUp();
@@ -313,6 +337,7 @@ public class Glue extends GeneralGlue{
     /**
      * tilt the glue to right.
      */
+    @Override
     public void tiltRight(){
         if (isGlueOfGlue()){
             glueOfGlue.tiltRight();

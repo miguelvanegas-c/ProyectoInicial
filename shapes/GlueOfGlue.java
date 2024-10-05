@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 /**
  * Write a description of class GlueOfGlue here.
  * 
@@ -6,9 +8,9 @@ import java.util.ArrayList;
  * @version (a version number or a date)
  */
 public class GlueOfGlue extends GeneralGlue{
-
+    private Set<Tile> gluedMidles = new HashSet<>();
     private ArrayList<Glue> glues = new ArrayList<>();
-
+    
     /**
      * Constructor for objects of class GlueOfGlue
      */
@@ -20,6 +22,9 @@ public class GlueOfGlue extends GeneralGlue{
         glueBoard = new Tile[height][width];
         glues.add(oldGlue);
         glues.add(newGlue);
+        gluedMidles.add(oldGlue.getGluedMidle());
+        gluedMidles.add(newGlue.getGluedMidle());
+        gluedMidle = oldGlue.getGluedMidle();
         oldGlue.setGlueOfGlue(this);
         newGlue.setGlueOfGlue(this);
         oldGlue.makeIsGlueOfGlue();
@@ -86,6 +91,9 @@ public class GlueOfGlue extends GeneralGlue{
             if (g.getGlueBoard()[row][colum] != null){
                 g.getGlueBoard()[row][colum].setGluedMidleTile(g.getGluedMidle());
                 g.getGlueBoard()[row][colum].setGlue(g);
+                if(g.getGlueBoard()[row][colum].equals(g.getGluedMidle())){
+                    g.getGlueBoard()[row][colum].makeGluedMidle();
+                }
             }
         }
     }
@@ -138,6 +146,9 @@ public class GlueOfGlue extends GeneralGlue{
             newGlues.get(index).setGlueOfGlue(this);
             newGlues.remove(newGlues.get(index));
         }
+        for(Tile t : gluedMidles){
+            t.getGlue().setGlueOfGlue(this);
+        }
     }
     
     
@@ -146,6 +157,7 @@ public class GlueOfGlue extends GeneralGlue{
      * if is posible move the glueOfGLue to the left with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleLeftTilt(){
         ArrayList<Integer[]> leftPositionTiles = leftPositionTiles();
         int row;
@@ -164,6 +176,7 @@ public class GlueOfGlue extends GeneralGlue{
      * if is posible move the glueOfGlue to the down with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleDownTilt(){
         ArrayList<Integer[]> downPositionTiles = downPositionTiles();
         int row;
@@ -182,6 +195,7 @@ public class GlueOfGlue extends GeneralGlue{
      * if is posible move the glueOfGlue to the up with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleUpTilt(){
         ArrayList<Integer[]> upPositionTiles = upPositionTiles();
         int row;
@@ -190,8 +204,6 @@ public class GlueOfGlue extends GeneralGlue{
         for (Integer [] positions: upPositionTiles){
             row = positions[0];
             col = positions[1];
-            System.out.println(row);
-            System.out.println(col);
             if (row <= 0 ||  board[row-1][col] != null){
                 return false;
             }
@@ -202,6 +214,7 @@ public class GlueOfGlue extends GeneralGlue{
      * if is posible move the glueOfGlue to the right with a tilt.
      * @return boolean, true if you can move, false if not.
      */
+    @Override
     public boolean isPosibleRightTilt(){
         ArrayList<Integer[]> rightPositionTiles = rightPositionTiles();
         int row;
@@ -219,6 +232,7 @@ public class GlueOfGlue extends GeneralGlue{
     /**
      * tilt the glueOfGlue to left.
      */
+    @Override
     public void tiltLeft(){
         Tile [][] board = puzzle.getBoard(); 
         char [][] startingMatriz = puzzle.getStartingMatriz();
@@ -252,6 +266,7 @@ public class GlueOfGlue extends GeneralGlue{
     /**
      * tilt the glueOfGlue to down.
      */
+    @Override
     public void tiltDown(){
         Tile [][] board = puzzle.getBoard(); 
         char [][] startingMatriz = puzzle.getStartingMatriz();
@@ -285,6 +300,7 @@ public class GlueOfGlue extends GeneralGlue{
     /**
      * tilt the glueOfGlue to up.
      */
+    @Override
     public void tiltUp(){
         Tile [][] board = puzzle.getBoard(); 
         char [][] startingMatriz = puzzle.getStartingMatriz();
@@ -318,6 +334,7 @@ public class GlueOfGlue extends GeneralGlue{
     /**
      * tilt the glueOfGlue to right.
      */
+    @Override
     public void tiltRight(){
         Tile [][] board = puzzle.getBoard(); 
         char [][] startingMatriz = puzzle.getStartingMatriz();

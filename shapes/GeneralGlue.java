@@ -13,6 +13,7 @@ public abstract class GeneralGlue{
     protected Tile[][] glueBoard;
     protected int height;
     protected int width;
+    protected Tile gluedMidle;
     
     /**
      * find the left border of a glue.
