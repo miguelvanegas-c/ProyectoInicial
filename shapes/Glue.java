@@ -7,15 +7,8 @@ import java.util.HashSet;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Glue{
-    private Puzzle puzzle;
-    private char[][] glueMatriz;
-    private Tile[][] glueBoard;
+public class Glue extends GeneralGlue{
     private Tile gluedMidle;
-    private int xPosition;
-    private int yPosition;
-    private int height;
-    private int width;
     private GlueOfGlue glueOfGlue;
     private boolean isGlueOfGlue;
     /**
@@ -146,80 +139,7 @@ public class Glue{
     public Tile getGluedMidle(){
         return gluedMidle;
     }
-    /*
-     * find the left border of a glue.
-     * @return ArrayList<Integer[]>, list of the border.
-     */
-    private ArrayList<Integer[]> leftPositionTiles(){
-        ArrayList<Integer[]> leftPositionTiles = new ArrayList<>();
-        for (int fila = 0;  fila < height ; fila ++){
-            for (int columna = 0; columna < width ; columna ++){
-                if ((columna == 0 & glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null && columna-1 >= 0 && glueBoard[fila][columna-1] == null)){
-                    Integer filaInt = fila;
-                    Integer columnaInt = columna;
-                    Integer[] arreglo ={filaInt,columnaInt};
-                    leftPositionTiles.add(arreglo);
-                }
-                    
-            }
-        }
-        return leftPositionTiles;
-    }
-    /*
-     * find the right border of a glue.
-     * @return ArrayList<Integer[]>, list of the border.
-     */
-    private ArrayList<Integer[]> rightPositionTiles(){
-        ArrayList<Integer[]> rightPositionTiles = new ArrayList<>();
-        for (int fila = 0;  fila < height ; fila ++){
-            for (int columna = 0; columna < width ; columna ++){
-                if ( (columna == width - 1 & glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null && columna+1 < width && glueBoard[fila][columna+1] == null)){
-                    Integer filaInt = fila;
-                    Integer columnaInt = columna;
-                    Integer[] arreglo ={filaInt,columnaInt};
-                    rightPositionTiles.add(arreglo);
-                }    
-            }
-        }
-        return rightPositionTiles;
-    }
-    /*
-     * find the down border of a glue.
-     * @return ArrayList<Integer[]>, list of the border.
-     */
-    private ArrayList<Integer[]> downPositionTiles(){
-        ArrayList<Integer[]> downPositionTiles = new ArrayList<>();
-        for (int fila = 0;  fila < height ; fila ++){
-            for (int columna = 0; columna < width ; columna ++){
-                if ((fila == height -1 & glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null && fila+1 < height && glueBoard[fila+1][columna] == null)){
-                    Integer filaInt = fila;
-                    Integer columnaInt = columna;
-                    Integer[] arreglo ={filaInt,columnaInt};
-                    downPositionTiles.add(arreglo);
-                }
-            }
-        }
-        return downPositionTiles;
-    }
-    /*
-     * find the up border of a glue.
-     * @return ArrayList<Integer[]>, list of the border.
-     */
-    private ArrayList<Integer[]> upPositionTiles(){
-        ArrayList<Integer[]> upPositionTiles = new ArrayList<>();
-        for (int fila = 0;  fila < height ; fila ++){
-            for (int columna = 0; columna < width ; columna ++){
-                if ((fila == 0 & glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null && fila-1 >= 0 && glueBoard[fila-1][columna] == null)){
-                    Integer filaInt = fila;
-                    Integer columnaInt = columna;
-                    Integer[] arreglo ={filaInt,columnaInt};
-                    upPositionTiles.add(arreglo);
-                }
-                    
-            }
-        }
-        return upPositionTiles;
-    }
+    
     /**
      * if is posible move the glue to the left with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -332,6 +252,7 @@ public class Glue{
                     }
                 }
             }
+            glueDeleteInHole();
         }
     }
     /**
@@ -359,6 +280,7 @@ public class Glue{
                     }
                 }
             }
+            glueDeleteInHole();
         }
     } 
     /**
@@ -385,6 +307,7 @@ public class Glue{
                     }
                 }
             }
+            glueDeleteInHole();
         }
     }
     /**
@@ -411,8 +334,8 @@ public class Glue{
                     }
                 }
             }
+            glueDeleteInHole();
         }
     }
     
-
 }

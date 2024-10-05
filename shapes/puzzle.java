@@ -157,7 +157,10 @@ public class Puzzle
         }
     }
     
-
+    public Tile[][] getMatrizHole(){
+        return matrizHole;
+    }
+    
     /*
      * create matrizPegados, matriz with true if there is a gluedMidle and false if there isnt.
      */
@@ -315,6 +318,10 @@ public class Puzzle
     
     public char[][] getStartingMatriz(){
         return startingMatriz;
+    }
+    
+    public char[][] getEndingMatriz(){
+        return endingMatriz;
     }
     /** 
      * add new tile
@@ -476,7 +483,8 @@ public class Puzzle
                                          JOptionPane.ERROR_MESSAGE);;
             }
             if (board[row][colum] != null && board[row][colum].isGluedMidle()){
-                board[row][colum].getGlue().deleteGlue();   
+                board[row][colum].getGlue().deleteGlue(); 
+                matrizPegados[row][colum] = false;
             }
         }else{
             JOptionPane.showMessageDialog(null,
@@ -534,15 +542,16 @@ public class Puzzle
                         board[row][col].getGlue().tiltUp();
                         row = height;
                         col = width;
-                    }else if(( board[row - 1][col] != null && matrizHole[row - 1][col] != null )|| (board[row][col] != null &&
-                            board[row - 1][col] != null && matrizHole[row - 1][col] != null  && !board[row][col].isGlued())){
+                    }else if((board[row - 1][col] != null && matrizHole[row - 1][col] != null  && !board[row - 1][col].isGlued()
+                            && !board[row][col].isGlued())|| (board[row - 1][col] != null && matrizHole[row - 1][col] != null && 
+                            board[row][col].isGlued() && !board[row - 1][col].isGlued() )){
                         startingMatriz[row - 1][col] = '.';
                         board[row - 1][col].makeInvisible();
                         board[row - 1][col] = null;
                         row = height;
                         col = width;
                     }
-                }else if ( board[row - 1][col] != null && matrizHole[row - 1][col] != null ){
+                }else if ( board[row - 1][col] != null && matrizHole[row - 1][col] != null && !board[row - 1][col].isGlued()){
                     startingMatriz[row - 1][col] = '.';
                     board[row - 1][col].makeInvisible();
                     board[row - 1][col] = null;
@@ -573,15 +582,16 @@ public class Puzzle
                         board[row][col].getGlue().tiltDown();
                         row = -1;
                         col = width;
-                    }else if((board[row + 1][col] != null && matrizHole[row + 1][col] != null )|| (board[row][col] != null &&
-                            board[row + 1][col] != null && matrizHole[row + 1][col] != null  && !board[row][col].isGlued())){
+                    }else if((board[row + 1][col] != null && matrizHole[row + 1][col] != null  && !board[row][col].isGlued() 
+                            && !board[row][col].isGlued())|| (board[row + 1][col] != null && matrizHole[row + 1][col] != null && 
+                            board[row][col].isGlued() && !board[row + 1][col].isGlued() )){
                         startingMatriz[row + 1][col] = '.';
                         board[row + 1][col].makeInvisible();
                         board[row + 1][col] = null;
                         row = -1;
                         col = width;
                     }
-                }else if(board[row + 1][col] != null && matrizHole[row + 1][col] != null ){
+                }else if(board[row + 1][col] != null && matrizHole[row + 1][col] != null && !board[row + 1][col].isGlued()){
                     startingMatriz[row + 1][col] = '.';
                     board[row + 1][col].makeInvisible();
                     board[row + 1][col] = null;
@@ -612,15 +622,16 @@ public class Puzzle
                         board[row][col].getGlue().tiltLeft();
                         row = -1;
                         col = 0;
-                    }else if((board[row][col - 1] != null && matrizHole[row][col - 1] != null )|| (board[row][col] != null &&
-                            board[row][col - 1] != null && matrizHole[row][col - 1] != null  && !board[row][col].isGlued())){
+                    }else if((board[row][col - 1] != null && matrizHole[row][col - 1] != null  && !board[row][col].isGlued()
+                            && !board[row][col].isGlued())|| (board[row][col - 1] != null && matrizHole[row][col - 1] != null && 
+                            board[row][col].isGlued() && !board[row][col - 1].isGlued() )){
                         startingMatriz[row][col - 1] = '.';
                         board[row][col - 1].makeInvisible();
                         board[row][col - 1] = null;
                         row = -1;
                         col = 0;
                     }
-                }else if (board[row][col - 1] != null && matrizHole[row][col - 1] != null ){
+                }else if (board[row][col - 1] != null && matrizHole[row][col - 1] != null && !board[row][col - 1].isGlued() ){
                     startingMatriz[row][col - 1] = '.';
                         board[row][col - 1].makeInvisible();
                         board[row][col - 1] = null;
@@ -651,15 +662,16 @@ public class Puzzle
                         board[row][col].getGlue().tiltRight();
                         row = -1;
                         col = width;
-                    }else if((board[row][col + 1] != null && matrizHole[row][col + 1] != null )|| (board[row][col] != null &&
-                            board[row][col + 1] != null && matrizHole[row][col + 1] != null  && !board[row][col].isGlued())){
+                    }else if((board[row][col + 1] != null && matrizHole[row][col + 1] != null  && !board[row][col].isGlued()
+                            && !board[row][col].isGlued())|| (board[row][col + 1] != null && matrizHole[row][col + 1] != null && 
+                            board[row][col].isGlued() && !board[row][col + 1].isGlued() )){
                         startingMatriz[row][col + 1] = '.';
                         board[row][col + 1].makeInvisible();
                         board[row][col + 1] = null;
                         row = -1;
                         col = width;
                     }
-                }else if (board[row][col + 1] != null && matrizHole[row][col + 1] != null ){
+                }else if (board[row][col + 1] != null && matrizHole[row][col + 1] != null && !board[row][col + 1].isGlued() ){
                     startingMatriz[row][col + 1] = '.';
                     board[row][col + 1].makeInvisible();
                     board[row][col + 1] = null;
@@ -711,6 +723,10 @@ public class Puzzle
      */
     public void finish(){
         if (isGoal()){
+            JOptionPane.showMessageDialog(null, 
+                                          "¡Felicidades! Has completado el juego con éxito.", 
+                                          "¡Triunfo!", 
+                                           JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
     }
@@ -863,6 +879,8 @@ public class Puzzle
                                          "Error",
                                          JOptionPane.ERROR_MESSAGE);
         }
+        matrizPegados = createMatrizPegados();
+        finish();
     }
     /*
      * simulate a tilt.
@@ -883,10 +901,56 @@ public class Puzzle
         return newMisplacedTiles;
     }
     /**
-     * 
+     * Change the reference of the puzzle, starting for ending.
      */
     public void exchange(){
-        
+        makeInvisible();
+        char [][] newEnding = getStartingMatriz();
+        char [][] newStarting = getEndingMatriz();
+        int h = newEnding.length;
+        int w = newEnding[0].length;
+        //creacion base board
+        base = new Tile();
+        base.changeSize(h*50,w*50);
+        base.changeXPosition(-1);
+        base.changeYPosition(-1);
+        //creacion y desplazamiento base ending
+        baseEnding = new Tile();
+        baseEnding.changeSize(h*50,w*50);
+        baseEnding.moveVertical(w*50+50);
+        baseEnding.changeXPosition(-1);
+        baseEnding.changeYPosition(-1);
+        endingMatriz = newEnding;
+        startingMatriz = newStarting;
+        height = h;
+        width = w;
+        xPosition = 70;
+        yPosition = 15;
+        board = new Tile[h][w];
+        this.ending = new Tile[h][w];
+        matrizHole = new Tile[h][w];
+        isVisible = false;
+        //creacion de las baldozas
+        for(int row = 0; row < h; row+=1){
+            for(int colum = 0; colum < w; colum +=1){
+                //config board
+                if (newStarting[row][colum] == '.'){
+                    board[row][colum] = null;
+                }else{ 
+                    String color = charToColor(newStarting[row][colum]);
+                    addTile(row+1,colum+1,color);
+                }
+                //config ending
+                if (newEnding[row][colum] == '.'){
+                    this.ending[row][colum] = null;
+                }else{ 
+                    String color = charToColor(newEnding[row][colum]);
+                    addTileEnding(row+1,colum+1,color);
+                }
+            }
+        }
+        matrizPegados = createMatrizPegados();  
+        makeVisible();
     }
     /**
      * make a position of the board a hole.
@@ -922,5 +986,7 @@ public class Puzzle
                                          JOptionPane.ERROR_MESSAGE);;
         }   
     }
+    
+    
     
 }

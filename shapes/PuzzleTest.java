@@ -25,9 +25,17 @@ public class PuzzleTest {
     }
 
     @Test
-    public void testAddTile() {
+    public void shouldAddTileInPuzzle() {
         puzzle.addTile(1, 1, "red"); // Agregamos una baldosa roja en la posición 1,1
-        assertEquals('r', puzzle.getStartingMatriz()[0][0]);
+        assertEquals('r', puzzle.getStartingMatriz()[0][0]); //Verifica si starting si añadio la baldoza.
+        assertNotNull(puzzle.getBoard()[0][0]); // Verifica si el board si añadio la baldoza.
+    }
+    
+    @Test
+    public void shouldNotAddTileThePositionIsOcuppiedByAnotherTile(){
+        puzzle.addTile(1, 2, "yellow");   
+        assertNotEquals('y',puzzle.getStartingMatriz()[0][1]);
+        assertNotEquals(
     }
 
     @Test
