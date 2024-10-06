@@ -57,7 +57,9 @@ public class GlueOfGlue extends GeneralGlue{
         deleteGlue.setGlueOfGlue(null);
         deleteGlue(deleteGlueBoard);   
     }
-    
+    /*
+     * 
+     */
     
     private void deleteGlue(Tile [][] deleteGlueBoard){
         for (int row = 0; row < height; row++){
@@ -137,7 +139,9 @@ public class GlueOfGlue extends GeneralGlue{
             }
         }
     }
-    
+    /**
+     * 
+     */
     public void join(GlueOfGlue newGlueOfGlue){
         ArrayList<Glue> newGlues = newGlueOfGlue.getGlues();
         int longitud = newGlues.size();
@@ -150,8 +154,6 @@ public class GlueOfGlue extends GeneralGlue{
             t.getGlue().setGlueOfGlue(this);
         }
     }
-    
-    
     
     /**
      * if is posible move the glueOfGLue to the left with a tilt.

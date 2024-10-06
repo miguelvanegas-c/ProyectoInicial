@@ -99,6 +99,13 @@ public class Puzzle
     public Puzzle(char[][] starting, char[][] ending){
         int h = ending.length;
         int w = ending[0].length;
+        if (h != starting.length || w != starting[0].length){
+            JOptionPane.showMessageDialog(null, 
+                                          "el tablero final y el tablero inicial deben ser del mismo tamaño, tanto de alto como de ancho", 
+                                          "ERROR", 
+                                           JOptionPane.ERROR_MESSAGE);
+            System.exit(0);    
+        }
         //creacion base board
         base = new Tile();
         base.changeSize(h*50,w*50);
@@ -723,11 +730,10 @@ public class Puzzle
      */
     public void finish(){
         if (isGoal()){
-            JOptionPane.showMessageDialog(null, 
-                                          "¡Felicidades! Has completado el juego con éxito.", 
-                                          "¡Triunfo!", 
-                                           JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
+            //JOptionPane.showMessageDialog(null, 
+                                          //"¡Felicidades! Has encontrado la solucion del juego con éxito.", 
+                                          //"¡Triunfo!", 
+                                           //JOptionPane.INFORMATION_MESSAGE);
         }
     }
     /**

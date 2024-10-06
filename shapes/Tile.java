@@ -187,7 +187,7 @@ public class Tile{
         
         return null;
     }
-    /*
+    /**
      * change color for a char
      * @param the nes color String. Must be "red","yellow","blue","green" and "magenta".
      * @return color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
