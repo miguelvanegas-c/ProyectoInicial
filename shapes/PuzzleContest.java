@@ -1,9 +1,10 @@
 import javax.swing.*;
+import java.util.ArrayList;
 /**
- * Write a description of class PuzzleContest here.
+ * A simulator to solve puzzles.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Miguel Angel Vanegas Cardenas y Allan Steef Contreras
+ * @version 1.0
  */
 public class PuzzleContest{
     private static char [][] ciclos = {{'r','u','l','d','r'},
@@ -41,22 +42,27 @@ public class PuzzleContest{
     public static void simulate (char [][] starting, char [][] ending){
         Puzzle puzzle = new Puzzle(starting, ending);
         puzzle.makeVisible();
-        char[] cicloFinal;
+        ArrayList<Character> cicloFinal;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println("El hilo fue interrumpido.");
+        }
         if(solve(starting, ending)){
             cicloFinal = cicloFinal(starting, ending);
             for(char c : cicloFinal){
                 puzzle.tilt(c);
                 try {
-                Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                System.out.println("El hilo fue interrumpido.");
+                    System.out.println("El hilo fue interrumpido.");
                 }
             }
             JOptionPane.showMessageDialog(null, 
                                           "Se ha llegado a la solucion.", 
                                           "¡Final!", 
                                            JOptionPane.INFORMATION_MESSAGE);
-
+            
         }else{
             JOptionPane.showMessageDialog(null, 
                                           "No es posible llegar a la solucion.", 
@@ -67,24 +73,21 @@ public class PuzzleContest{
     /*
      * 
      */
-    private static char[] cicloFinal(char [][] starting, char [][] ending){
-        char [] cicloFinal = new char[5];
+    private static ArrayList<Character> cicloFinal(char [][] starting, char [][] ending){
+        ArrayList<Character> cicloFinal = new ArrayList<>();
         int height = starting.length;
         int width = starting.length;
         char [][] newStarting = cloneStarting(starting, height, width);
         Puzzle puzzle = new Puzzle(newStarting, ending);
-        int count = 0;
         for(char[] ciclo : ciclos){
             for(char m: ciclo){
                 puzzle.tilt(m);
-                cicloFinal[count] = m;
-                count++;
+                cicloFinal.add(m);
                 if(puzzle.isGoal()){
                     return cicloFinal;
                 }
             }
-            count = 0;
-            cicloFinal =new char[5];
+            cicloFinal =  new ArrayList<>();
             newStarting = cloneStarting(starting, height, width);
             puzzle = new Puzzle(newStarting, ending);
         }

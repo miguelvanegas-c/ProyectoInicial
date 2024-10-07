@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 /**
- * Write a description of class GlueOfGlue here.
+ * Is a implementation of GeneralGlue.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Miguel Angel Vanegas Cardenas y Allan Steef Contreras 
+ * @version 1.5
  */
 public class GlueOfGlue extends GeneralGlue{
     private Set<Tile> gluedMidles = new HashSet<>();
@@ -46,6 +46,11 @@ public class GlueOfGlue extends GeneralGlue{
             }
         }
     }
+    
+    public ArrayList<Glue> getGlues(){
+        return glues;
+    }
+    
     /**
      * delete a glue of glues.
      * @param Glue, the glue that will be eliminated.
@@ -57,10 +62,11 @@ public class GlueOfGlue extends GeneralGlue{
         deleteGlue.setGlueOfGlue(null);
         deleteGlue(deleteGlueBoard);   
     }
-    /*
-     * 
-     */
     
+    /*
+     *delete the element of one Glue of the GlueOfGlue
+     *@param board of the glue that wanna delete.
+     */
     private void deleteGlue(Tile [][] deleteGlueBoard){
         for (int row = 0; row < height; row++){
             for (int colum = 0; colum < width; colum++){
@@ -87,7 +93,11 @@ public class GlueOfGlue extends GeneralGlue{
         } 
     }
     
-    
+    /*
+     * assign a new gluedMidle to anothe glue
+     * @param row of the gluedMidle
+     * @param colum of the gluedMidle
+     */
     private void assignNewGluedMidle(int row,int colum){
         for(Glue g: glues){
             if (g.getGlueBoard()[row][colum] != null){
@@ -99,6 +109,7 @@ public class GlueOfGlue extends GeneralGlue{
             }
         }
     }
+    
     /*
      * analice if one tile is in anothe glue of glues.
      * @param the tile.
@@ -116,9 +127,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         return false;
     }
-    public ArrayList<Glue> getGlues(){
-        return glues;
-    }
+    
 
     /**
      * add a Glue in the glues
@@ -139,8 +148,10 @@ public class GlueOfGlue extends GeneralGlue{
             }
         }
     }
+    
     /**
-     * 
+     * Join two diferents GlueOfGlue
+     * @param the another GlueOfGlue
      */
     public void join(GlueOfGlue newGlueOfGlue){
         ArrayList<Glue> newGlues = newGlueOfGlue.getGlues();
@@ -174,6 +185,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         return true;
     }
+    
     /**
      * if is posible move the glueOfGlue to the down with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -193,6 +205,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         return true;
     }
+    
     /**
      * if is posible move the glueOfGlue to the up with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -212,6 +225,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         return true;
     }
+    
     /**
      * if is posible move the glueOfGlue to the right with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -231,6 +245,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         return true;
     }
+    
     /**
      * tilt the glueOfGlue to left.
      */
@@ -265,6 +280,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         glueDeleteInHole();
     }
+    
     /**
      * tilt the glueOfGlue to down.
      */
@@ -299,6 +315,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         glueDeleteInHole();
     } 
+    
     /**
      * tilt the glueOfGlue to up.
      */
@@ -333,6 +350,7 @@ public class GlueOfGlue extends GeneralGlue{
         }
         glueDeleteInHole();
     }
+    
     /**
      * tilt the glueOfGlue to right.
      */
@@ -367,6 +385,4 @@ public class GlueOfGlue extends GeneralGlue{
         }
         glueDeleteInHole();
     }
-    
-
 }

@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 /**
- * Write a description of interface GeneralGlue here.
+ * Is a design of a generalGlue.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Miguel Angel Vanegas Cardenas y Allan S teef Contreras
+ * @version 1.0
  */
 
 public abstract class GeneralGlue{
@@ -90,7 +90,6 @@ public abstract class GeneralGlue{
         return upPositionTiles;
     }
     
-    
     public abstract boolean isPosibleLeftTilt();
     
     public abstract boolean isPosibleDownTilt();
@@ -99,11 +98,9 @@ public abstract class GeneralGlue{
     
     public abstract boolean isPosibleRightTilt();
     
-    
-    
-    
     /**
-     * 
+     * look if a glue if in a hole
+     * @return boolean true if all the glue if in a hole
      */
     protected boolean glueInHole(){
         for (int row = 0; row < height; row ++){
@@ -117,7 +114,7 @@ public abstract class GeneralGlue{
     }
     
     /**
-     * 
+     *Delete glue if is in a hole
      */
     protected void glueDeleteInHole(){
         Tile [][] board = puzzle.getBoard(); 

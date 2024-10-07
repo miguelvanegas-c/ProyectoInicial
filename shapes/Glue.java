@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 /**
- * Write a description of class CuadrosPegados here.
+ * Is a implementation of GeneralGlue.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Miguel Angel Vanegas Cardenas y Allan Steef Contreras 
+ * @version 1.8
  */
 public class Glue extends GeneralGlue{
     
@@ -56,6 +56,42 @@ public class Glue extends GeneralGlue{
         
     }
     
+    public char[][] getGlueMatriz(){
+        return glueMatriz;
+    }
+    
+    public Tile[][] getGlueBoard(){
+        return glueBoard;
+    }
+    
+    public int getHeight(){
+        return height;
+    }
+    
+    public int getWidth(){
+        return width;
+    }
+    
+    public boolean isGlueOfGlue(){
+        return isGlueOfGlue;
+    }
+    
+    public GlueOfGlue getGlueOfGlue(){
+        return glueOfGlue;
+    }
+    
+    public void setGlueOfGlue(GlueOfGlue glueOfGlue){
+        this.glueOfGlue = glueOfGlue;
+    }
+    
+    public Tile getGluedMidle(){
+        return gluedMidle;
+    }
+    
+    /**
+     * Create a glueOfGlue with this and another glue.
+     * @param the gluedmidle of the othe glue.
+     */
     private void createGlueOfGlue(Set<Tile> gluedMidleOld){
         boolean banderaFirstOperation = true; 
         for (Tile midle:gluedMidleOld){
@@ -111,20 +147,6 @@ public class Glue extends GeneralGlue{
         }
     }
     
-    public char[][] getGlueMatriz(){
-        return glueMatriz;
-    }
-    public Tile[][] getGlueBoard(){
-        return glueBoard;
-    }
-    
-    public int getHeight(){
-        return height;
-    }
-    
-    public int getWidth(){
-        return width;
-    }
     /**
      * make part of GlueOfGlue.
      */
@@ -136,26 +158,10 @@ public class Glue extends GeneralGlue{
     /**
      * make part of not GlueOfGlue.
      */
-        public void makeNoIsGlueOfGlue(){
+    public void makeNoIsGlueOfGlue(){
         if (isGlueOfGlue()){
             isGlueOfGlue = false;
         }
-    }
-    
-    public boolean isGlueOfGlue(){
-        return isGlueOfGlue;
-    }
-    
-    public GlueOfGlue getGlueOfGlue(){
-        return glueOfGlue;
-    }
-    
-    public void setGlueOfGlue(GlueOfGlue glueOfGlue){
-        this.glueOfGlue = glueOfGlue;
-    }
-    
-    public Tile getGluedMidle(){
-        return gluedMidle;
     }
     
     /**

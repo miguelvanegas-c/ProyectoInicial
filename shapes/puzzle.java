@@ -168,6 +168,18 @@ public class Puzzle
         return matrizHole;
     }
     
+    public Tile[][] getBoard(){
+        return board;
+    }
+    
+    public char[][] getStartingMatriz(){
+        return startingMatriz;
+    }
+    
+    public char[][] getEndingMatriz(){
+        return endingMatriz;
+    }
+    
     /*
      * create matrizPegados, matriz with true if there is a gluedMidle and false if there isnt.
      */
@@ -221,6 +233,7 @@ public class Puzzle
                                          JOptionPane.ERROR_MESSAGE);;
         }
     }
+    
     /**
      * change char for a color
      * @param color a char. Must be 'r', 'y', 'b', 'g' and 'm'.
@@ -246,6 +259,7 @@ public class Puzzle
         }
         return null;
     }
+    
     /**
      * change color for a char
      * @param the nes color String. Must be "red","yellow","blue", "green" and "magenta".
@@ -269,10 +283,10 @@ public class Puzzle
         }
         return ' ';
     }
+    
     /**
      * draw the boards on the screen
      */
-    
     public void makeVisible(){
         if (isVisible == false){
             base.makeVisible();
@@ -294,6 +308,7 @@ public class Puzzle
             isVisible = true;
         }
     }
+    
     /**
      * erase teh boards
      */
@@ -318,18 +333,7 @@ public class Puzzle
             isVisible = false;
         }
     }
-    
-    public Tile[][] getBoard(){
-        return board;
-    }
-    
-    public char[][] getStartingMatriz(){
-        return startingMatriz;
-    }
-    
-    public char[][] getEndingMatriz(){
-        return endingMatriz;
-    }
+
     /** 
      * add new tile
      * @param row, row of the add
@@ -364,6 +368,7 @@ public class Puzzle
         }
         finish();
     }
+    
     /**
      * delete a tile of the board
      * @param row, row of the tile
@@ -434,6 +439,7 @@ public class Puzzle
         }
         finish();
     }
+    
     /**
      * add glue to a tile
      * @param row, row of tile
@@ -570,6 +576,7 @@ public class Puzzle
         matrizPegados = createMatrizPegados();
         finish();
     }
+    
     /*
      * tilt the puzzle to down.
      */
@@ -610,6 +617,7 @@ public class Puzzle
         matrizPegados = createMatrizPegados();
         finish();
     }
+    
     /*
      * tilt the puzzle to left.
      */
@@ -650,6 +658,7 @@ public class Puzzle
         matrizPegados = createMatrizPegados();
         finish();
     }
+    
     /*
      * tilt the puzzle to right.
      */
@@ -725,6 +734,7 @@ public class Puzzle
         }
         return true;
     }
+    
     /**
      * finish the program.
      */
@@ -736,6 +746,7 @@ public class Puzzle
                                            //JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    
     /**
      * The position that if you tilt the puzzle, they are not gonna change.
      * @return int [][] with all the position.
@@ -766,6 +777,7 @@ public class Puzzle
         makeBlindTiles(fixedInt);
         return fixedInt;
     }
+    
     /*
      * if is posible move the tile to the left with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -781,6 +793,7 @@ public class Puzzle
         }
         return false;
     }
+    
     /*
      * if is posible move the tile to the down with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -796,6 +809,7 @@ public class Puzzle
         }
         return false;
     }
+    
     /*
      * if is posible move the tile to the up with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -811,6 +825,7 @@ public class Puzzle
         }
         return false;
     }
+    
     /*
      * if is posible move the tile to the right with a tilt.
      * @return boolean, true if you can move, false if not.
@@ -826,6 +841,7 @@ public class Puzzle
         }
         return false;
     }
+    
     /*
      * make blind the tiles.
      */               
@@ -844,6 +860,7 @@ public class Puzzle
             }
         }
     }
+    
     /**
      * number of tile that are misplaced.
      * @return int the number of tile that are misplaced.
@@ -861,6 +878,7 @@ public class Puzzle
         }
         return countMisplacedTiles;
     }
+    
     /**
      * do a inteligent tilt is is posible.
      */
@@ -888,6 +906,7 @@ public class Puzzle
         matrizPegados = createMatrizPegados();
         finish();
     }
+    
     /*
      * simulate a tilt.
      */
@@ -906,6 +925,7 @@ public class Puzzle
         newMisplacedTiles = newPuzzle.misplacedTiles();
         return newMisplacedTiles;
     }
+    
     /**
      * Change the reference of the puzzle, starting for ending.
      */
@@ -958,6 +978,7 @@ public class Puzzle
         matrizPegados = createMatrizPegados();  
         makeVisible();
     }
+    
     /**
      * make a position of the board a hole.
      * @param int, row of the position.
@@ -992,7 +1013,4 @@ public class Puzzle
                                          JOptionPane.ERROR_MESSAGE);;
         }   
     }
-    
-    
-    
 }
