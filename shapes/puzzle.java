@@ -352,7 +352,7 @@ public class Puzzle
                     board[row][colum].makeVisible();
                 }
                 board[row][colum].changeColor(color);
-                startingMatriz[row][colum] = board[row][colum].colorToChar(color); 
+                startingMatriz[row][colum] = colorToChar(color); 
             }else{
                 JOptionPane.showMessageDialog(null,
                                          "En esa posicion ya se encuentra una baldoza o un agujero",
