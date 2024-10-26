@@ -135,7 +135,7 @@ public class Puzzle
                     board[row][colum] = null;
                 }else{ 
                     String color = charToColor(starting[row][colum]);
-                    addTile(row+1,colum+1,color);
+                    addTile(row+1,colum+1,color,1);
                 }
                 //config ending
                 if (ending[row][colum] == '.'){
@@ -223,14 +223,14 @@ public class Puzzle
                 JOptionPane.showMessageDialog(null,
                                          "ese movimiento no se puede realizar",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
             }
             
         }else{
             JOptionPane.showMessageDialog(null,
                                          "fuera de rango",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -339,13 +339,15 @@ public class Puzzle
      * @param row, row of the add
      * @param colum, colum of the add
      * @param color, color of the new tile
+     * @param typeOfTile, if 1 normal Tile, if 2 fixedTile,if 3 roughtTile
      */
-    public void addTile(int row, int colum, String color){ 
+    public void addTile(int row, int colum, String color,int){ 
         row-=1;
         colum-=1;
         if (row >= 0 & colum >= 0 & row < height & colum < width){
             if (board[row][colum] == null && matrizHole[row][colum] == null){
-                board[row][colum] = new Tile();
+                if(typeOfTile == 1) board[row][colum] = new Tile();
+                if(typeOfTile == 2) board[row][colum] = new FixedTile();
                 board[row][colum].puzzleMoveVertical(row);
                 board[row][colum].puzzleMoveHorizontal(colum);
                 if (isVisible){
@@ -357,16 +359,17 @@ public class Puzzle
                 JOptionPane.showMessageDialog(null,
                                          "En esa posicion ya se encuentra una baldoza o un agujero",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
             }
-            
+                
         }else{
             JOptionPane.showMessageDialog(null,
                                          "los valores ingresados para la fila y la columna se encuentran fuera del rango del puzzle",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
         }
-        finish();
+        
+    finish();
     }
     
     /**
@@ -382,17 +385,23 @@ public class Puzzle
                 JOptionPane.showMessageDialog(null,
                                          "En esa posicion no se encuentra ninguna baldoza para eliminar",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
             }else if (board[row][colum] != null && board[row][colum].isGlued()){
                 JOptionPane.showMessageDialog(null,
                                          "En esa posicion se encuentra una baldoza, pero esta pegada, por lo tanto no se puede eliminar ",
                                          "Error",
-                                         JOptionPane.ERROR_MESSAGE);;
+                                         JOptionPane.ERROR_MESSAGE);
             }else{
-                board[row][colum].makeInvisible();
-                board[row][colum] = null;
-                startingMatriz[row][colum] = '.';
-                
+                if ( !(board[row][colum] instanceof FixedTile)){
+                    board[row][colum].makeInvisible();
+                    board[row][colum] = null;
+                    startingMatriz[row][colum] = '.';
+                }else{
+                    JOptionPane.showMessageDialog(null,
+                                         "los valores ingresados para la fila y la columna se encuentran fuera del rango del ",
+                                         "Error",
+                                         JOptionPane.ERROR_MESSAGE);;    
+                }
             }
         }else{
             JOptionPane.showMessageDialog(null,
@@ -429,7 +438,7 @@ public class Puzzle
             }else{
                 String color = charToColor(startingMatriz[rowFrom][columFrom]);
                 deleteTile(rowFrom+1,columFrom+1);
-                addTile(rowTo+1,columTo+1,color);
+                addTile(rowTo+1,columTo+1,color,1);
             }
         }else{
             JOptionPane.showMessageDialog(null,
@@ -964,7 +973,7 @@ public class Puzzle
                     board[row][colum] = null;
                 }else{ 
                     String color = charToColor(newStarting[row][colum]);
-                    addTile(row+1,colum+1,color);
+                    addTile(row+1,colum+1,color,1);
                 }
                 //config ending
                 if (newEnding[row][colum] == '.'){
