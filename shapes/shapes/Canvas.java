@@ -1,3 +1,4 @@
+package shapes;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Canvas{
      */
     public static Canvas getCanvas(){
         if(canvasSingleton == null) {
-            canvasSingleton = new Canvas("BlueJ Shapes Demo", 1000, 1000, 
+            canvasSingleton = new Canvas("BlueJ Shapes Demo", 500, 800, 
                                          Color.white);
         }
         canvasSingleton.setVisible(true);

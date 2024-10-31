@@ -1,3 +1,5 @@
+package puzzle;
+import shapes.*;
 import javax.swing.*;
 import java.util.ArrayList;
 /**
@@ -17,29 +19,47 @@ public class PuzzleContest{
                                        {'d','l','u','r','d'}};
     
     /**
-     * 
+     * Constructors of PuzzleContest
      */
-    public static boolean solve(char [][] starting, char [][] ending){
+    public PuzzleContest(){
+        
+    }
+    
+    /**
+     * Valide if the puzzle can be solved.
+     * @param starting, the startingMatriz of the puzzle.
+     * @param ending, the endingMatriz of the puzzle.
+     * @return boolean, true if the puzzle can be solved and false if the puzzle can´t be solved.
+     */
+    public boolean solve(char [][] starting, char [][] ending){
         if (cicloFinal(starting,ending) != null){
             return true;
         }else{
             return false;
         }
     }
+    
     /*
-     * 
+     * Clone the satrtingMatriz.
+     * @param starting, the startingMatriz.
+     * @param height, height of the starting.
+     * @param width, width of the starting.
+     * @return newStarting, the clone of the starting.
      */
-    private static char[][] cloneStarting(char[][] starting, int height, int width){
+    private char[][] cloneStarting(char[][] starting, int height, int width){
         char [][] newStarting = new char[height][width];
         for (int i = 0; i < starting.length; i++) {
             newStarting[i] = starting[i].clone();
         }
         return newStarting;
     }
+    
     /**
-     * 
+     * simulate the puzzle if can be solved.
+     * @param starting, the startingMatriz of the puzzle.
+     * @param ending, the endingMatriz of the puzzle.
      */
-    public static void simulate (char [][] starting, char [][] ending){
+    public void simulate (char [][] starting, char [][] ending){
         Puzzle puzzle = new Puzzle(starting, ending);
         puzzle.makeVisible();
         ArrayList<Character> cicloFinal;
@@ -70,10 +90,14 @@ public class PuzzleContest{
                                            JOptionPane.ERROR_MESSAGE);
         }
     }
+    
     /*
-     * 
+     * the final cycle to solve the puzzle.
+     * @param starting, the startingMatriz.
+     * @param height, height of the starting.
+     * @return final cycle, if is posible the cycle to solve the puzzle.
      */
-    private static ArrayList<Character> cicloFinal(char [][] starting, char [][] ending){
+    private ArrayList<Character> cicloFinal(char [][] starting, char [][] ending){
         ArrayList<Character> cicloFinal = new ArrayList<>();
         int height = starting.length;
         int width = starting.length;

@@ -1,3 +1,5 @@
+package shapes; 
+import puzzle.*;
 import java.awt.*;
 
 /**
@@ -10,12 +12,11 @@ import java.awt.*;
 public class Tile{
 
     public static int EDGES = 4;
-    
-    private int height;
-    private int width;
-    private int xPosition;
-    private int yPosition;
-    private String color;
+    protected int height;
+    protected int width;
+    protected int xPosition;
+    protected int yPosition;
+    protected String color;
     private boolean isVisible;
     private boolean glued;
     private boolean gluedMidle;

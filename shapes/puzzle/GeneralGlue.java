@@ -1,3 +1,5 @@
+package puzzle;
+import shapes.*;
 import java.util.ArrayList;
 /**
  * Is a design of a generalGlue.

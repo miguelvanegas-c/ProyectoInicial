@@ -1,3 +1,5 @@
+package puzzle;
+import shapes.*;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
@@ -8,7 +10,7 @@ import java.util.HashSet;
  * @version 1.8
  */
 public class Glue extends GeneralGlue{
-    
+    private boolean noMove;
     private GlueOfGlue glueOfGlue;
     private boolean isGlueOfGlue;
     /**
@@ -29,12 +31,11 @@ public class Glue extends GeneralGlue{
         Set<Tile> gluedMidleOld = new HashSet<>();
         for (int fila = row - 1;  fila <= row + 1 ; fila ++){
             for (int columna = colum - 1; columna <= colum + 1 ; columna ++){
-                if(fila >= 0 && fila < height && columna >= 0 && columna < width && matriz[fila][columna]!= '.'){
+                if(fila >= 0 && fila < height && columna >= 0 && columna < width && matriz[fila][columna]!= '.' && !(board[fila][columna] instanceof FreelanceTile) && !(board[fila][columna] instanceof FlyingTile)){
                     glueMatriz[fila][columna] = matriz[fila][columna];   
-                    glueBoard[fila][columna] = board[fila][columna];                    
-                    if (board[fila][columna].isGlued()){
-                        gluedMidleOld.add(board[fila][columna].getGluedMidleTile());
-                    }
+                    glueBoard[fila][columna] = board[fila][columna];  
+                    if (board[fila][columna].isGlued()) gluedMidleOld.add(board[fila][columna].getGluedMidleTile());
+                    if (board[fila][columna] instanceof RoughTile) noMove = true;
                     board[fila][columna].makeGlued();
                     board[fila][columna].setGluedMidleTile(gluedMidle);
                     board[fila][columna].changeSize(49,49);
@@ -50,10 +51,7 @@ public class Glue extends GeneralGlue{
             System.out.println(1);
         }
         gluedMidle.setGlue(this);
-        if (gluedMidleOld.size() > 0){
-            createGlueOfGlue(gluedMidleOld);
-        }
-        
+        if (gluedMidleOld.size() > 0) createGlueOfGlue(gluedMidleOld);
     }
     
     public char[][] getGlueMatriz(){
@@ -105,9 +103,8 @@ public class Glue extends GeneralGlue{
                     }
                     banderaFirstOperation = false;
                 }else{
-                    if(midle.getGlueOfGlue() == null){
-                        this.glueOfGlue = new GlueOfGlue(puzzle, this, midle.getGlue());
-                    }else{
+                    if(midle.getGlueOfGlue() == null) this.glueOfGlue = new GlueOfGlue(puzzle, this, midle.getGlue());
+                    else{
                         midle.getGlueOfGlue().add(this);
                         setGlueOfGlue(midle.getGlueOfGlue());
                     }
@@ -115,13 +112,9 @@ public class Glue extends GeneralGlue{
                     makeIsGlueOfGlue();
                 }
             }else{
-                if (midle.getGlueOfGlue() == null){
-                    this.getGlueOfGlue().add(midle.getGlue());
-                }else{
-                    this.getGlueOfGlue().join(midle.getGlueOfGlue());
-                }
-            }
-                
+                if (midle.getGlueOfGlue() == null) this.getGlueOfGlue().add(midle.getGlue());
+                else this.getGlueOfGlue().join(midle.getGlueOfGlue());
+            }    
         }
     }
     /**
@@ -170,9 +163,9 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public boolean isPosibleLeftTilt(){
-        if (isGlueOfGlue()){
-            return glueOfGlue.isPosibleLeftTilt();
-        }else{
+        if (isGlueOfGlue()) return glueOfGlue.isPosibleLeftTilt();
+        else{
+            if (noMove) return false;
             ArrayList<Integer[]> leftPositionTiles = leftPositionTiles();
             int row;
             int col;
@@ -193,9 +186,9 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public boolean isPosibleDownTilt(){
-        if (isGlueOfGlue()){
-            return glueOfGlue.isPosibleDownTilt();
-        }else{
+        if (isGlueOfGlue()) return glueOfGlue.isPosibleDownTilt();
+        else{
+            if (noMove) return false;
             ArrayList<Integer[]> downPositionTiles = downPositionTiles();
             int row;
             int col;
@@ -216,9 +209,9 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public boolean isPosibleUpTilt(){
-        if (isGlueOfGlue()){
-            return glueOfGlue.isPosibleUpTilt();
-        }else{
+        if (isGlueOfGlue()) return glueOfGlue.isPosibleUpTilt();
+        else{
+            if (noMove) return false;
             ArrayList<Integer[]> upPositionTiles = upPositionTiles();
             int row;
             int col;
@@ -239,9 +232,9 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public boolean isPosibleRightTilt(){
-        if (isGlueOfGlue()){
-            return glueOfGlue.isPosibleRightTilt();
-        }else{
+        if (isGlueOfGlue()) return glueOfGlue.isPosibleRightTilt();
+        else{
+            if (noMove) return false;
             ArrayList<Integer[]> rightPositionTiles = rightPositionTiles();
             int row;
             int col;
@@ -261,9 +254,8 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public void tiltLeft(){
-        if (isGlueOfGlue()){
-            glueOfGlue.tiltLeft();
-        }else{
+        if (isGlueOfGlue()) glueOfGlue.tiltLeft();
+        else{
             Tile [][] board = puzzle.getBoard(); 
             char [][] startingMatriz = puzzle.getStartingMatriz();
             for (int row = 0; row < height; row++) {
@@ -289,9 +281,8 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public void tiltDown(){
-        if (isGlueOfGlue() && getGlueOfGlue()!= null){
-            glueOfGlue.tiltDown();
-        }else{
+        if (isGlueOfGlue() && getGlueOfGlue()!= null) glueOfGlue.tiltDown();
+        else{
             Tile [][] board = puzzle.getBoard(); 
             char [][] startingMatriz = puzzle.getStartingMatriz();
             for (int row = height-1; row >= 0; row--) {
@@ -317,9 +308,8 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public void tiltUp(){
-        if (isGlueOfGlue()){
-            glueOfGlue.tiltUp();
-        }else{
+        if (isGlueOfGlue()) glueOfGlue.tiltUp();
+        else{
             Tile [][] board = puzzle.getBoard(); 
             char [][] startingMatriz = puzzle.getStartingMatriz();
             for (int row = 0; row< height; row++) {
@@ -345,9 +335,8 @@ public class Glue extends GeneralGlue{
      */
     @Override
     public void tiltRight(){
-        if (isGlueOfGlue()){
-            glueOfGlue.tiltRight();
-        }else{
+        if (isGlueOfGlue()) glueOfGlue.tiltRight();
+        else{
             Tile [][] board = puzzle.getBoard(); 
             char [][] startingMatriz = puzzle.getStartingMatriz();
             for (int row = 0; row < height; row++) {
