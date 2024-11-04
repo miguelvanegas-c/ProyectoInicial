@@ -1,0 +1,1261 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Puzzle</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">puzzle</a>
+</div>
+
+<h1>Coverage Summary for Class: Puzzle (puzzle)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Puzzle</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86,2%
+  </span>
+  <span class="absValue">
+    (50/58)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,4%
+  </span>
+  <span class="absValue">
+    (296/474)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,1%
+  </span>
+  <span class="absValue">
+    (388/546)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package puzzle;
+&nbsp;import shapes.*;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;/**
+&nbsp; * A puzzle that can be manipulated, and created with a lot of configurations.
+&nbsp; * 
+&nbsp; * @author Miguel Angel Vanegas Cardenas y Allan Steef Contreras
+&nbsp; * @version 5.0
+&nbsp; */
+&nbsp;
+&nbsp;public class Puzzle
+&nbsp;{
+&nbsp;    private Tile base;
+&nbsp;    private Tile baseEnding;
+&nbsp;    private Tile [][] board;
+&nbsp;    private Tile [][] ending;
+&nbsp;    private char [][] endingMatriz;
+&nbsp;    private char [][] startingMatriz;
+&nbsp;    private int height;
+&nbsp;    private int width;
+&nbsp;    private boolean isVisible;
+&nbsp;    private boolean [][] matrizPegados;
+&nbsp;    private Tile [][] matrizHole;
+&nbsp;    /**
+&nbsp;     * Constructor for objects of class puzzle with the height and the width.
+&nbsp;     * @param h the height of the board.
+&nbsp;     * @param w the width of the board.
+&nbsp;     */
+<b class="nc">&nbsp;    public Puzzle(int h, int w){</b>
+&nbsp;        //creacion base board
+<b class="nc">&nbsp;        startingMatriz = new char[h][w];</b>
+<b class="nc">&nbsp;        endingMatriz = new char[h][w];</b>
+<b class="nc">&nbsp;        base = new Tile();</b>
+<b class="nc">&nbsp;        base.changeSize(h*50,w*50);</b>
+<b class="nc">&nbsp;        base.changeXPosition(-1);</b>
+<b class="nc">&nbsp;        base.changeYPosition(-1);</b>
+<b class="nc">&nbsp;        height = h;</b>
+<b class="nc">&nbsp;        width = w;</b>
+<b class="nc">&nbsp;        board = new Tile[h][w];</b>
+<b class="nc">&nbsp;        baseEnding = new Tile();</b>
+<b class="nc">&nbsp;        matrizHole = new Tile[h][w];</b>
+<b class="nc">&nbsp;        baseEnding.changeSize(h*50,w*50);</b>
+<b class="nc">&nbsp;        baseEnding.moveVertical(h*50+50);</b>
+<b class="nc">&nbsp;        baseEnding.changeXPosition(-1);</b>
+<b class="nc">&nbsp;        baseEnding.changeYPosition(-1);</b>
+<b class="nc">&nbsp;        ending = new Tile[h][w];</b>
+<b class="nc">&nbsp;        isVisible = false;</b>
+<b class="nc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Constructor for objects of class puzzle with the height and the width.
+&nbsp;     * @param ending puzzle final.
+&nbsp;     */
+<b class="nc">&nbsp;    public Puzzle(char[][] ending){</b>
+<b class="nc">&nbsp;        endingMatriz = ending;</b>
+<b class="nc">&nbsp;        int h = ending.length;</b>
+<b class="nc">&nbsp;        int w = ending[0].length;</b>
+<b class="nc">&nbsp;        startingMatriz = new char[h][w];</b>
+&nbsp;        //creacion base board
+<b class="nc">&nbsp;        base = new Tile();</b>
+<b class="nc">&nbsp;        base.changeSize(h*50,w*50);</b>
+<b class="nc">&nbsp;        base.changeXPosition(-1);</b>
+<b class="nc">&nbsp;        base.changeYPosition(-1);</b>
+&nbsp;        //creacion y desplazamiento base ending
+<b class="nc">&nbsp;        baseEnding = new Tile();</b>
+<b class="nc">&nbsp;        baseEnding.changeSize(h*50,w*50);</b>
+<b class="nc">&nbsp;        baseEnding.moveVertical(h*50+50);</b>
+<b class="nc">&nbsp;        baseEnding.changeXPosition(-1);</b>
+<b class="nc">&nbsp;        baseEnding.changeYPosition(-1);</b>
+<b class="nc">&nbsp;        height = h;</b>
+<b class="nc">&nbsp;        width = w;</b>
+<b class="nc">&nbsp;        board = new Tile[h][w];</b>
+<b class="nc">&nbsp;        this.ending = new Tile[h][w];</b>
+<b class="nc">&nbsp;        matrizHole = new Tile [h][w];</b>
+<b class="nc">&nbsp;        isVisible = false;</b>
+&nbsp;        //creacion de las baldozas
+<b class="nc">&nbsp;        for(int row = 0; row &lt; h; row+=1){</b>
+<b class="nc">&nbsp;            for(int colum = 0; colum &lt; w; colum +=1){</b>
+<b class="nc">&nbsp;                startingMatriz[row][colum]=&#39;.&#39;;</b>
+<b class="nc">&nbsp;                if (ending[row][colum] == &#39;.&#39;) this.ending[row][colum] = null;</b>
+&nbsp;                else{ 
+<b class="nc">&nbsp;                    String color = charToColor(ending[row][colum]);</b>
+<b class="nc">&nbsp;                    addTileEnding(row+1,colum+1,color);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Constructor for objects of class puzzle 
+&nbsp;     * @param starting config de starting
+&nbsp;     * @param ending config de ending
+&nbsp;     */
+<b class="fc">&nbsp;    public Puzzle(char[][] starting, char[][] ending){</b>
+<b class="fc">&nbsp;        int h = ending.length;</b>
+<b class="fc">&nbsp;        int w = ending[0].length;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideBoardSize(h,w,starting);</b>
+<b class="nc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null, </b>
+<b class="nc">&nbsp;                                          e.getMessage(), </b>
+&nbsp;                                          &quot;ERROR&quot;, 
+&nbsp;                                           JOptionPane.ERROR_MESSAGE);
+<b class="nc">&nbsp;            System.exit(0);    </b>
+&nbsp;        }
+&nbsp;    
+&nbsp;        //creacion base board
+<b class="fc">&nbsp;        base = new Tile();</b>
+<b class="fc">&nbsp;        base.changeSize(h*50,w*50);</b>
+<b class="fc">&nbsp;        base.changeXPosition(-1);</b>
+<b class="fc">&nbsp;        base.changeYPosition(-1);</b>
+&nbsp;        //creacion y desplazamiento base ending
+<b class="fc">&nbsp;        baseEnding = new Tile();</b>
+<b class="fc">&nbsp;        baseEnding.changeSize(h*50,w*50);</b>
+<b class="fc">&nbsp;        baseEnding.moveVertical(h*50+50);</b>
+<b class="fc">&nbsp;        baseEnding.changeXPosition(-1);</b>
+<b class="fc">&nbsp;        baseEnding.changeYPosition(-1);</b>
+<b class="fc">&nbsp;        endingMatriz = ending;</b>
+<b class="fc">&nbsp;        startingMatriz = starting;</b>
+<b class="fc">&nbsp;        height = h;</b>
+<b class="fc">&nbsp;        width = w;</b>
+<b class="fc">&nbsp;        board = new Tile[h][w];</b>
+<b class="fc">&nbsp;        this.ending = new Tile[h][w];</b>
+<b class="fc">&nbsp;        matrizHole = new Tile[h][w];</b>
+<b class="fc">&nbsp;        isVisible = false;</b>
+&nbsp;        //creacion de las baldozas
+<b class="fc">&nbsp;        for(int row = 0; row &lt; h; row+=1){</b>
+<b class="fc">&nbsp;            for(int colum = 0; colum &lt; w; colum +=1){</b>
+&nbsp;                //config board
+<b class="fc">&nbsp;                if (starting[row][colum] == &#39;.&#39;) board[row][colum] = null;</b>
+&nbsp;                else{ 
+<b class="fc">&nbsp;                    String color = charToColor(starting[row][colum]);</b>
+<b class="fc">&nbsp;                    addTile(row+1,colum+1,color,1);</b>
+&nbsp;                }
+&nbsp;                //config ending
+<b class="fc">&nbsp;                if (ending[row][colum] == &#39;.&#39;) this.ending[row][colum] = null;</b>
+&nbsp;                else{ 
+<b class="fc">&nbsp;                    String color = charToColor(ending[row][colum]);</b>
+<b class="fc">&nbsp;                    addTileEnding(row+1,colum+1,color);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+&nbsp;    
+&nbsp;    public boolean[][] getMatrizPegados(){
+<b class="nc">&nbsp;        return matrizPegados;</b>
+&nbsp;    } 
+&nbsp;    
+&nbsp;    public void setMatrizPegados(boolean [][] newMatrizPegados){
+<b class="nc">&nbsp;        matrizPegados = newMatrizPegados;</b>
+<b class="nc">&nbsp;        for(int row = 0; row &lt; height; row++){</b>
+<b class="nc">&nbsp;            for(int column = 0; column &lt; width; column++){</b>
+<b class="nc">&nbsp;                if(matrizPegados[row][column]) addGlue(row,column,1);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    public Tile[][] getMatrizHole(){
+<b class="fc">&nbsp;        return matrizHole;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public Tile[][] getBoard(){
+<b class="fc">&nbsp;        return board;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public char[][] getStartingMatriz(){
+<b class="fc">&nbsp;        return startingMatriz;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public char[][] getEndingMatriz(){
+<b class="fc">&nbsp;        return endingMatriz;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * create matrizPegados, matriz with true if there is a gluedMidle and false if there isnt.
+&nbsp;     */
+&nbsp;    private boolean [][] createMatrizPegados(){
+<b class="fc">&nbsp;        boolean [][] newMatrizPegados = new boolean[height][width];</b>
+<b class="fc">&nbsp;        for (int row = 0; row &lt; height; row++){</b>
+<b class="fc">&nbsp;            for(int column = 0; column &lt; width; column++){</b>
+<b class="fc">&nbsp;                if (board[row][column] != null){</b>
+<b class="fc">&nbsp;                    if(board[row][column].isGluedMidle()) newMatrizPegados[row][column] = true;</b>
+<b class="fc">&nbsp;                }else newMatrizPegados[row][column] = false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return newMatrizPegados;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the size of the starting was the same of the ending in the constructor.
+&nbsp;     * @param h, height of the ending.
+&nbsp;     * @param w, width of the ending.
+&nbsp;     * @param starting, the startingMatriz of the constructor.
+&nbsp;     * @throws PuzzleException, if the size of the ending is different to the starting.
+&nbsp;     */
+&nbsp;    public void valideBoardSize(int h, int w, char[][] starting) throws PuzzleException{
+<b class="pc">&nbsp;        if (h != starting.length || w != starting[0].length) throw new PuzzleException(PuzzleException.ERROR_BOARD_SIZE);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**  
+&nbsp;     * Valide that the row or the column are out of the puzzle range.
+&nbsp;     * @param row, row to valide.
+&nbsp;     * @param colum, column to valide.
+&nbsp;     * @throws PuzzleException, if the row or column are out of range.
+&nbsp;     */
+&nbsp;    public void valideOutOfRange(int row, int colum) throws PuzzleException{
+<b class="pc">&nbsp;        if (!(row &gt;= 0 &amp; colum &gt;= 0 &amp; row &lt; height &amp; colum &lt; width)) throw new PuzzleException (PuzzleException.ERROR_OUT_RANGE);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the space of the ending is empty.
+&nbsp;     * @param row, row of the space.
+&nbsp;     * @param colum, column of the space.
+&nbsp;     * @throws PuzzleException, if the ending in the space is not empty.
+&nbsp;     */
+&nbsp;    
+&nbsp;    private void valideEmptySpaceInEnding(int row, int colum) throws PuzzleException{
+<b class="pc">&nbsp;        if (!(ending[row][colum] == null)) throw new PuzzleException(PuzzleException.ERROR_SPACE_NO_EMPTY);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the space is empty.
+&nbsp;     * @param row, row of the space.
+&nbsp;     * @param colum, column of the space.
+&nbsp;     * @throws PuzzleException, if the space is not empty.
+&nbsp;     */
+&nbsp;    public void valideEmptySpace(int row, int colum) throws PuzzleException{
+<b class="pc">&nbsp;        if (!(board[row][colum] == null &amp;&amp; matrizHole[row][colum] == null)) throw new PuzzleException(PuzzleException.ERROR_SPACE_NO_EMPTY);</b>
+&nbsp;    }                           
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that exist a tile to delete.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param colum, column of the tile.
+&nbsp;     * @throws PuzzleException, if the tile doesn´t exist.
+&nbsp;     */
+&nbsp;    public void valideTileToDelete(int row, int colum ) throws PuzzleException {
+<b class="fc">&nbsp;        if (board[row][colum] == null) throw new PuzzleException(PuzzleException.ERROR_NO_TILE_DELETE);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the tile is not glued.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param colum, column of the tile.
+&nbsp;     * @throws PuzzleException, if the tile is glued.
+&nbsp;     */
+&nbsp;    public void valideTileNoGlued(int row, int colum ) throws PuzzleException {
+<b class="fc">&nbsp;        if (board[row][colum].isGlued()) throw new PuzzleException(PuzzleException.ERROR_TILE_GLUED);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the tile is not fixed.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param colum, column of the tile.
+&nbsp;     * @throws PuzzleException, if the tile is fixed.
+&nbsp;     */
+&nbsp;    public void valideTileNoFixed(int row, int colum ) throws PuzzleException {
+<b class="fc">&nbsp;        if ((board[row][colum] instanceof FixedTile)) throw new PuzzleException(PuzzleException.ERROR_TILE_FIXED);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the space is not empty.
+&nbsp;     * @param row, row of the space.
+&nbsp;     * @param colum, column of the space.
+&nbsp;     * @throws PuzzleException, if the space is empty.
+&nbsp;     */
+&nbsp;    public void valideNotEmptySpace(int row, int colum) throws PuzzleException {
+<b class="fc">&nbsp;        if (board[row][colum] == null) throw new PuzzleException(PuzzleException.ERROR_SPACE_EMPTY);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the tile is not gluedMidle.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param colum, column of the tile.
+&nbsp;     * @throws PuzzleException, if the tile is gluedMidle.
+&nbsp;     */
+&nbsp;    public void valideTileNotIsGluedMidle(int row, int colum) throws PuzzleException {
+<b class="fc">&nbsp;        if(board[row][colum].isGluedMidle()) throw new PuzzleException(PuzzleException.ERROR_TILE_GLUED_MIDLE);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the tile is not Freelance or flying.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param colum, column of the tile.
+&nbsp;     * @throws PuzzleException, if the tile is Freelance or flying.
+&nbsp;     */
+&nbsp;    public void valideTileNotFreelanceOrFlying(int row, int colum) throws PuzzleException{
+<b class="pc">&nbsp;        if(board[row][colum] instanceof FreelanceTile || board[row][colum] instanceof FlyingTile ) throw new PuzzleException(PuzzleException.ERROR_TILE_FREELANCE_FLYING);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide that the tile is gluedMidle.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param colum, column of the tile.
+&nbsp;     * @throws PuzzleException, if the tile is not gluedMidle.
+&nbsp;     */
+&nbsp;    public void valideTileIsGluedMidle(int row, int colum) throws PuzzleException {
+<b class="fc">&nbsp;        if(!board[row][colum].isGluedMidle()) throw new PuzzleException(PuzzleException.ERROR_TILE_NOT_GLUED_MIDLE);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /** 
+&nbsp;     * Valide that the direction to tilt exist.
+&nbsp;     * @param direction, the direction to valide.
+&nbsp;     * @throws PuzzleException, if the direction doesn´t exist.
+&nbsp;     */
+&nbsp;    public void valideDirection(char direction) throws PuzzleException {
+<b class="pc">&nbsp;        if(direction != &#39;u&#39; &amp;&amp; direction != &#39;d&#39; &amp;&amp; direction != &#39;l&#39; &amp;&amp; direction != &#39;r&#39;) throw new PuzzleException(PuzzleException.ERROR_WRONG_DIRECTION); </b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Valide the finalMovement in the intelligent tilt.
+&nbsp;     * @param finalMovement, direction of the finalMovement.
+&nbsp;     * @throws PuzzleException, if the finalMovement is &#39;i&#39;.
+&nbsp;     */
+&nbsp;    public void valideFinalMovement(char finalMovement) throws PuzzleException{
+<b class="pc">&nbsp;        if (finalMovement == &#39;i&#39;) throw new PuzzleException(PuzzleException.ERROR_NOT_INTELLIGENT_TILT);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * add new tile in ending.
+&nbsp;     * @param row, row of the add
+&nbsp;     * @param colum, colum of the add
+&nbsp;     * @param color, color of the new tile
+&nbsp;     */
+&nbsp;    private void addTileEnding(int row, int colum, String color){ 
+<b class="fc">&nbsp;        row-=1;</b>
+<b class="fc">&nbsp;        colum-=1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideOutOfRange(row,colum);</b>
+<b class="fc">&nbsp;            valideEmptySpaceInEnding(row,colum);</b>
+<b class="nc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="nc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        }
+&nbsp;  
+<b class="fc">&nbsp;        ending[row][colum] = new Tile();</b>
+<b class="fc">&nbsp;        ending[row][colum].puzzleMoveVertical(row);</b>
+<b class="fc">&nbsp;        ending[row][colum].puzzleMoveHorizontal(colum);</b>
+<b class="pc">&nbsp;        if (isVisible) ending[row][colum].makeVisible();</b>
+<b class="fc">&nbsp;        ending[row][colum].changeColor(color);</b>
+<b class="fc">&nbsp;        ending[row][colum].moveVertical(height*50+50);</b>
+<b class="fc">&nbsp;        endingMatriz[row][colum] = colorToChar(color); </b>
+&nbsp;    }
+&nbsp;      
+&nbsp;    /**
+&nbsp;     * change char for a color
+&nbsp;     * @param color a char. Must be &#39;r&#39;, &#39;y&#39;, &#39;b&#39;, &#39;g&#39; and &#39;m&#39;.
+&nbsp;     * @return the nes color String. Must be &quot;red&quot;,&quot;yellow&quot;,&quot;blue&quot;, &quot;green&quot; and &quot;magenta&quot; 
+&nbsp;     * and &quot;magenta&quot;.
+&nbsp;     */
+&nbsp;    public String charToColor(char color){
+&nbsp;        
+<b class="fc">&nbsp;        if (color == &#39;r&#39;) return &quot;red&quot;;</b>
+<b class="fc">&nbsp;        if (color ==&#39;y&#39;) return &quot;yellow&quot;;    </b>
+<b class="fc">&nbsp;        if (color == &#39;b&#39;) return &quot;blue&quot;;    </b>
+<b class="fc">&nbsp;        if (color == &#39;g&#39;) return &quot;green&quot;;</b>
+<b class="pc">&nbsp;        if (color == &#39;m&#39;) return &quot;magenta&quot;;</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * change color for a char
+&nbsp;     * @param the nes color String. Must be &quot;red&quot;,&quot;yellow&quot;,&quot;blue&quot;, &quot;green&quot; and &quot;magenta&quot;.
+&nbsp;     * @return color a char. Must be &#39;r&#39;, &#39;y&#39;, &#39;b&#39;, &#39;g&#39; and &#39;m&#39;.
+&nbsp;     */
+&nbsp;    public char colorToChar(String color){
+<b class="fc">&nbsp;        if (color == &quot;red&quot;) return &#39;r&#39;;</b>
+<b class="fc">&nbsp;        if (color ==&quot;yellow&quot;) return &#39;y&#39;;    </b>
+<b class="fc">&nbsp;        if (color == &quot;blue&quot;) return &#39;b&#39;;    </b>
+<b class="fc">&nbsp;        if (color == &quot;green&quot;) return &#39;g&#39;;</b>
+<b class="pc">&nbsp;        if (color == &quot;magenta&quot;) return &#39;m&#39;;</b>
+<b class="nc">&nbsp;        return &#39; &#39;;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * draw the boards on the screen
+&nbsp;     */
+&nbsp;    public void makeVisible(){
+<b class="pc">&nbsp;        if (isVisible == false){</b>
+<b class="fc">&nbsp;            base.makeVisible();</b>
+<b class="fc">&nbsp;            baseEnding.makeVisible();</b>
+<b class="fc">&nbsp;            for(int row = 0; row &lt; height; row+=1){</b>
+<b class="fc">&nbsp;                for(int colum = 0; colum &lt; width; colum +=1){</b>
+<b class="fc">&nbsp;                    if (board[row][colum] == null) board[row][colum] = null;</b>
+<b class="fc">&nbsp;                    else board[row][colum].makeVisible();</b>
+<b class="fc">&nbsp;                    if (ending[row][colum] == null) ending[row][colum] = null;</b>
+<b class="fc">&nbsp;                    else ending[row][colum].makeVisible();</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            isVisible = true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * erase teh boards
+&nbsp;     */
+&nbsp;    public void makeInvisible(){
+<b class="pc">&nbsp;        if (isVisible){</b>
+<b class="nc">&nbsp;            base.makeInvisible();</b>
+<b class="nc">&nbsp;            baseEnding.makeInvisible();</b>
+<b class="nc">&nbsp;            for(int row = 0; row &lt; height; row+=1){</b>
+<b class="nc">&nbsp;                for(int colum = 0; colum &lt; width; colum +=1){</b>
+<b class="nc">&nbsp;                    if (board[row][colum] == null) board[row][colum] = null;</b>
+<b class="nc">&nbsp;                    else board[row][colum].makeInvisible();</b>
+<b class="nc">&nbsp;                    if (ending[row][colum] == null) ending[row][colum] = null;</b>
+<b class="nc">&nbsp;                    else ending[row][colum].makeInvisible();</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            isVisible = false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /** 
+&nbsp;     * add new tile
+&nbsp;     * @param row, row of the add
+&nbsp;     * @param colum, colum of the add
+&nbsp;     * @param color, color of the new tile
+&nbsp;     * @param typeOfTile, if 1 normal Tile, if 2 fixedTile,if 3 roughtTile, if 4 freelanceTile, if 5 flyingTile, if 6 SuperFragilTile
+&nbsp;     */
+&nbsp;    public void addTile(int row, int colum, String color, int typeOfTile ){ 
+<b class="fc">&nbsp;        row-=1;</b>
+<b class="fc">&nbsp;        colum-=1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideOutOfRange(row,colum);</b>
+<b class="fc">&nbsp;            valideEmptySpace(row,colum);</b>
+<b class="fc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="fc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        }
+&nbsp;        
+<b class="fc">&nbsp;        if(typeOfTile == 1) board[row][colum] = new Tile();</b>
+<b class="fc">&nbsp;        if(typeOfTile == 2) board[row][colum] = new FixedTile();</b>
+<b class="fc">&nbsp;        if(typeOfTile == 3) board[row][colum] = new RoughTile();</b>
+<b class="fc">&nbsp;        if(typeOfTile == 4) board[row][colum] = new FreelanceTile();</b>
+<b class="fc">&nbsp;        if(typeOfTile == 5) board[row][colum] = new FlyingTile();</b>
+<b class="fc">&nbsp;        if(typeOfTile == 6) board[row][colum] = new SuperFragilTile();</b>
+<b class="fc">&nbsp;        board[row][colum].puzzleMoveVertical(row);</b>
+<b class="fc">&nbsp;        board[row][colum].puzzleMoveHorizontal(colum);</b>
+<b class="pc">&nbsp;        if (isVisible) board[row][colum].makeVisible();</b>
+<b class="fc">&nbsp;        if (!(typeOfTile == 3)) board[row][colum].changeColor(color);</b>
+<b class="fc">&nbsp;        startingMatriz[row][colum] = colorToChar(color); </b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * delete a tile of the board
+&nbsp;     * @param row, row of the tile
+&nbsp;     * @param colum, colum of the tile
+&nbsp;     */
+&nbsp;    public void deleteTile(int row, int colum){
+<b class="fc">&nbsp;        row-=1;</b>
+<b class="fc">&nbsp;        colum-=1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideOutOfRange(row,colum);</b>
+<b class="fc">&nbsp;            valideTileToDelete(row,colum);</b>
+<b class="fc">&nbsp;            valideTileNoGlued(row,colum);</b>
+<b class="fc">&nbsp;            valideTileNoFixed(row,colum);</b>
+<b class="fc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="fc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        } 
+&nbsp;                
+<b class="fc">&nbsp;        board[row][colum].makeInvisible();</b>
+<b class="fc">&nbsp;        board[row][colum] = null;</b>
+<b class="fc">&nbsp;        startingMatriz[row][colum] = &#39;.&#39;;        </b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * relocate a tile
+&nbsp;     * @param form, position of tile 
+&nbsp;     * @param to, position of the end position of tile
+&nbsp;     */
+&nbsp;    public void relocateTile(int [] from, int [] to ){
+<b class="fc">&nbsp;        int rowFrom = from[0]-1;</b>
+<b class="fc">&nbsp;        int columFrom = from[1]-1;</b>
+<b class="fc">&nbsp;        int rowTo = to[0]-1;</b>
+<b class="fc">&nbsp;        int columTo = to[1]-1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideEmptySpace(rowTo,columTo);</b>
+<b class="fc">&nbsp;            valideNotEmptySpace(rowFrom,columFrom);</b>
+<b class="fc">&nbsp;            valideTileNoGlued(rowFrom,columFrom);</b>
+<b class="fc">&nbsp;            valideTileNoFixed(rowFrom,columFrom);</b>
+<b class="fc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="fc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        } 
+&nbsp;     
+<b class="fc">&nbsp;        String color = charToColor(startingMatriz[rowFrom][columFrom]);</b>
+<b class="fc">&nbsp;        deleteTile(rowFrom+1,columFrom+1);</b>
+<b class="pc">&nbsp;        if(board[rowFrom][columFrom] instanceof RoughTile) addTile(rowTo+1,columTo+1,color, 3);</b>
+<b class="pc">&nbsp;        else if(board[rowFrom][columFrom] instanceof FreelanceTile) addTile(rowTo+1,columTo+1,color, 4);</b>
+<b class="fc">&nbsp;        else addTile(rowTo+1,columTo+1,color, 1);</b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;   
+&nbsp;    /**
+&nbsp;     * add glue to a tile
+&nbsp;     * @param row, row of tile
+&nbsp;     * @param colum, colum of tile
+&nbsp;     * @param glueType, if 1 normalGlue, if 2 fragilGlue
+&nbsp;     */
+&nbsp;
+&nbsp;    public void addGlue(int row, int colum, int glueType){
+<b class="fc">&nbsp;        row-=1;</b>
+<b class="fc">&nbsp;        colum-=1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideOutOfRange(row,colum);</b>
+<b class="fc">&nbsp;            valideNotEmptySpace(row,colum);</b>
+<b class="fc">&nbsp;            valideTileNotIsGluedMidle(row,colum);</b>
+<b class="fc">&nbsp;            valideTileNotFreelanceOrFlying(row, colum);</b>
+<b class="fc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="fc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        }
+&nbsp;        
+<b class="fc">&nbsp;        board[row][colum].makeGluedMidle();</b>
+<b class="fc">&nbsp;        Glue newGlue = null;</b>
+<b class="fc">&nbsp;        if (glueType == 1) newGlue = new Glue(startingMatriz,board,row,colum,height,width,this);</b>
+<b class="fc">&nbsp;        if (glueType == 2) newGlue = new FragilGlue(startingMatriz,board,row,colum,height,width,this);</b>
+<b class="fc">&nbsp;        board[row][colum].setGlue(newGlue);</b>
+<b class="fc">&nbsp;        matrizPegados[row][colum] = true;</b>
+&nbsp;           
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * delete glue to a tile
+&nbsp;     * @param row, row of tile
+&nbsp;     * @param colum, colum of tile
+&nbsp;     */
+&nbsp;    
+&nbsp;    public void deleteGlue(int row, int colum){
+<b class="fc">&nbsp;        row-=1;</b>
+<b class="fc">&nbsp;        colum-=1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideOutOfRange(row,colum);</b>
+<b class="fc">&nbsp;            valideNotEmptySpace(row,colum);</b>
+<b class="fc">&nbsp;            valideTileIsGluedMidle(row,colum);</b>
+<b class="fc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="fc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        } 
+&nbsp;        
+<b class="fc">&nbsp;        board[row][colum].getGlue().deleteGlue(); </b>
+<b class="fc">&nbsp;        matrizPegados[row][colum] = false;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * tilt the tile
+&nbsp;     * @param direction &#39;u&#39; go up, &#39;d&#39; gp dpwn, &#39;l&#39; go left and &#39;r&#39; go right
+&nbsp;     */
+&nbsp;    public void tilt(char direction) {
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideDirection(direction);</b>
+<b class="nc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="nc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        }
+&nbsp;        
+<b class="fc">&nbsp;        if (direction == &#39;u&#39;) tiltUp();</b>
+<b class="fc">&nbsp;        if (direction == &#39;d&#39;) tiltDown();</b>
+<b class="fc">&nbsp;        if (direction == &#39;l&#39;) tiltLeft();</b>
+<b class="fc">&nbsp;        if (direction == &#39;r&#39;) tiltRight();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * tilt the puzzle to up.
+&nbsp;     */
+&nbsp;    private void tiltUp(){
+<b class="fc">&nbsp;        for (int row = height - 1; row &gt;= 1; row--) {</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; width; col++) {</b>
+<b class="pc">&nbsp;                if(board[row][col] != null &amp;&amp; !(board[row][col] instanceof RoughTile)){</b>
+<b class="pc">&nbsp;                    if(board[row][col] instanceof FlyingTile &amp;&amp; board[row - 1][col] == null &amp;&amp; !board[row][col].isGlued()){   </b>
+<b class="nc">&nbsp;                    upFlyingTilt(row,col);</b>
+<b class="nc">&nbsp;                    row = height;</b>
+<b class="nc">&nbsp;                    col =width; </b>
+&nbsp;                    }else{
+<b class="pc">&nbsp;                        if (board[row - 1][col] == null &amp;&amp; !board[row][col].isGlued()) {</b>
+<b class="fc">&nbsp;                            startingMatriz[row - 1][col] = colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                            board[row - 1][col] = board[row][col];</b>
+<b class="fc">&nbsp;                            board[row][col] = null;</b>
+<b class="fc">&nbsp;                            board[row - 1][col].puzzleMoveVertical(-1);</b>
+<b class="pc">&nbsp;                            if(board[row-1][col] instanceof SuperFragilTile) convertInRough(row-1,col);</b>
+<b class="fc">&nbsp;                            row = height;</b>
+<b class="fc">&nbsp;                            col =width;</b>
+<b class="pc">&nbsp;                        }else if( board[row][col].isGluedMidle() &amp;&amp; board[row][col].getGlue().isPosibleUpTilt()){</b>
+<b class="nc">&nbsp;                            board[row][col].getGlue().tiltUp();</b>
+<b class="nc">&nbsp;                            row = height;</b>
+<b class="nc">&nbsp;                            col = width;</b>
+<b class="pc">&nbsp;                        }else if((board[row - 1][col] != null &amp;&amp; matrizHole[row - 1][col] != null  &amp;&amp; !board[row - 1][col].isGlued()</b>
+<b class="nc">&nbsp;                                &amp;&amp; !board[row][col].isGlued() &amp;&amp; !(board[row - 1][col] instanceof FlyingTile))|| (board[row - 1][col] != null &amp;&amp; matrizHole[row - 1][col] != null &amp;&amp; </b>
+<b class="nc">&nbsp;                                board[row][col].isGlued() &amp;&amp; !board[row - 1][col].isGlued() &amp;&amp; !(board[row - 1][col] instanceof FlyingTile) )){</b>
+<b class="nc">&nbsp;                            startingMatriz[row - 1][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                            board[row - 1][col].makeInvisible();</b>
+<b class="nc">&nbsp;                            board[row - 1][col] = null;</b>
+<b class="nc">&nbsp;                            row = height;</b>
+<b class="nc">&nbsp;                            col = width;</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="pc">&nbsp;                }else if ( board[row - 1][col] != null &amp;&amp; matrizHole[row - 1][col] != null &amp;&amp; !board[row - 1][col].isGlued() &amp;&amp; !(board[row - 1][col] instanceof FlyingTile)){</b>
+<b class="nc">&nbsp;                    startingMatriz[row - 1][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                    board[row - 1][col].makeInvisible();</b>
+<b class="nc">&nbsp;                    board[row - 1][col] = null;</b>
+<b class="nc">&nbsp;                    row = height;</b>
+<b class="nc">&nbsp;                    col = width;    </b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        makeNomovedFragilGlue();</b>
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * tilt the puzzle to down.
+&nbsp;     */
+&nbsp;    private void tiltDown(){
+<b class="fc">&nbsp;        for (int row = 0; row &lt; height-1; row++) {</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; width; col++) {</b>
+<b class="fc">&nbsp;                if(board[row][col] != null &amp;&amp; !(board[row][col] instanceof RoughTile)){</b>
+<b class="pc">&nbsp;                    if(board[row][col] instanceof FlyingTile &amp;&amp; board[row + 1][col] == null &amp;&amp; !board[row][col].isGlued()){</b>
+<b class="nc">&nbsp;                        downFlyingTilt(row,col);</b>
+<b class="nc">&nbsp;                        row = -1;</b>
+<b class="nc">&nbsp;                        col =width;</b>
+&nbsp;                    }else{
+<b class="pc">&nbsp;                        if (board[row + 1][col] == null &amp;&amp; !board[row][col].isGlued()) {</b>
+<b class="fc">&nbsp;                            startingMatriz[row + 1][col] = colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                            board[row + 1][col] = board[row][col];</b>
+<b class="fc">&nbsp;                            board[row][col] = null;</b>
+<b class="fc">&nbsp;                            board[row + 1][col].puzzleMoveVertical(1);</b>
+<b class="fc">&nbsp;                            if(board[row+1][col] instanceof SuperFragilTile) convertInRough(row+1,col);</b>
+<b class="fc">&nbsp;                            row = -1;</b>
+<b class="fc">&nbsp;                            col =width;</b>
+<b class="pc">&nbsp;                        }else if(board[row][col].isGluedMidle() &amp;&amp; board[row][col].getGlue().isPosibleDownTilt()){</b>
+<b class="nc">&nbsp;                            board[row][col].getGlue().tiltDown();</b>
+<b class="nc">&nbsp;                            row = -1;</b>
+<b class="nc">&nbsp;                            col = width;</b>
+<b class="pc">&nbsp;                        }else if((board[row + 1][col] != null &amp;&amp; matrizHole[row + 1][col] != null  &amp;&amp; !board[row][col].isGlued() </b>
+<b class="nc">&nbsp;                                &amp;&amp; !board[row][col].isGlued() &amp;&amp; !(board[row + 1][col] instanceof FlyingTile))|| (board[row + 1][col] != null &amp;&amp; matrizHole[row + 1][col] != null &amp;&amp; </b>
+<b class="nc">&nbsp;                                board[row][col].isGlued() &amp;&amp; !board[row + 1][col].isGlued() &amp;&amp; !(board[row + 1][col] instanceof FlyingTile) )){</b>
+<b class="nc">&nbsp;                            startingMatriz[row + 1][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                            board[row + 1][col].makeInvisible();</b>
+<b class="nc">&nbsp;                            board[row + 1][col] = null;</b>
+<b class="nc">&nbsp;                            row = -1;</b>
+<b class="nc">&nbsp;                            col = width;</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="pc">&nbsp;                }else if(board[row + 1][col] != null &amp;&amp; matrizHole[row + 1][col] != null &amp;&amp; !board[row + 1][col].isGlued() &amp;&amp; !(board[row + 1][col] instanceof FlyingTile)){</b>
+<b class="nc">&nbsp;                    startingMatriz[row + 1][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                    board[row + 1][col].makeInvisible();</b>
+<b class="nc">&nbsp;                    board[row + 1][col] = null;</b>
+<b class="nc">&nbsp;                    row = -1;</b>
+<b class="nc">&nbsp;                    col = width; </b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        makeNomovedFragilGlue();</b>
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * tilt the puzzle to left.
+&nbsp;     */
+&nbsp;    private void tiltLeft(){
+<b class="fc">&nbsp;        for (int row = 0; row &lt; height; row++) {</b>
+<b class="fc">&nbsp;            for (int col = width-1; col &gt;= 1; col--) {</b>
+<b class="pc">&nbsp;                if(board[row][col] != null &amp;&amp; !(board[row][col] instanceof RoughTile)){</b>
+<b class="pc">&nbsp;                    if(board[row][col] instanceof FlyingTile &amp;&amp; board[row][col - 1] == null &amp;&amp; !board[row][col].isGlued()){</b>
+<b class="nc">&nbsp;                        leftFlyingTilt(row,col);</b>
+<b class="nc">&nbsp;                        row = -1;</b>
+<b class="nc">&nbsp;                        col =0;</b>
+&nbsp;                    }else{
+<b class="fc">&nbsp;                        if (board[row][col - 1] == null &amp;&amp; !board[row][col].isGlued()) {</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col- 1] = colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                            board[row][col - 1] = board[row][col];</b>
+<b class="fc">&nbsp;                            board[row][col] = null;</b>
+<b class="fc">&nbsp;                            board[row][col - 1].puzzleMoveHorizontal(- 1);</b>
+<b class="pc">&nbsp;                            if(board[row][col - 1] instanceof SuperFragilTile) convertInRough(row,col-1);</b>
+<b class="fc">&nbsp;                            row = -1;</b>
+<b class="fc">&nbsp;                            col =0;</b>
+<b class="pc">&nbsp;                        }else if(board[row][col].isGluedMidle() &amp;&amp; board[row][col].getGlue().isPosibleLeftTilt()){</b>
+<b class="fc">&nbsp;                            board[row][col].getGlue().tiltLeft();</b>
+<b class="fc">&nbsp;                            row = -1;</b>
+<b class="fc">&nbsp;                            col = 0;</b>
+<b class="pc">&nbsp;                        }else if((board[row][col - 1] != null &amp;&amp; matrizHole[row][col - 1] != null  &amp;&amp; !board[row][col].isGlued()</b>
+<b class="nc">&nbsp;                                &amp;&amp; !board[row][col].isGlued() &amp;&amp; !(board[row][col -1] instanceof FlyingTile))|| (board[row][col - 1] != null &amp;&amp; matrizHole[row][col - 1] != null &amp;&amp; </b>
+<b class="nc">&nbsp;                                board[row][col].isGlued() &amp;&amp; !board[row][col - 1].isGlued() &amp;&amp; !(board[row][col -1] instanceof FlyingTile))){</b>
+<b class="nc">&nbsp;                            startingMatriz[row][col - 1] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                            board[row][col - 1].makeInvisible();</b>
+<b class="nc">&nbsp;                            board[row][col - 1] = null;</b>
+<b class="nc">&nbsp;                            row = -1;</b>
+<b class="nc">&nbsp;                            col = 0;</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="pc">&nbsp;                }else if (board[row][col - 1] != null &amp;&amp; matrizHole[row][col - 1] != null &amp;&amp; !board[row][col - 1].isGlued() &amp;&amp; !(board[row][col -1] instanceof FlyingTile)){</b>
+<b class="nc">&nbsp;                    startingMatriz[row][col - 1] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                        board[row][col - 1].makeInvisible();</b>
+<b class="nc">&nbsp;                        board[row][col - 1] = null;</b>
+<b class="nc">&nbsp;                        row = -1;</b>
+<b class="nc">&nbsp;                        col = 0;   </b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        makeNomovedFragilGlue();</b>
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * tilt the puzzle to right.
+&nbsp;     */
+&nbsp;    private void tiltRight(){
+<b class="fc">&nbsp;        for (int row = 0; row&lt; height; row++) {</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; width-1; col++) {</b>
+<b class="fc">&nbsp;                if (board[row][col] != null &amp;&amp; !(board[row][col] instanceof RoughTile)){</b>
+<b class="pc">&nbsp;                    if(board[row][col] instanceof FlyingTile &amp;&amp; board[row][col + 1] == null &amp;&amp; !board[row][col].isGlued()){ </b>
+<b class="fc">&nbsp;                        rightFlyingTilt(row,col);</b>
+<b class="fc">&nbsp;                        row = -1;</b>
+<b class="fc">&nbsp;                        col =width;</b>
+&nbsp;                    }else{
+<b class="fc">&nbsp;                        if (board[row][col + 1] == null &amp;&amp; !board[row][col].isGlued()) {</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col + 1] = colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                            board[row][col + 1] = board[row][col];</b>
+<b class="fc">&nbsp;                            board[row][col] = null;</b>
+<b class="fc">&nbsp;                            board[row][col + 1].puzzleMoveHorizontal(1);</b>
+<b class="pc">&nbsp;                            if(board[row][col + 1] instanceof SuperFragilTile) convertInRough(row,col + 1);</b>
+<b class="fc">&nbsp;                            row = -1;</b>
+<b class="fc">&nbsp;                            col =width;</b>
+<b class="pc">&nbsp;                        }else if(board[row][col].isGluedMidle() &amp;&amp; board[row][col].getGlue().isPosibleRightTilt()){</b>
+<b class="nc">&nbsp;                            board[row][col].getGlue().tiltRight();</b>
+<b class="nc">&nbsp;                            row = -1;</b>
+<b class="nc">&nbsp;                            col = width;</b>
+<b class="pc">&nbsp;                        }else if((board[row][col + 1] != null &amp;&amp; matrizHole[row][col + 1] != null  &amp;&amp; !board[row][col].isGlued()</b>
+<b class="pc">&nbsp;                                &amp;&amp; !board[row][col].isGlued() &amp;&amp; !(board[row][col +1] instanceof FlyingTile))|| (board[row][col + 1] != null &amp;&amp; matrizHole[row][col + 1] != null &amp;&amp; </b>
+<b class="nc">&nbsp;                                board[row][col].isGlued() &amp;&amp; !board[row][col + 1].isGlued() &amp;&amp; !(board[row][col +1] instanceof FlyingTile))){</b>
+<b class="fc">&nbsp;                            startingMatriz[row][col + 1] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                            board[row][col + 1].makeInvisible();</b>
+<b class="fc">&nbsp;                            board[row][col + 1] = null;</b>
+<b class="fc">&nbsp;                            row = -1;</b>
+<b class="fc">&nbsp;                            col = width;</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="pc">&nbsp;                }else if (board[row][col + 1] != null &amp;&amp; matrizHole[row][col + 1] != null &amp;&amp; !board[row][col + 1].isGlued() &amp;&amp; !(board[row][col +1] instanceof FlyingTile)){</b>
+<b class="fc">&nbsp;                    startingMatriz[row][col + 1] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                    board[row][col + 1].makeInvisible();</b>
+<b class="fc">&nbsp;                    board[row][col + 1] = null;</b>
+<b class="fc">&nbsp;                    row = -1;</b>
+<b class="fc">&nbsp;                    col = width; </b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        makeNomovedFragilGlue();</b>
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * Convert a SuperFragilTile in a RoughTile.
+&nbsp;     * @param row, row of the tile.
+&nbsp;     * @param col, column of the tile.
+&nbsp;     */
+&nbsp;    private void convertInRough(int row,int col){
+<b class="fc">&nbsp;        deleteTile(row + 1,col + 1);</b>
+<b class="fc">&nbsp;        addTile(row + 1,col + 1,&quot;red&quot;,3);</b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * Make that a fragilGlue can´t move.
+&nbsp;     */
+&nbsp;    private void makeNomovedFragilGlue(){
+<b class="fc">&nbsp;        for (int row = 0; row&lt; height; row++) {</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; width-1; col++) {</b>
+<b class="pc">&nbsp;                if (board[row][col] != null &amp;&amp; board[row][col].isGluedMidle() &amp;&amp; board[row][col].getGlue() instanceof FragilGlue){</b>
+<b class="fc">&nbsp;                    Glue glue = board[row][col].getGlue();</b>
+<b class="fc">&nbsp;                    FragilGlue fragilGlue = (FragilGlue) glue;</b>
+<b class="fc">&nbsp;                    fragilGlue.makeNoMove();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * Tilt up of flying tilt.
+&nbsp;     */
+&nbsp;    private void upFlyingTilt(int row, int col){
+<b class="nc">&nbsp;        startingMatriz[row - 1][col] = colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;        board[row - 1][col] = board[row][col];</b>
+<b class="nc">&nbsp;        board[row][col] = null;</b>
+<b class="nc">&nbsp;        board[row - 1][col].puzzleMoveVertical(-1);</b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * Tilt down of flying tilt.
+&nbsp;     */
+&nbsp;    private void downFlyingTilt(int row, int col){
+<b class="nc">&nbsp;        startingMatriz[row + 1][col] = colorToChar(board[row][col].getColor());     </b>
+<b class="nc">&nbsp;        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;        board[row + 1][col] = board[row][col];</b>
+<b class="nc">&nbsp;        board[row][col] = null;</b>
+<b class="nc">&nbsp;        board[row + 1][col].puzzleMoveVertical(1);    </b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * Tilt left of flying tilt.
+&nbsp;     */
+&nbsp;    private void leftFlyingTilt(int row, int col){
+<b class="nc">&nbsp;        startingMatriz[row][col- 1] = colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;        board[row][col - 1] = board[row][col];</b>
+<b class="nc">&nbsp;        board[row][col] = null;</b>
+<b class="nc">&nbsp;        board[row][col - 1].puzzleMoveHorizontal(- 1);    </b>
+&nbsp;    }
+&nbsp;    /*
+&nbsp;     * Tilt right of flying tilt.
+&nbsp;     */
+&nbsp;    private void rightFlyingTilt(int row, int col){
+<b class="fc">&nbsp;        startingMatriz[row][col + 1] = colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;        board[row][col + 1] = board[row][col];</b>
+<b class="fc">&nbsp;        board[row][col] = null;</b>
+<b class="fc">&nbsp;        board[row][col + 1].puzzleMoveHorizontal(1);    </b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * show the actual matriz of the board
+&nbsp;     */
+&nbsp;    public void actualArrangement() {
+<b class="nc">&nbsp;        for (int row = 0; row &lt; height; row++) {</b>
+<b class="nc">&nbsp;            for (int col = 0; col &lt; width; col++) {</b>
+<b class="nc">&nbsp;                if (board[row][col] != null) {</b>
+<b class="nc">&nbsp;                    System.out.print(board[row][col].getColor().charAt(0) + &quot; &quot;);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    System.out.print(&quot;. &quot;); // Espacio vacío</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println(); </b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * show if the actual matriz has the same configuration that the ending.
+&nbsp;     * @return false is the actual matriz is diferent tha the ending, True if is the same.
+&nbsp;     */
+&nbsp;    public boolean isGoal() {
+<b class="fc">&nbsp;        for (int row = 0; row &lt; height; row++) {</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; width; col++) {</b>
+<b class="fc">&nbsp;                if ((board[row][col] == null &amp;&amp; ending[row][col] != null) ||</b>
+<b class="fc">&nbsp;                    (board[row][col] != null &amp;&amp; ending[row][col] == null)) return false;</b>
+&nbsp;                
+<b class="pc">&nbsp;                if (board[row][col] != null &amp;&amp; ending[row][col] != null &amp;&amp; !(board[row][col].getColor().equals(ending[row][col].getColor()))) return false;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * finish the program.
+&nbsp;     */
+&nbsp;    public void finish(){
+<b class="fc">&nbsp;        if (isGoal()){</b>
+&nbsp;            //JOptionPane.showMessageDialog(null, 
+&nbsp;                                          //&quot;¡Felicidades! Has encontrado la solucion del juego con éxito.&quot;, 
+&nbsp;                                          //&quot;¡Triunfo!&quot;, 
+&nbsp;                                           //JOptionPane.INFORMATION_MESSAGE);
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * The position that if you tilt the puzzle, they are not gonna change.
+&nbsp;     * @return int [][] with all the position.
+&nbsp;     */
+&nbsp;    public int [][] fixedTiles(){
+<b class="fc">&nbsp;        ArrayList&lt;Integer[]&gt; fixed = new ArrayList&lt;&gt;();</b>
+&nbsp;        int[][] fixedInt;
+<b class="fc">&nbsp;        for (int row = 0; row &lt; height; row++){</b>
+<b class="fc">&nbsp;            for(int column = 0; column &lt; width; column++){</b>
+<b class="pc">&nbsp;                if (board[row][column] != null){</b>
+<b class="pc">&nbsp;                    if (!isPosibleRightTilt(row, column) &amp;&amp; !isPosibleLeftTilt(row, column) &amp;&amp; !isPosibleDownTilt(row, column) &amp;&amp; !isPosibleUpTilt(row, column)){</b>
+<b class="fc">&nbsp;                        Integer [] arreglo = {row, column};</b>
+<b class="fc">&nbsp;                        fixed.add(arreglo);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        fixedInt = new int[fixed.size()][2];</b>
+<b class="fc">&nbsp;        int count = 0; </b>
+<b class="fc">&nbsp;        for (Integer[] f:fixed){</b>
+<b class="fc">&nbsp;            fixedInt[count][0] = f[0];</b>
+<b class="fc">&nbsp;            fixedInt[count][1] = f[1];</b>
+<b class="fc">&nbsp;            count++;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        makeBlindTiles(fixedInt);</b>
+<b class="fc">&nbsp;        return fixedInt;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * if is posible move the tile to the left with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    private boolean isPosibleLeftTilt(int row, int column){
+<b class="fc">&nbsp;        for (int columna = column; columna &gt;= 0; columna--){</b>
+<b class="pc">&nbsp;            if (board[row][columna] == null) return true;</b>
+<b class="pc">&nbsp;            if (board[row][columna].isGlued() &amp;&amp; !board[row][columna].getGluedMidleTile().getGlue().isPosibleLeftTilt()) return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * if is posible move the tile to the down with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    private boolean isPosibleDownTilt(int row, int column){
+<b class="fc">&nbsp;        for (int fila = row; fila &lt; height; fila++){</b>
+<b class="pc">&nbsp;            if (board[fila][column] == null) return true;</b>
+<b class="pc">&nbsp;            if (board[fila][column].isGlued() &amp;&amp; !board[fila][column].getGluedMidleTile().getGlue().isPosibleDownTilt()) return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * if is posible move the tile to the up with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    private boolean isPosibleUpTilt(int row, int column){
+<b class="fc">&nbsp;        for (int fila = row; fila &gt;= 0; fila--){</b>
+<b class="pc">&nbsp;            if (board[fila][column] == null) return true;</b>
+<b class="pc">&nbsp;            if (board[fila][column].isGlued() &amp;&amp; !board[fila][column].getGluedMidleTile().getGlue().isPosibleUpTilt()) return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * if is posible move the tile to the right with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    private boolean isPosibleRightTilt(int row, int column){
+<b class="fc">&nbsp;        for (int columna = column; columna &lt; width; columna++){</b>
+<b class="pc">&nbsp;            if (board[row][columna] == null) return true;</b>
+<b class="pc">&nbsp;            if (board[row][columna].isGlued() &amp;&amp; !board[row][columna].getGluedMidleTile().getGlue().isPosibleRightTilt()) return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * make blind the tiles.
+&nbsp;     */               
+&nbsp;    private void makeBlindTiles(int [][] blindTiles){
+<b class="fc">&nbsp;        for(int count = 0; count &lt; 10; count++){</b>
+<b class="fc">&nbsp;            for(int[] f:blindTiles){</b>
+<b class="fc">&nbsp;                board[f[0]][f[1]].makeInvisible();</b>
+&nbsp;            }
+&nbsp;            try {
+<b class="fc">&nbsp;                Thread.sleep(500);</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;El hilo fue interrumpido.&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            for(int[] f:blindTiles){</b>
+<b class="fc">&nbsp;                board[f[0]][f[1]].makeVisible();</b>
+&nbsp;            }
+&nbsp;            try {
+<b class="fc">&nbsp;                Thread.sleep(500);</b>
+<b class="nc">&nbsp;            } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;El hilo fue interrumpido.&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * number of tile that are misplaced.
+&nbsp;     * @return int the number of tile that are misplaced.
+&nbsp;     */
+&nbsp;    public int misplacedTiles(){
+<b class="fc">&nbsp;        int countMisplacedTiles = 0;</b>
+<b class="fc">&nbsp;        for (int row = 0; row &lt; height; row++){</b>
+<b class="fc">&nbsp;            for(int column = 0; column &lt; width; column++){</b>
+<b class="fc">&nbsp;                if (board[row][column] != null){</b>
+<b class="fc">&nbsp;                    if (colorToChar(board[row][column].getColor()) != endingMatriz[row][column]) countMisplacedTiles ++;     </b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return countMisplacedTiles;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * do a inteligent tilt is is posible.
+&nbsp;     */
+&nbsp;    public void tilt(){
+<b class="fc">&nbsp;        char [] movement = {&#39;r&#39;,&#39;l&#39;,&#39;u&#39;,&#39;d&#39;};</b>
+<b class="fc">&nbsp;        int minMisplacedTiles = misplacedTiles();</b>
+&nbsp;        int newMisplacedTiles;
+<b class="fc">&nbsp;        Character finalMovement = &#39;i&#39;;</b>
+<b class="fc">&nbsp;        for (char m:movement){</b>
+<b class="fc">&nbsp;            newMisplacedTiles = fakeTilt(m);</b>
+<b class="fc">&nbsp;            if (minMisplacedTiles &gt; newMisplacedTiles){</b>
+<b class="fc">&nbsp;                minMisplacedTiles = newMisplacedTiles;</b>
+<b class="fc">&nbsp;                finalMovement = m;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            valideFinalMovement(finalMovement);</b>
+<b class="nc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="nc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        }
+<b class="pc">&nbsp;        if (finalMovement != &#39;i&#39;) tilt(finalMovement);</b>
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();</b>
+<b class="fc">&nbsp;        finish();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /*
+&nbsp;     * simulate a tilt.
+&nbsp;     */
+&nbsp;    private int fakeTilt(char m){
+&nbsp;        int newMisplacedTiles;
+<b class="fc">&nbsp;        char[][] newStarting = new char[startingMatriz.length][];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; startingMatriz.length; i++) {</b>
+<b class="fc">&nbsp;            newStarting[i] = startingMatriz[i].clone();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        char[][] newEnding = new char[endingMatriz.length][];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; endingMatriz.length; i++) {</b>
+<b class="fc">&nbsp;            newEnding[i] = endingMatriz[i].clone();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Puzzle newPuzzle = new Puzzle(newStarting,newEnding);</b>
+<b class="fc">&nbsp;        newPuzzle.tilt(m);</b>
+<b class="fc">&nbsp;        newMisplacedTiles = newPuzzle.misplacedTiles();</b>
+<b class="fc">&nbsp;        return newMisplacedTiles;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Change the reference of the puzzle, starting for ending.
+&nbsp;     */
+&nbsp;    public void exchange(){
+<b class="fc">&nbsp;        makeInvisible();</b>
+<b class="fc">&nbsp;        char [][] newEnding = getStartingMatriz();</b>
+<b class="fc">&nbsp;        char [][] newStarting = getEndingMatriz();</b>
+<b class="fc">&nbsp;        int h = newEnding.length;</b>
+<b class="fc">&nbsp;        int w = newEnding[0].length;</b>
+&nbsp;        //creacion base board
+<b class="fc">&nbsp;        base = new Tile();</b>
+<b class="fc">&nbsp;        base.changeSize(h*50,w*50);</b>
+<b class="fc">&nbsp;        base.changeXPosition(-1);</b>
+<b class="fc">&nbsp;        base.changeYPosition(-1);</b>
+&nbsp;        //creacion y desplazamiento base ending
+<b class="fc">&nbsp;        baseEnding = new Tile();</b>
+<b class="fc">&nbsp;        baseEnding.changeSize(h*50,w*50);</b>
+<b class="fc">&nbsp;        baseEnding.moveVertical(w*50+50);</b>
+<b class="fc">&nbsp;        baseEnding.changeXPosition(-1);</b>
+<b class="fc">&nbsp;        baseEnding.changeYPosition(-1);</b>
+<b class="fc">&nbsp;        endingMatriz = newEnding;</b>
+<b class="fc">&nbsp;        startingMatriz = newStarting;</b>
+<b class="fc">&nbsp;        height = h;</b>
+<b class="fc">&nbsp;        width = w;</b>
+<b class="fc">&nbsp;        board = new Tile[h][w];</b>
+<b class="fc">&nbsp;        this.ending = new Tile[h][w];</b>
+<b class="fc">&nbsp;        matrizHole = new Tile[h][w];</b>
+<b class="fc">&nbsp;        isVisible = false;</b>
+&nbsp;        //creacion de las baldozas
+<b class="fc">&nbsp;        for(int row = 0; row &lt; h; row+=1){</b>
+<b class="fc">&nbsp;            for(int colum = 0; colum &lt; w; colum +=1){</b>
+&nbsp;                //config board
+<b class="fc">&nbsp;                if (newStarting[row][colum] == &#39;.&#39;) board[row][colum] = null;</b>
+&nbsp;                else{ 
+<b class="fc">&nbsp;                    String color = charToColor(newStarting[row][colum]);</b>
+<b class="fc">&nbsp;                    addTile(row+1,colum+1,color,1);</b>
+&nbsp;                }
+&nbsp;                //config ending
+<b class="fc">&nbsp;                if (newEnding[row][colum] == &#39;.&#39;) this.ending[row][colum] = null;</b>
+&nbsp;                else{ 
+<b class="fc">&nbsp;                    String color = charToColor(newEnding[row][colum]);</b>
+<b class="fc">&nbsp;                    addTileEnding(row+1,colum+1,color);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        matrizPegados = createMatrizPegados();  </b>
+<b class="fc">&nbsp;        makeVisible();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * make a position of the board a hole.
+&nbsp;     * @param int, row of the position.
+&nbsp;     * @param int, column of the position.
+&nbsp;     */
+&nbsp;    public void makeHole(int row, int colum){
+<b class="fc">&nbsp;        row-=1;</b>
+<b class="fc">&nbsp;        colum-=1;</b>
+&nbsp;        
+&nbsp;        try {
+<b class="fc">&nbsp;            valideOutOfRange(row,colum);</b>
+<b class="fc">&nbsp;            valideEmptySpace(row,colum);</b>
+<b class="nc">&nbsp;        }catch(PuzzleException e) {</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null,</b>
+<b class="nc">&nbsp;                    e.getMessage(),</b>
+&nbsp;                    &quot;Error&quot;,
+&nbsp;                    JOptionPane.ERROR_MESSAGE);
+&nbsp;            return;
+&nbsp;        } 
+&nbsp;      
+<b class="fc">&nbsp;        matrizHole[row][colum] = new Tile();</b>
+<b class="fc">&nbsp;        matrizHole[row][colum].puzzleMoveVertical(row);</b>
+<b class="fc">&nbsp;        matrizHole[row][colum].puzzleMoveHorizontal(colum);</b>
+<b class="pc">&nbsp;        if (isVisible) matrizHole[row][colum].makeVisible();</b>
+<b class="fc">&nbsp;        matrizHole[row][colum].changeColor(&quot;white&quot;);</b>
+<b class="fc">&nbsp;        matrizHole[row][colum].moveVertical(12);</b>
+<b class="fc">&nbsp;        matrizHole[row][colum].moveHorizontal(12);</b>
+<b class="fc">&nbsp;        matrizHole[row][colum].changeSize(25, 25);       </b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-04 14:36</div>
+</div>
+</body>
+</html>

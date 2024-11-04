@@ -1,0 +1,477 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Glue</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">puzzle</a>
+</div>
+
+<h1>Coverage Summary for Class: Glue (puzzle)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Glue</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (14/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    39,1%
+  </span>
+  <span class="absValue">
+    (50/128)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    43,5%
+  </span>
+  <span class="absValue">
+    (74/170)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package puzzle;
+&nbsp;import shapes.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.HashSet;
+&nbsp;/**
+&nbsp; * Is a implementation of GeneralGlue.
+&nbsp; * 
+&nbsp; * @author Miguel Angel Vanegas Cardenas y Allan Steef Contreras 
+&nbsp; * @version 1.8
+&nbsp; */
+&nbsp;public class Glue extends GeneralGlue{
+&nbsp;    private boolean noMove;
+&nbsp;    private GlueOfGlue glueOfGlue;
+&nbsp;    private boolean isGlueOfGlue;
+&nbsp;    /**
+&nbsp;     * Constructor for objects of class CuadrosPegados
+&nbsp;     * @param, matriz of the board.
+&nbsp;     * @param, board.
+&nbsp;     * @param, row of the midle
+&nbsp;     * @param, colum of the midle
+&nbsp;     */
+<b class="fc">&nbsp;    public Glue(char[][] matriz, Tile[][] board,int row,int colum, int height, int width,Puzzle puzzle){</b>
+<b class="fc">&nbsp;        this.puzzle = puzzle;</b>
+<b class="fc">&nbsp;        this.height = height;</b>
+<b class="fc">&nbsp;        this.width = width;</b>
+<b class="fc">&nbsp;        gluedMidle = board[row][colum];</b>
+<b class="fc">&nbsp;        glueMatriz = new char[height][width];</b>
+<b class="fc">&nbsp;        glueBoard = new Tile[height][width];</b>
+<b class="fc">&nbsp;        isGlueOfGlue = false;</b>
+<b class="fc">&nbsp;        Set&lt;Tile&gt; gluedMidleOld = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int fila = row - 1;  fila &lt;= row + 1 ; fila ++){</b>
+<b class="fc">&nbsp;            for (int columna = colum - 1; columna &lt;= colum + 1 ; columna ++){</b>
+<b class="pc">&nbsp;                if(fila &gt;= 0 &amp;&amp; fila &lt; height &amp;&amp; columna &gt;= 0 &amp;&amp; columna &lt; width &amp;&amp; matriz[fila][columna]!= &#39;.&#39; &amp;&amp; !(board[fila][columna] instanceof FreelanceTile) &amp;&amp; !(board[fila][columna] instanceof FlyingTile)){</b>
+<b class="fc">&nbsp;                    glueMatriz[fila][columna] = matriz[fila][columna];   </b>
+<b class="fc">&nbsp;                    glueBoard[fila][columna] = board[fila][columna];  </b>
+<b class="fc">&nbsp;                    if (board[fila][columna].isGlued()) gluedMidleOld.add(board[fila][columna].getGluedMidleTile());</b>
+<b class="pc">&nbsp;                    if (board[fila][columna] instanceof RoughTile) noMove = true;</b>
+<b class="fc">&nbsp;                    board[fila][columna].makeGlued();</b>
+<b class="fc">&nbsp;                    board[fila][columna].setGluedMidleTile(gluedMidle);</b>
+<b class="fc">&nbsp;                    board[fila][columna].changeSize(49,49);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;        
+<b class="pc">&nbsp;        if (gluedMidle.getGlue() != null &amp;&amp; gluedMidle.getGlue().isGlueOfGlue()){</b>
+<b class="nc">&nbsp;            Tile midle = gluedMidle.getGluedMidleTile();</b>
+<b class="nc">&nbsp;            midle.getGlueOfGlue().add(this);</b>
+<b class="nc">&nbsp;            setGlueOfGlue(midle.getGlueOfGlue());</b>
+<b class="nc">&nbsp;            makeIsGlueOfGlue();</b>
+<b class="nc">&nbsp;            System.out.println(1);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        gluedMidle.setGlue(this);</b>
+<b class="fc">&nbsp;        if (gluedMidleOld.size() &gt; 0) createGlueOfGlue(gluedMidleOld);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public char[][] getGlueMatriz(){
+<b class="fc">&nbsp;        return glueMatriz;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public Tile[][] getGlueBoard(){
+<b class="fc">&nbsp;        return glueBoard;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public int getHeight(){
+<b class="fc">&nbsp;        return height;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public int getWidth(){
+<b class="fc">&nbsp;        return width;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public boolean isGlueOfGlue(){
+<b class="fc">&nbsp;        return isGlueOfGlue;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public GlueOfGlue getGlueOfGlue(){
+<b class="fc">&nbsp;        return glueOfGlue;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public void setGlueOfGlue(GlueOfGlue glueOfGlue){
+<b class="fc">&nbsp;        this.glueOfGlue = glueOfGlue;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public Tile getGluedMidle(){
+<b class="fc">&nbsp;        return gluedMidle;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * Create a glueOfGlue with this and another glue.
+&nbsp;     * @param the gluedmidle of the othe glue.
+&nbsp;     */
+&nbsp;    private void createGlueOfGlue(Set&lt;Tile&gt; gluedMidleOld){
+<b class="fc">&nbsp;        boolean banderaFirstOperation = true; </b>
+<b class="fc">&nbsp;        for (Tile midle:gluedMidleOld){</b>
+<b class="pc">&nbsp;            if (banderaFirstOperation){</b>
+<b class="pc">&nbsp;                if(isGlueOfGlue()){</b>
+<b class="nc">&nbsp;                    if(midle.getGlueOfGlue() == null){</b>
+<b class="nc">&nbsp;                        getGlueOfGlue().add(midle.getGlue());</b>
+&nbsp;                    }else{
+<b class="nc">&nbsp;                        midle.getGlueOfGlue().join(getGlueOfGlue());</b>
+<b class="nc">&nbsp;                        midle.getGlue().setGlueOfGlue(getGlueOfGlue());</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    banderaFirstOperation = false;</b>
+&nbsp;                }else{
+<b class="pc">&nbsp;                    if(midle.getGlueOfGlue() == null) this.glueOfGlue = new GlueOfGlue(puzzle, this, midle.getGlue());</b>
+&nbsp;                    else{
+<b class="nc">&nbsp;                        midle.getGlueOfGlue().add(this);</b>
+<b class="nc">&nbsp;                        setGlueOfGlue(midle.getGlueOfGlue());</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    banderaFirstOperation = false;</b>
+<b class="fc">&nbsp;                    makeIsGlueOfGlue();</b>
+&nbsp;                }
+&nbsp;            }else{
+<b class="nc">&nbsp;                if (midle.getGlueOfGlue() == null) this.getGlueOfGlue().add(midle.getGlue());</b>
+<b class="nc">&nbsp;                else this.getGlueOfGlue().join(midle.getGlueOfGlue());</b>
+&nbsp;            }    
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * delete the glue.
+&nbsp;     */
+&nbsp;    public void deleteGlue(){
+<b class="pc">&nbsp;        if (isGlueOfGlue){</b>
+<b class="nc">&nbsp;            getGlueOfGlue().deleteOfGlues(this);</b>
+&nbsp;        }else{
+<b class="fc">&nbsp;            for (int fila = 0;  fila &lt; height ; fila ++){</b>
+<b class="fc">&nbsp;                for (int columna = 0; columna &lt; width ; columna ++){</b>
+<b class="fc">&nbsp;                    if(glueBoard[fila][columna] != null){   </b>
+<b class="fc">&nbsp;                        glueBoard[fila][columna].makeNoGlued();</b>
+<b class="fc">&nbsp;                        glueBoard[fila][columna].changeSize(48,48);</b>
+<b class="fc">&nbsp;                        glueBoard[fila][columna].setGluedMidleTile(null);</b>
+<b class="fc">&nbsp;                        if (glueBoard[fila][columna].isGluedMidle()){</b>
+<b class="fc">&nbsp;                            glueBoard[fila][columna].setGlue(null);</b>
+<b class="fc">&nbsp;                            glueBoard[fila][columna].makeNoGluedMidle();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * make part of GlueOfGlue.
+&nbsp;     */
+&nbsp;    public void makeIsGlueOfGlue(){
+<b class="fc">&nbsp;        if (!isGlueOfGlue()){</b>
+<b class="fc">&nbsp;            isGlueOfGlue = true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * make part of not GlueOfGlue.
+&nbsp;     */
+&nbsp;    public void makeNoIsGlueOfGlue(){
+<b class="nc">&nbsp;        if (isGlueOfGlue()){</b>
+<b class="nc">&nbsp;            isGlueOfGlue = false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    /**
+&nbsp;     * if is posible move the glue to the left with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isPosibleLeftTilt(){
+<b class="pc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleLeftTilt();</b>
+&nbsp;        else{
+<b class="pc">&nbsp;            if (noMove) return false;</b>
+<b class="fc">&nbsp;            ArrayList&lt;Integer[]&gt; leftPositionTiles = leftPositionTiles();</b>
+&nbsp;            int row;
+&nbsp;            int col;
+<b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="fc">&nbsp;            for (Integer [] positions: leftPositionTiles){</b>
+<b class="fc">&nbsp;                row = positions[0];</b>
+<b class="fc">&nbsp;                col = positions[1];</b>
+<b class="pc">&nbsp;                if (col &lt;= 0 || board[row][col-1] != null){</b>
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * if is posible move the glue to the down with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isPosibleDownTilt(){
+<b class="nc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleDownTilt();</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            if (noMove) return false;</b>
+<b class="nc">&nbsp;            ArrayList&lt;Integer[]&gt; downPositionTiles = downPositionTiles();</b>
+&nbsp;            int row;
+&nbsp;            int col;
+<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="nc">&nbsp;            for (Integer [] positions: downPositionTiles){</b>
+<b class="nc">&nbsp;                row = positions[0];</b>
+<b class="nc">&nbsp;                col = positions[1];</b>
+<b class="nc">&nbsp;                if (row &gt;= height-1 || board[row+1][col] != null){</b>
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * if is posible move the glue to the up with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isPosibleUpTilt(){
+<b class="nc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleUpTilt();</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            if (noMove) return false;</b>
+<b class="nc">&nbsp;            ArrayList&lt;Integer[]&gt; upPositionTiles = upPositionTiles();</b>
+&nbsp;            int row;
+&nbsp;            int col;
+<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="nc">&nbsp;            for (Integer [] positions: upPositionTiles){</b>
+<b class="nc">&nbsp;                row = positions[0];</b>
+<b class="nc">&nbsp;                col = positions[1];</b>
+<b class="nc">&nbsp;                if (row &lt;= 0 ||  board[row-1][col] != null){</b>
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * if is posible move the glue to the right with a tilt.
+&nbsp;     * @return boolean, true if you can move, false if not.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean isPosibleRightTilt(){
+<b class="nc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleRightTilt();</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            if (noMove) return false;</b>
+<b class="nc">&nbsp;            ArrayList&lt;Integer[]&gt; rightPositionTiles = rightPositionTiles();</b>
+&nbsp;            int row;
+&nbsp;            int col;
+<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="nc">&nbsp;            for (Integer [] positions: rightPositionTiles){</b>
+<b class="nc">&nbsp;                row = positions[0];</b>
+<b class="nc">&nbsp;                col = positions[1];</b>
+<b class="nc">&nbsp;                if (col == width-1 || board[row][col+1] != null){</b>
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * tilt the glue to left.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void tiltLeft(){
+<b class="pc">&nbsp;        if (isGlueOfGlue()) glueOfGlue.tiltLeft();</b>
+&nbsp;        else{
+<b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
+<b class="fc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
+<b class="fc">&nbsp;            for (int row = 0; row &lt; height; row++) {</b>
+<b class="fc">&nbsp;                for (int col = 0; col &lt; width; col++) {</b>
+<b class="fc">&nbsp;                    if (glueBoard[row][col] != null) {</b>
+<b class="fc">&nbsp;                        startingMatriz[row][col - 1] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                        glueMatriz[row][col - 1] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                        glueMatriz[row][col] = &#39;\u0000&#39;;</b>
+<b class="fc">&nbsp;                        board[row][col - 1] = board[row][col];</b>
+<b class="fc">&nbsp;                        glueBoard[row][col - 1] = board[row][col];</b>
+<b class="fc">&nbsp;                        glueBoard[row][col] = null;</b>
+<b class="fc">&nbsp;                        board[row][col] = null;</b>
+<b class="fc">&nbsp;                        board[row][col - 1].puzzleMoveHorizontal(-1);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            glueDeleteInHole();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * tilt the glue to down.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void tiltDown(){
+<b class="nc">&nbsp;        if (isGlueOfGlue() &amp;&amp; getGlueOfGlue()!= null) glueOfGlue.tiltDown();</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
+<b class="nc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
+<b class="nc">&nbsp;            for (int row = height-1; row &gt;= 0; row--) {</b>
+<b class="nc">&nbsp;                for (int col = 0; col &lt; width; col++) {</b>
+<b class="nc">&nbsp;                    if (glueBoard[row][col] != null) {</b>
+<b class="nc">&nbsp;                        startingMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;                        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                        glueMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;                        glueMatriz[row][col] = &#39;\u0000&#39;;</b>
+<b class="nc">&nbsp;                        board[row+1][col] = board[row][col];</b>
+<b class="nc">&nbsp;                        glueBoard[row+1][col] = board[row][col];</b>
+<b class="nc">&nbsp;                        glueBoard[row][col] = null;</b>
+<b class="nc">&nbsp;                        board[row][col] = null;</b>
+<b class="nc">&nbsp;                        board[row+1][col].puzzleMoveVertical(1);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            glueDeleteInHole();</b>
+&nbsp;        }
+&nbsp;    } 
+&nbsp;    /**
+&nbsp;     * tilt the glue to up.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void tiltUp(){
+<b class="nc">&nbsp;        if (isGlueOfGlue()) glueOfGlue.tiltUp();</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
+<b class="nc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
+<b class="nc">&nbsp;            for (int row = 0; row&lt; height; row++) {</b>
+<b class="nc">&nbsp;                for (int col = 0; col &lt; width; col++) {</b>
+<b class="nc">&nbsp;                    if (glueBoard[row][col] != null) {</b>
+<b class="nc">&nbsp;                        startingMatriz[row-1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;                        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                        glueMatriz[row-1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;                        glueMatriz[row][col] = &#39;\u0000&#39;;</b>
+<b class="nc">&nbsp;                        board[row-1][col] = board[row][col];</b>
+<b class="nc">&nbsp;                        glueBoard[row-1][col] = board[row][col];</b>
+<b class="nc">&nbsp;                        glueBoard[row][col] = null;</b>
+<b class="nc">&nbsp;                        board[row][col] = null;</b>
+<b class="nc">&nbsp;                        board[row-1][col].puzzleMoveVertical(-1);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            glueDeleteInHole();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * tilt the glue to right.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void tiltRight(){
+<b class="nc">&nbsp;        if (isGlueOfGlue()) glueOfGlue.tiltRight();</b>
+&nbsp;        else{
+<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
+<b class="nc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
+<b class="nc">&nbsp;            for (int row = 0; row &lt; height; row++) {</b>
+<b class="nc">&nbsp;                for (int col = width-1; col &gt;= 0; col--) {</b>
+<b class="nc">&nbsp;                    if (glueBoard[row][col] != null) {</b>
+<b class="nc">&nbsp;                        startingMatriz[row][col + 1] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;                        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="nc">&nbsp;                        glueMatriz[row][col+1] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="nc">&nbsp;                        glueMatriz[row][col] = &#39;\u0000&#39;;</b>
+<b class="nc">&nbsp;                        board[row][col + 1] = board[row][col];</b>
+<b class="nc">&nbsp;                        glueBoard[row][col + 1] = board[row][col];</b>
+<b class="nc">&nbsp;                        glueBoard[row][col] = null;</b>
+<b class="nc">&nbsp;                        board[row][col] = null;</b>
+<b class="nc">&nbsp;                        board[row][col + 1].puzzleMoveHorizontal(1);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            glueDeleteInHole();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-04 14:36</div>
+</div>
+</body>
+</html>

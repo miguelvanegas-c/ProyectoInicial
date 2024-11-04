@@ -1,0 +1,442 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PuzzleTest</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">puzzle</a>
+</div>
+
+<h1>Coverage Summary for Class: PuzzleTest (puzzle)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PuzzleTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (41/41)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (138/138)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package puzzle;
+&nbsp;import static org.junit.Assert.*;
+&nbsp;import org.junit.Before;
+&nbsp;import org.junit.Test;
+&nbsp;
+&nbsp;import static org.junit.jupiter.api.Assertions.assertThrows;
+&nbsp;
+<b class="fc">&nbsp;public class PuzzleTest {</b>
+&nbsp;
+&nbsp;    private Puzzle puzzle;
+&nbsp;
+&nbsp;    @Before
+&nbsp;    public void setUp() {
+&nbsp;        // Creamos un puzzle con configuración inicial
+<b class="fc">&nbsp;        char[][] starting = {</b>
+&nbsp;            {&#39;.&#39;, &#39;r&#39;, &#39;.&#39;},
+&nbsp;            {&#39;b&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;.&#39;, &#39;g&#39;, &#39;m&#39;}
+&nbsp;        };
+&nbsp;        
+<b class="fc">&nbsp;        char[][] ending = {</b>
+&nbsp;            {&#39;r&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;.&#39;, &#39;b&#39;, &#39;.&#39;},
+&nbsp;            {&#39;m&#39;, &#39;.&#39;, &#39;g&#39;}
+&nbsp;        };
+&nbsp;        
+<b class="fc">&nbsp;        puzzle = new Puzzle(starting, ending);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+&nbsp;    //Test of the first two cycles.
+&nbsp;    @Test
+&nbsp;    public void shouldAddTileInPuzzle() {
+<b class="fc">&nbsp;        puzzle.addTile(1, 1, &quot;red&quot;,1); // Agregamos una baldosa roja en la posición 1,1</b>
+<b class="fc">&nbsp;        assertEquals(&#39;r&#39;, puzzle.getStartingMatriz()[0][0]); // Verifica si starting añadió la baldosa.</b>
+<b class="fc">&nbsp;        assertNotNull(puzzle.getBoard()[0][0]); // Verifica si el board añadió la baldosa.</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldValideOutOfRangeException() {
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt; { </b>
+<b class="fc">&nbsp;            puzzle.valideOutOfRange(5,5);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_OUT_RANGE,thrown.getMessage());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotAddTileIfPositionIsOccupied() {
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideEmptySpace(0,1);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        puzzle.addTile(1, 2, &quot;yellow&quot;,1); // Intenta agregar en una posición ocupada</b>
+<b class="fc">&nbsp;        assertNotEquals(&#39;y&#39;, puzzle.getStartingMatriz()[0][1]);</b>
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_SPACE_NO_EMPTY,thrown.getMessage());//verifica que la excepcion lanzada es igual a la esperada</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldDeleteTile() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;blue&quot;,1);</b>
+<b class="fc">&nbsp;        puzzle.deleteTile(2, 2);</b>
+<b class="fc">&nbsp;        assertEquals(&#39;.&#39;, puzzle.getStartingMatriz()[1][1]); // Verifica que la baldosa se eliminó</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldValideThereIsntTileToDelete(){
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileToDelete(1,1);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_NO_TILE_DELETE,thrown.getMessage());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldRelocateTile() {
+<b class="fc">&nbsp;    puzzle.addTile(2, 2, &quot;magenta&quot;,1); // Agregamos una baldosa magenta en la posición (2, 2)</b>
+&nbsp;    
+<b class="fc">&nbsp;    int[] from = {2, 2}; // Posición de origen (2, 2)</b>
+<b class="fc">&nbsp;    int[] to = {1, 1};   // Posición de destino (1, 1)</b>
+&nbsp;
+<b class="fc">&nbsp;    puzzle.relocateTile(from, to); // Movemos la baldosa</b>
+&nbsp;
+&nbsp;    // Verificamos que la baldosa se movió a la nueva posición
+<b class="fc">&nbsp;    assertEquals(&#39;m&#39;, puzzle.getStartingMatriz()[0][0]); // Comprobamos que la baldosa en la posición (1, 1) es &#39;m&#39;</b>
+&nbsp;
+&nbsp;    // Verificamos que la posición original se vació
+<b class="fc">&nbsp;    assertEquals(&#39;.&#39;, puzzle.getStartingMatriz()[1][1]); // Comprobamos que la posición (2, 2) ahora está vacía</b>
+&nbsp;
+&nbsp;    // Verifica que el estado del tablero es correcto
+<b class="fc">&nbsp;    assertNull(puzzle.getBoard()[1][1]); // La posición (2, 2) debería ser nula</b>
+<b class="fc">&nbsp;    assertNotNull(puzzle.getBoard()[0][0]); // La posición (1, 1) debería tener la baldosa</b>
+&nbsp;    }
+&nbsp;   
+&nbsp;    @Test
+&nbsp;    public void shouldNotRelocateBecauseTheTileIsGlued(){
+<b class="fc">&nbsp;        puzzle.addGlue(2,1,1);</b>
+<b class="fc">&nbsp;        int[] from = {1,2};</b>
+<b class="fc">&nbsp;        int[] to = {1,1};</b>
+<b class="fc">&nbsp;        puzzle.relocateTile(from, to);</b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileNoGlued(0,1);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_TILE_GLUED,thrown.getMessage());</b>
+<b class="fc">&nbsp;        assertNotEquals(puzzle.getStartingMatriz()[0][1],&#39;.&#39;);</b>
+<b class="fc">&nbsp;        assertNotEquals(puzzle.getStartingMatriz()[0][0],&#39;r&#39;);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotRelocateBecauseThereIsntTileToRelocate(){
+<b class="fc">&nbsp;        int[] from = {1,1};</b>
+<b class="fc">&nbsp;        int[] to = {1,3};</b>
+<b class="fc">&nbsp;        puzzle.relocateTile(from, to);</b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideNotEmptySpace(0,0);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_SPACE_EMPTY,thrown.getMessage());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldTiltUp() {
+<b class="fc">&nbsp;        puzzle.tilt(&#39;u&#39;);</b>
+<b class="fc">&nbsp;        char[][] expectedBoard = {</b>
+&nbsp;            {&#39;b&#39;, &#39;r&#39;, &#39;m&#39;},
+&nbsp;            {&#39;.&#39;, &#39;g&#39;, &#39;.&#39;},
+&nbsp;            {&#39;.&#39;, &#39;.&#39;, &#39;.&#39;}
+&nbsp;        };
+<b class="fc">&nbsp;        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldTiltDown() {
+<b class="fc">&nbsp;        puzzle.tilt(&#39;d&#39;);</b>
+<b class="fc">&nbsp;        char[][] expectedBoard = {</b>
+&nbsp;            {&#39;.&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;.&#39;, &#39;r&#39;, &#39;.&#39;},
+&nbsp;            {&#39;b&#39;, &#39;g&#39;, &#39;m&#39;}
+&nbsp;        };
+<b class="fc">&nbsp;        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldTiltRight() {
+<b class="fc">&nbsp;        puzzle.tilt(&#39;r&#39;);</b>
+<b class="fc">&nbsp;        char[][] expectedBoard = {</b>
+&nbsp;            {&#39;.&#39;, &#39;.&#39;, &#39;r&#39;},
+&nbsp;            {&#39;.&#39;, &#39;.&#39;, &#39;b&#39;},
+&nbsp;            {&#39;.&#39;, &#39;g&#39;, &#39;m&#39;}
+&nbsp;        };
+<b class="fc">&nbsp;        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldTiltLeft() {
+<b class="fc">&nbsp;        puzzle.tilt(&#39;l&#39;);</b>
+<b class="fc">&nbsp;        char[][] expectedBoard = {</b>
+&nbsp;            {&#39;r&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;b&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;g&#39;, &#39;m&#39;, &#39;.&#39;}
+&nbsp;        };
+<b class="fc">&nbsp;        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldAddGlue() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;red&quot;,1); // Asegúrate de agregar la baldosa primero</b>
+<b class="fc">&nbsp;        puzzle.addGlue(2, 2, 1);  // Añadimos pegamento en la baldosa</b>
+&nbsp;    
+&nbsp;        // Verificamos que la baldosa ahora está pegada
+<b class="fc">&nbsp;        assertTrue(puzzle.getBoard()[1][1].isGluedMidle()); // Verifica el estado de la baldosa</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldCreateGlueOfGlue() {
+<b class="fc">&nbsp;        puzzle.addGlue(2, 1, 1);</b>
+<b class="fc">&nbsp;        puzzle.addGlue(3, 3, 1);</b>
+<b class="fc">&nbsp;        assertTrue(puzzle.getBoard()[1][0].getGlue().isGlueOfGlue());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldReturnTheTilesThatCanNotMove() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;red&quot;,1);</b>
+<b class="fc">&nbsp;        puzzle.addTile(1, 1, &quot;red&quot;,1);</b>
+<b class="fc">&nbsp;        puzzle.addTile(1, 3, &quot;red&quot;,1);</b>
+<b class="fc">&nbsp;        puzzle.addTile(2, 3, &quot;red&quot;,1);</b>
+<b class="fc">&nbsp;        puzzle.addTile(3, 1, &quot;red&quot;,1);</b>
+<b class="fc">&nbsp;        int[][] expectedFixedTiles = {{0,0},{0,1},{0,2},{1,0},{1,1},{1,2},{2,0},{2,1},{2,2}};</b>
+<b class="fc">&nbsp;        assertArrayEquals(expectedFixedTiles, puzzle.fixedTiles());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldNotAddGlueBecauseTheTileIsGluedMidle() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;red&quot;,1); // Asegúrate de agregar la baldosa primero</b>
+<b class="fc">&nbsp;        puzzle.addGlue(2, 2, 1);  // Añadimos pegamento en la baldosa</b>
+<b class="fc">&nbsp;        puzzle.addGlue(2,2,1);</b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,()-&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileNotIsGluedMidle(1,1);       </b>
+&nbsp;        });
+&nbsp;        // Verificamos que la baldosa ahora está pegada
+<b class="fc">&nbsp;        assertTrue(puzzle.getBoard()[1][1].isGluedMidle()); // Verifica el estado de la baldosa</b>
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_TILE_GLUED_MIDLE,thrown.getMessage());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldDeleteGlue() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;blue&quot;,1); // Agregamos una baldosa azul en la posición (2, 2)</b>
+<b class="fc">&nbsp;        puzzle.addGlue(2, 2, 1);  // Añadimos pegamento en la baldosa</b>
+&nbsp;    
+&nbsp;        // Verificamos que la baldosa está pegada antes de eliminar el pegamento
+<b class="fc">&nbsp;        assertTrue(puzzle.getBoard()[1][1].isGluedMidle()); // Verificamos que está pegada (ajustar índices)</b>
+&nbsp;    
+<b class="fc">&nbsp;        puzzle.deleteGlue(2, 2);  // Eliminamos el pegamento</b>
+&nbsp;    
+&nbsp;        // Verificamos que el pegamento se ha eliminado
+<b class="fc">&nbsp;        assertFalse(puzzle.getBoard()[1][1].isGluedMidle()); // Verificamos que ya no está pegada (ajustar índices)</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotDeleteGlueBecauseTheTileNotIsGluedMidle() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;blue&quot;,1); </b>
+<b class="fc">&nbsp;        puzzle.deleteGlue(2, 2);  </b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,()-&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileIsGluedMidle(1,1);       </b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertFalse(puzzle.getBoard()[1][1].isGluedMidle()); </b>
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_TILE_NOT_GLUED_MIDLE,thrown.getMessage());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void ShouldDeleteTileForHoleInTheTilt() {
+<b class="fc">&nbsp;        puzzle.makeHole(1, 3); </b>
+<b class="fc">&nbsp;        puzzle.tilt(&#39;r&#39;);   </b>
+<b class="fc">&nbsp;        assertNull(puzzle.getBoard()[0][2]);  </b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldMakeHole() {
+<b class="fc">&nbsp;        puzzle.makeHole(1, 1); // Creamos un agujero en la posición (1, 1)</b>
+<b class="fc">&nbsp;        assertNotNull(puzzle.getMatrizHole()); // Verificamos que efectivamente hay un agujero en la posición (1, 1)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldTestIntelligentTilt(){
+<b class="fc">&nbsp;        char[][] expectedBoard = {</b>
+&nbsp;            {&#39;r&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;b&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;            {&#39;g&#39;, &#39;m&#39;, &#39;.&#39;}
+&nbsp;        }; 
+<b class="fc">&nbsp;        puzzle.tilt();</b>
+<b class="fc">&nbsp;        assertEquals(expectedBoard, puzzle.getStartingMatriz());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Test
+&nbsp;    public void shouldTestExchange(){
+<b class="fc">&nbsp;        char[][] expectedEnding = {</b>
+&nbsp;                                    {&#39;.&#39;, &#39;r&#39;, &#39;.&#39;},
+&nbsp;                                    {&#39;b&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;                                    {&#39;.&#39;, &#39;g&#39;, &#39;m&#39;}
+&nbsp;                                                     };
+<b class="fc">&nbsp;        char[][] expectedStarting = {</b>
+&nbsp;                                        {&#39;r&#39;, &#39;.&#39;, &#39;.&#39;},
+&nbsp;                                        {&#39;.&#39;, &#39;b&#39;, &#39;.&#39;},
+&nbsp;                                        {&#39;m&#39;, &#39;.&#39;, &#39;g&#39;}
+&nbsp;                                                        };
+<b class="fc">&nbsp;        puzzle.exchange();</b>
+<b class="fc">&nbsp;        assertArrayEquals(expectedEnding, puzzle.getEndingMatriz());</b>
+<b class="fc">&nbsp;        assertArrayEquals(expectedStarting, puzzle.getStartingMatriz());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    //Test cycle 4
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotRelocateBecauseTheTileIsFixed(){
+<b class="fc">&nbsp;        puzzle.addTile(1,1,&quot;blue&quot;,2);</b>
+<b class="fc">&nbsp;        int[] from = {1,1};</b>
+<b class="fc">&nbsp;        int[] to = {1,3};</b>
+<b class="fc">&nbsp;        puzzle.relocateTile(from, to);</b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileNoFixed(0,0);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_TILE_FIXED,thrown.getMessage());</b>
+<b class="fc">&nbsp;        assertNotEquals(puzzle.getStartingMatriz()[0][0],&#39;.&#39;);</b>
+<b class="fc">&nbsp;        assertNotEquals(puzzle.getStartingMatriz()[0][2],&#39;b&#39;);</b>
+&nbsp;    }    
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotDeleteTileBecauseTheTileIsFixed() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;blue&quot;,2);</b>
+<b class="fc">&nbsp;        puzzle.deleteTile(2, 2);</b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,() -&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileNoFixed(1,1);</b>
+&nbsp;        });
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_TILE_FIXED,thrown.getMessage());</b>
+<b class="fc">&nbsp;        assertNotEquals(&#39;.&#39;, puzzle.getStartingMatriz()[1][1]); // Verifica que la baldosa se eliminó</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotMoveTileBecauseIsRough(){
+<b class="fc">&nbsp;        puzzle.addTile(1,1,&quot;blue&quot;,3);</b>
+<b class="fc">&nbsp;        puzzle.tilt(&#39;r&#39;);</b>
+<b class="fc">&nbsp;        assertEquals(&#39;b&#39;, puzzle.getStartingMatriz()[0][0]);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void shouldNotAddGlueBecauseTheTileIsfreelance() {
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;red&quot;,4); // Asegúrate de agregar la baldosa primero</b>
+<b class="fc">&nbsp;        puzzle.addGlue(2, 2, 1);  // Añadimos pegamento en la baldosa</b>
+<b class="fc">&nbsp;        PuzzleException thrown = assertThrows(PuzzleException.class,()-&gt;{</b>
+<b class="fc">&nbsp;            puzzle.valideTileNotFreelanceOrFlying(1,1);       </b>
+&nbsp;        });
+&nbsp;        // Verificamos que la baldosa ahora está pegada
+<b class="fc">&nbsp;        assertFalse(puzzle.getBoard()[1][1].isGluedMidle()); // Verifica el estado de la baldosa</b>
+<b class="fc">&nbsp;        assertEquals(PuzzleException.ERROR_TILE_FREELANCE_FLYING,thrown.getMessage());</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void ShouldNotDeleteFlyingTileForHoleInTheTilt() {
+<b class="fc">&nbsp;        puzzle.addTile(1,1,&quot;yellow&quot;,5);</b>
+<b class="fc">&nbsp;        puzzle.makeHole(1, 3); </b>
+<b class="fc">&nbsp;        puzzle.tilt(&#39;r&#39;);   </b>
+<b class="fc">&nbsp;        assertEquals(puzzle.getStartingMatriz()[0][2],&#39;y&#39;);  </b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test
+&nbsp;    public void ShouldMoveJustOneTimeTheSuperFragilTile(){
+<b class="fc">&nbsp;        puzzle.deleteTile(2,1);</b>
+<b class="fc">&nbsp;        puzzle.addTile(1,1,&quot;red&quot;,6);</b>
+<b class="fc">&nbsp;        puzzle.tilt(&#39;d&#39;);</b>
+<b class="fc">&nbsp;        assertNotNull(puzzle.getBoard()[1][0]);</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    @Test 
+&nbsp;    public void shouldNotMoveFragilGlue(){
+<b class="fc">&nbsp;        puzzle.deleteTile(2,1);</b>
+<b class="fc">&nbsp;        puzzle.addTile(2, 2, &quot;red&quot;,1); </b>
+<b class="fc">&nbsp;        puzzle.addGlue(2, 2, 2);</b>
+<b class="fc">&nbsp;        puzzle.tilt(&#39;l&#39;);</b>
+<b class="fc">&nbsp;        puzzle.tilt(&#39;r&#39;);</b>
+<b class="fc">&nbsp;        assertEquals(puzzle.getStartingMatriz()[1][0],&#39;r&#39;); </b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-04 14:36</div>
+</div>
+</body>
+</html>
