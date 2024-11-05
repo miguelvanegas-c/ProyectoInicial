@@ -36,13 +36,13 @@ public class Canvas{
 
     //  ----- instance part -----
 
-    private JFrame frame;
-    private CanvasPane canvas;
+    private final JFrame frame;
+    private final CanvasPane canvas;
     private Graphics2D graphic;
-    private Color backgroundColour;
+    private final Color backgroundColour;
     private Image canvasImage;
-    private List <Object> objects;
-    private HashMap <Object,ShapeDescription> shapes;
+    private final List <Object> objects;
+    private final HashMap <Object,ShapeDescription> shapes;
     
     /**
      * Create a Canvas.
@@ -187,8 +187,8 @@ public class Canvas{
      * refresh the image drawn on it.
      */
     private class ShapeDescription{
-        private Shape shape;
-        private String colorString;
+        private final Shape shape;
+        private final String colorString;
 
         public ShapeDescription(Shape shape, String color){
             this.shape = shape;

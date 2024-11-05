@@ -15,10 +15,10 @@ public class Glue extends GeneralGlue{
     private boolean isGlueOfGlue;
     /**
      * Constructor for objects of class CuadrosPegados
-     * @param, matriz of the board.
-     * @param, board.
-     * @param, row of the midle
-     * @param, colum of the midle
+     * @param matriz, matriz of the board.
+     * @param board, board of the puzzle.
+     * @param row, row of the midle
+     * @param colum, colum of the midle
      */
     public Glue(char[][] matriz, Tile[][] board,int row,int colum, int height, int width,Puzzle puzzle){
         this.puzzle = puzzle;
@@ -88,7 +88,7 @@ public class Glue extends GeneralGlue{
     
     /**
      * Create a glueOfGlue with this and another glue.
-     * @param the gluedmidle of the othe glue.
+     * @param gluedMidleOld, gluedmidle of the othe glue.
      */
     private void createGlueOfGlue(Set<Tile> gluedMidleOld){
         boolean banderaFirstOperation = true; 

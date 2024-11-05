@@ -11,8 +11,8 @@ import java.util.HashSet;
  * @version 1.5
  */
 public class GlueOfGlue extends GeneralGlue{
-    private Set<Tile> gluedMidles = new HashSet<>();
-    private ArrayList<Glue> glues = new ArrayList<>();
+    private final Set<Tile> gluedMidles = new HashSet<>();
+    private final ArrayList<Glue> glues = new ArrayList<>();
     
     /**
      * Constructor for objects of class GlueOfGlue

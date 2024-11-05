@@ -386,7 +386,7 @@ public class Puzzle
      * draw the boards on the screen
      */
     public void makeVisible(){
-        if (isVisible == false){
+        if (!isVisible){
             base.makeVisible();
             baseEnding.makeVisible();
             for(int row = 0; row < height; row+=1){
@@ -642,7 +642,7 @@ public class Puzzle
                 }
             }
         }
-        makeNomovedFragilGlue();
+        deleteFragilGlue();
         matrizPegados = createMatrizPegados();
         finish();
     }
@@ -691,7 +691,7 @@ public class Puzzle
                 }
             }
         }
-        makeNomovedFragilGlue();
+        deleteFragilGlue();
         matrizPegados = createMatrizPegados();
         finish();
     }
@@ -740,7 +740,7 @@ public class Puzzle
                 }
             }
         }
-        makeNomovedFragilGlue();
+        deleteFragilGlue();
         matrizPegados = createMatrizPegados();
         finish();
     }
@@ -789,7 +789,7 @@ public class Puzzle
                 }
             }
         }
-        makeNomovedFragilGlue();
+        deleteFragilGlue();
         matrizPegados = createMatrizPegados();
         finish();
     }
@@ -805,13 +805,11 @@ public class Puzzle
     /*
      * Make that a fragilGlue can´t move.
      */
-    private void makeNomovedFragilGlue(){
+    private void deleteFragilGlue(){
         for (int row = 0; row< height; row++) {
             for (int col = 0; col < width-1; col++) {
                 if (board[row][col] != null && board[row][col].isGluedMidle() && board[row][col].getGlue() instanceof FragilGlue){
-                    Glue glue = board[row][col].getGlue();
-                    FragilGlue fragilGlue = (FragilGlue) glue;
-                    fragilGlue.makeNoMove();
+                    deleteGlue(row+1,col+1);
                 }
             }
         }

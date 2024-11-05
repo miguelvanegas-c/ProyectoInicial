@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class PuzzleContest{
-    private static char [][] ciclos = {{'r','u','l','d','r'},
+    private static final char [][] ciclos = {{'r','u','l','d','r'},
                                        {'r','d','l','u','r'},
                                        {'l','u','r','d','l'},
                                        {'l','d','r','u','l'},
@@ -32,11 +32,7 @@ public class PuzzleContest{
      * @return boolean, true if the puzzle can be solved and false if the puzzle can´t be solved.
      */
     public boolean solve(char [][] starting, char [][] ending){
-        if (cicloFinal(starting,ending) != null){
-            return true;
-        }else{
-            return false;
-        }
+        return cicloFinal(starting, ending) != null;
     }
     
     /*
@@ -89,6 +85,7 @@ public class PuzzleContest{
                                           "¡Final!", 
                                            JOptionPane.ERROR_MESSAGE);
         }
+        puzzle.makeInvisible();
     }
     
     /*

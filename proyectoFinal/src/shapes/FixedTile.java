@@ -7,7 +7,7 @@ import puzzle.*;
  * @version 1.0
  */
 public class FixedTile extends Tile{
-    private  Tile[] representacionGrafica = new Tile[2];
+    private final Tile[] representacionGrafica = new Tile[2];
     
     /**
      * Constructor of a fixedTile.

@@ -1,7 +1,9 @@
-package puzzle;
+package Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+import puzzle.PuzzleContest;
+
 /**
  * That class is gonna test all the case of solve, with a lot of the cycles defined in PuzzleContest
  * Class.
