@@ -5,10 +5,21 @@ El puzzle esta compuesto por diferentes tipo de baldosas, y diferentes tipos de 
 
 ## Pruebas De Aceptacion
 
-Las pruebas de aceptacion son dos, las dos se encuentran en la clase Main y una se llama acceptanceTestSolveAndSimulateThePuzzleByMiguel() y la otra se llama acceptanceTestGlueByAllan(), las dos pruebas se van a correr consecutivamente. Se puede ejecutar desde consola parandose desde el directorio y con el comando (java -cp bin puzzle.Main) o desde un IDE ejecutando la clase Main.
-La prueba acceptanceTestSolveAndSimulateThePuzzleByMiguel() quiere probar el requisito de funcionalidad en el que se exigia que el puzzle debia resolverse solo y simularse, por lo tanto se creo la siguiente historia:
-El usuario desea probar que el puzzle en verdad puede llegar a una solucion, fuera de las propuestan en el testeo, por lo tanto decide crear un puzzle con baldosas bastante dispersas, despues de crearlo realiza varios movimiento y guarda la matriz del estado actual del puzzle. El usuario decide crear un puzzle contest para comprobar que va ser capaz de llegar de la matriz inicial a la actual del puzzle. No conforme aun desea probar mas el simulador, por lo tanto ahora el usuario probara algunos de los casos de prueba de la maraton de programacion del 2023. Despues de simularlo el usuario queda conforme con la funcionalidad de la simulacion ya que arrojo los mismos resultados que se exigian en la maraton. 
-
+Las pruebas de aceptacion son dos, las dos se encuentran en la clase Main y una se llama acceptanceTestSolveAndSimulateThePuzzleByMiguel() y la otra se llama 
+acceptanceTestGlueByAllan(), las dos pruebas se van a correr consecutivamente. 
+Se puede ejecutar desde consola parandose desde el directorio y con el comando (java -cp bin puzzle.Main) o desde un IDE ejecutando la clase Main.
+### acceptanceTestSolveAndSimulateThePuzzleByMiguel()
+El ususario desea probar el requisito de funcionalidad en el que se exigia que el puzzle debia resolverse solo y simularse, por lo tanto se creo la siguiente historia:
+El usuario desea probar que el puzzle en verdad puede llegar a una solucion, fuera de las propuestan en el testeo, 
+por lo tanto decide crear un puzzle con baldosas bastante dispersas, despues de crearlo realiza varios movimiento y 
+guarda la matriz del estado actual del puzzle. El usuario decide crear un puzzle contest para comprobar que va ser capaz 
+de llegar de la matriz inicial a la actual del puzzle. No conforme aun desea probar mas el simulador, por lo tanto ahora 
+el usuario probara algunos de los casos de prueba de la maraton de programacion del 2023. Despues de simularlo el usuario 
+queda conforme con la funcionalidad de la simulacion ya que arrojo los mismos resultados que se exigian en la maraton. 
+### acceptanceTestAllTheGlueByAllan()
+El usuario desea probar algunos de los glues, por lo tanto primero crea un puzzle bastante grande y con baldosas en varios lados, acto seguido 
+empieza a ladearlo y termina poniendo un pegante, lo mueve un poco mas y decide poner otro que se pegue con el ya existente despues de moverlos un rato decide eliminar los pegantes
+y decide poner ahora un pegante fragil, y lo mueve una vez para comprobar su funcionalidad, ya sabiendo que funciona 
 
 
 ## Informe de analisis dinamico
@@ -456,7 +467,7 @@ Gracias a estos cambios, se logró una serie de beneficios en el proyecto:
 
 ## Authors
 
-* **Miguel Angel Vanegas Cardenas y Allan Steef Contreras** - *GitHub link* - [PurpleBooth](https://github.com/miguelvanegas-c/ProyectoInicial)
+* **Miguel Angel Vanegas Cardenas y Allan Steef Contreras** - *GitHub link* - [ProyectoInicial](https://github.com/miguelvanegas-c/ProyectoInicial)
 
 
 
