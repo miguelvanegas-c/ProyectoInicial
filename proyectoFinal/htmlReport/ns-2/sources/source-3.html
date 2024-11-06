@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66,7%
+    85,7%
   </span>
   <span class="absValue">
-    (14/21)
+    (18/21)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    40,6%
+    64,8%
   </span>
   <span class="absValue">
-    (52/128)
+    (83/128)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    44,1%
+    70%
   </span>
   <span class="absValue">
-    (75/170)
+    (119/170)
   </span>
 </td>
 </tr>
@@ -252,18 +252,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public boolean isPosibleLeftTilt(){
-<b class="nc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleLeftTilt();</b>
+<b class="fc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleLeftTilt();</b>
 &nbsp;        else{
-<b class="nc">&nbsp;            if (noMove) return false;</b>
-<b class="nc">&nbsp;            ArrayList&lt;Integer[]&gt; leftPositionTiles = leftPositionTiles();</b>
+<b class="pc">&nbsp;            if (noMove) return false;</b>
+<b class="fc">&nbsp;            ArrayList&lt;Integer[]&gt; leftPositionTiles = leftPositionTiles();</b>
 &nbsp;            int row;
 &nbsp;            int col;
-<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
-<b class="nc">&nbsp;            for (Integer [] positions: leftPositionTiles){</b>
-<b class="nc">&nbsp;                row = positions[0];</b>
-<b class="nc">&nbsp;                col = positions[1];</b>
-<b class="nc">&nbsp;                if (col &lt;= 0 || board[row][col-1] != null){</b>
-<b class="nc">&nbsp;                    return false;</b>
+<b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="pc">&nbsp;            for (Integer [] positions: leftPositionTiles){</b>
+<b class="fc">&nbsp;                row = positions[0];</b>
+<b class="fc">&nbsp;                col = positions[1];</b>
+<b class="pc">&nbsp;                if (col &lt;= 0 || board[row][col-1] != null){</b>
+<b class="fc">&nbsp;                    return false;</b>
 &nbsp;                }
 &nbsp;            }
 <b class="nc">&nbsp;            return true;</b>
@@ -275,21 +275,21 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public boolean isPosibleDownTilt(){
-<b class="nc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleDownTilt();</b>
+<b class="fc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleDownTilt();</b>
 &nbsp;        else{
-<b class="nc">&nbsp;            if (noMove) return false;</b>
-<b class="nc">&nbsp;            ArrayList&lt;Integer[]&gt; downPositionTiles = downPositionTiles();</b>
+<b class="pc">&nbsp;            if (noMove) return false;</b>
+<b class="fc">&nbsp;            ArrayList&lt;Integer[]&gt; downPositionTiles = downPositionTiles();</b>
 &nbsp;            int row;
 &nbsp;            int col;
-<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
-<b class="nc">&nbsp;            for (Integer [] positions: downPositionTiles){</b>
-<b class="nc">&nbsp;                row = positions[0];</b>
-<b class="nc">&nbsp;                col = positions[1];</b>
-<b class="nc">&nbsp;                if (row &gt;= height-1 || board[row+1][col] != null){</b>
-<b class="nc">&nbsp;                    return false;</b>
+<b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="fc">&nbsp;            for (Integer [] positions: downPositionTiles){</b>
+<b class="fc">&nbsp;                row = positions[0];</b>
+<b class="fc">&nbsp;                col = positions[1];</b>
+<b class="pc">&nbsp;                if (row &gt;= height-1 || board[row+1][col] != null){</b>
+<b class="fc">&nbsp;                    return false;</b>
 &nbsp;                }
 &nbsp;            }
-<b class="nc">&nbsp;            return true;</b>
+<b class="fc">&nbsp;            return true;</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;    /**
@@ -298,18 +298,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public boolean isPosibleUpTilt(){
-<b class="nc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleUpTilt();</b>
+<b class="fc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleUpTilt();</b>
 &nbsp;        else{
-<b class="nc">&nbsp;            if (noMove) return false;</b>
-<b class="nc">&nbsp;            ArrayList&lt;Integer[]&gt; upPositionTiles = upPositionTiles();</b>
+<b class="pc">&nbsp;            if (noMove) return false;</b>
+<b class="fc">&nbsp;            ArrayList&lt;Integer[]&gt; upPositionTiles = upPositionTiles();</b>
 &nbsp;            int row;
 &nbsp;            int col;
-<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
-<b class="nc">&nbsp;            for (Integer [] positions: upPositionTiles){</b>
-<b class="nc">&nbsp;                row = positions[0];</b>
-<b class="nc">&nbsp;                col = positions[1];</b>
-<b class="nc">&nbsp;                if (row &lt;= 0 ||  board[row-1][col] != null){</b>
-<b class="nc">&nbsp;                    return false;</b>
+<b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard();</b>
+<b class="pc">&nbsp;            for (Integer [] positions: upPositionTiles){</b>
+<b class="fc">&nbsp;                row = positions[0];</b>
+<b class="fc">&nbsp;                col = positions[1];</b>
+<b class="pc">&nbsp;                if (row &lt;= 0 ||  board[row-1][col] != null){</b>
+<b class="fc">&nbsp;                    return false;</b>
 &nbsp;                }
 &nbsp;            }
 <b class="nc">&nbsp;            return true;</b>
@@ -321,7 +321,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public boolean isPosibleRightTilt(){
-<b class="pc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleRightTilt();</b>
+<b class="fc">&nbsp;        if (isGlueOfGlue()) return glueOfGlue.isPosibleRightTilt();</b>
 &nbsp;        else{
 <b class="pc">&nbsp;            if (noMove) return false;</b>
 <b class="fc">&nbsp;            ArrayList&lt;Integer[]&gt; rightPositionTiles = rightPositionTiles();</b>
@@ -370,26 +370,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public void tiltDown(){
-<b class="nc">&nbsp;        if (isGlueOfGlue() &amp;&amp; getGlueOfGlue()!= null) glueOfGlue.tiltDown();</b>
+<b class="pc">&nbsp;        if (isGlueOfGlue() &amp;&amp; getGlueOfGlue()!= null) glueOfGlue.tiltDown();</b>
 &nbsp;        else{
-<b class="nc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
-<b class="nc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
-<b class="nc">&nbsp;            for (int row = height-1; row &gt;= 0; row--) {</b>
-<b class="nc">&nbsp;                for (int col = 0; col &lt; width; col++) {</b>
-<b class="nc">&nbsp;                    if (glueBoard[row][col] != null) {</b>
-<b class="nc">&nbsp;                        startingMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
-<b class="nc">&nbsp;                        startingMatriz[row][col] = &#39;.&#39;;</b>
-<b class="nc">&nbsp;                        glueMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
-<b class="nc">&nbsp;                        glueMatriz[row][col] = &#39;\u0000&#39;;</b>
-<b class="nc">&nbsp;                        board[row+1][col] = board[row][col];</b>
-<b class="nc">&nbsp;                        glueBoard[row+1][col] = board[row][col];</b>
-<b class="nc">&nbsp;                        glueBoard[row][col] = null;</b>
-<b class="nc">&nbsp;                        board[row][col] = null;</b>
-<b class="nc">&nbsp;                        board[row+1][col].puzzleMoveVertical(1);</b>
+<b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
+<b class="fc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
+<b class="fc">&nbsp;            for (int row = height-1; row &gt;= 0; row--) {</b>
+<b class="fc">&nbsp;                for (int col = 0; col &lt; width; col++) {</b>
+<b class="fc">&nbsp;                    if (glueBoard[row][col] != null) {</b>
+<b class="fc">&nbsp;                        startingMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                        startingMatriz[row][col] = &#39;.&#39;;</b>
+<b class="fc">&nbsp;                        glueMatriz[row+1][col] = puzzle.colorToChar(board[row][col].getColor());</b>
+<b class="fc">&nbsp;                        glueMatriz[row][col] = &#39;\u0000&#39;;</b>
+<b class="fc">&nbsp;                        board[row+1][col] = board[row][col];</b>
+<b class="fc">&nbsp;                        glueBoard[row+1][col] = board[row][col];</b>
+<b class="fc">&nbsp;                        glueBoard[row][col] = null;</b>
+<b class="fc">&nbsp;                        board[row][col] = null;</b>
+<b class="fc">&nbsp;                        board[row+1][col].puzzleMoveVertical(1);</b>
 &nbsp;                    }
 &nbsp;                }
 &nbsp;            }
-<b class="nc">&nbsp;            glueDeleteInHole();</b>
+<b class="fc">&nbsp;            glueDeleteInHole();</b>
 &nbsp;        }
 &nbsp;    } 
 &nbsp;    /**
@@ -424,7 +424,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    @Override
 &nbsp;    public void tiltRight(){
-<b class="pc">&nbsp;        if (isGlueOfGlue()) glueOfGlue.tiltRight();</b>
+<b class="fc">&nbsp;        if (isGlueOfGlue()) glueOfGlue.tiltRight();</b>
 &nbsp;        else{
 <b class="fc">&nbsp;            Tile [][] board = puzzle.getBoard(); </b>
 <b class="fc">&nbsp;            char [][] startingMatriz = puzzle.getStartingMatriz();</b>
@@ -471,7 +471,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-11-05 18:31</div>
+    <div style="float:right;">generated on 2024-11-05 20:45</div>
 </div>
 </body>
 </html>

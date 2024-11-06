@@ -150,7 +150,133 @@ public class PuzzleTest {
         };
         assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
     }
-    
+
+    @Test
+    public void shouldTiltDownWithGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(1,1,"magenta",1);
+        puzzle.addGlue(1,1,1);
+        char[][] expectedBoard = {
+                {'.', '.', '.'},
+                {'m', 'r', '.'},
+                {'b', '.', '.'}
+        };
+        puzzle.tilt('d');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+
+    @Test
+    public void shouldTiltLeftWithGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(2,2,"magenta",1);
+        puzzle.addGlue(2,2,1);
+        char[][] expectedBoard = {
+                {'.', 'r', '.'},
+                {'b', 'm', '.'},
+                {'.', '.', '.'}
+        };
+        puzzle.tilt('l');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+
+    @Test
+    public void shouldTiltRightWithGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(1,1,"magenta",1);
+        puzzle.addGlue(1,1,1);
+        char[][] expectedBoard = {
+                {'.', 'm', 'r'},
+                {'.', 'b', '.'},
+                {'.', '.', '.'}
+        };
+        puzzle.tilt('r');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+
+    @Test
+    public void shouldTiltUpWithGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(2,2,"magenta",1);
+        puzzle.addGlue(2,2,1);
+        char[][] expectedBoard = {
+                {'.', 'r', '.'},
+                {'b', 'm', '.'},
+                {'.', '.', '.'}
+        };
+        puzzle.tilt('u');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+    @Test
+    public void shouldTiltDownWithGlueOfGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(1,1,"magenta",1);
+        puzzle.addTile(1,3,"yellow",1);
+        puzzle.addGlue(1,1,1);
+        puzzle.addGlue(1,2,1);
+        char[][] expectedBoard = {
+                {'.', '.', '.'},
+                {'m', 'r', 'y'},
+                {'b', '.', '.'}
+        };
+        puzzle.tilt('d');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+
+    @Test
+    public void shouldTiltLeftWithGlueOfGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(2,2,"magenta",1);
+        puzzle.addTile(3,3,"magenta",1);
+        puzzle.addGlue(2,1,1);
+        puzzle.addGlue(2,2,1);
+        char[][] expectedBoard = {
+                {'.', 'r', '.'},
+                {'b', 'm', '.'},
+                {'.', '.', 'm'}
+        };
+        puzzle.tilt('l');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+
+    @Test
+    public void shouldTiltRightWithGlueOfGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(1,1,"magenta",1);
+        puzzle.addTile(3,1,"magenta",1);
+        puzzle.addGlue(1,1,1);
+        puzzle.addGlue(2,1,1);
+        char[][] expectedBoard = {
+                {'.', 'm', 'r'},
+                {'.', 'b', '.'},
+                {'.', 'm', '.'}
+        };
+        puzzle.tilt('r');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
+
+    @Test
+    public void shouldTiltUpWithGlueOfGlue() {
+        puzzle.deleteTile(3,2);
+        puzzle.deleteTile(3,3);
+        puzzle.addTile(2,2,"magenta",1);
+        puzzle.addTile(2,3,"yellow",1);
+        puzzle.addGlue(2,1,1);
+        puzzle.addGlue(2,2,1);
+        char[][] expectedBoard = {
+                {'.', 'r', '.'},
+                {'b', 'm', 'y'},
+                {'.', '.', '.'}
+        };
+        puzzle.tilt('u');
+        assertArrayEquals(expectedBoard, puzzle.getStartingMatriz());
+    }
     @Test
     public void shouldAddGlue() {
         puzzle.addTile(2, 2, "red",1);
@@ -321,4 +447,5 @@ public class PuzzleTest {
         puzzle.tilt('r');
         assertFalse(puzzle.getBoard()[0][1].isGluedMidle());
     }
+
 }

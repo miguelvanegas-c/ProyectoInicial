@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    57,1%
+    100%
   </span>
   <span class="absValue">
-    (4/7)
+    (7/7)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    27,6%
+    82,9%
   </span>
   <span class="absValue">
-    (21/76)
+    (63/76)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    33,3%
+    86,3%
   </span>
   <span class="absValue">
-    (17/51)
+    (44/51)
   </span>
 </td>
 </tr>
@@ -111,19 +111,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return ArrayList&lt;Integer[]&gt;, list of the border.
 &nbsp;     */
 &nbsp;    protected ArrayList&lt;Integer[]&gt; leftPositionTiles(){
-<b class="nc">&nbsp;        ArrayList&lt;Integer[]&gt; leftPositionTiles = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;        for (int fila = 0;  fila &lt; height ; fila ++){</b>
-<b class="nc">&nbsp;            for (int columna = 0; columna &lt; width ; columna ++){</b>
-<b class="nc">&nbsp;                if ((columna == 0 &amp; glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null &amp;&amp; columna-1 &gt;= 0 &amp;&amp; glueBoard[fila][columna-1] == null)){</b>
-<b class="nc">&nbsp;                    Integer filaInt = fila;</b>
-<b class="nc">&nbsp;                    Integer columnaInt = columna;</b>
-<b class="nc">&nbsp;                    Integer[] arreglo ={filaInt,columnaInt};</b>
-<b class="nc">&nbsp;                    leftPositionTiles.add(arreglo);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Integer[]&gt; leftPositionTiles = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int fila = 0;  fila &lt; height ; fila ++){</b>
+<b class="fc">&nbsp;            for (int columna = 0; columna &lt; width ; columna ++){</b>
+<b class="pc">&nbsp;                if ((columna == 0 &amp; glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null &amp;&amp; columna-1 &gt;= 0 &amp;&amp; glueBoard[fila][columna-1] == null)){</b>
+<b class="fc">&nbsp;                    Integer filaInt = fila;</b>
+<b class="fc">&nbsp;                    Integer columnaInt = columna;</b>
+<b class="fc">&nbsp;                    Integer[] arreglo ={filaInt,columnaInt};</b>
+<b class="fc">&nbsp;                    leftPositionTiles.add(arreglo);</b>
 &nbsp;                }
 &nbsp;                    
 &nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        return leftPositionTiles;</b>
+<b class="fc">&nbsp;        return leftPositionTiles;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * find the right border of a glue.
@@ -148,37 +148,37 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return ArrayList&lt;Integer[]&gt;, list of the border.
 &nbsp;     */
 &nbsp;    protected ArrayList&lt;Integer[]&gt; downPositionTiles(){
-<b class="nc">&nbsp;        ArrayList&lt;Integer[]&gt; downPositionTiles = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;        for (int fila = 0;  fila &lt; height ; fila ++){</b>
-<b class="nc">&nbsp;            for (int columna = 0; columna &lt; width ; columna ++){</b>
-<b class="nc">&nbsp;                if ((fila == height -1 &amp; glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null &amp;&amp; fila+1 &lt; height &amp;&amp; glueBoard[fila+1][columna] == null)){</b>
-<b class="nc">&nbsp;                    Integer filaInt = fila;</b>
-<b class="nc">&nbsp;                    Integer columnaInt = columna;</b>
-<b class="nc">&nbsp;                    Integer[] arreglo ={filaInt,columnaInt};</b>
-<b class="nc">&nbsp;                    downPositionTiles.add(arreglo);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Integer[]&gt; downPositionTiles = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int fila = 0;  fila &lt; height ; fila ++){</b>
+<b class="fc">&nbsp;            for (int columna = 0; columna &lt; width ; columna ++){</b>
+<b class="pc">&nbsp;                if ((fila == height -1 &amp; glueBoard[fila][columna] != null) ||(glueBoard[fila][columna] != null &amp;&amp; fila+1 &lt; height &amp;&amp; glueBoard[fila+1][columna] == null)){</b>
+<b class="fc">&nbsp;                    Integer filaInt = fila;</b>
+<b class="fc">&nbsp;                    Integer columnaInt = columna;</b>
+<b class="fc">&nbsp;                    Integer[] arreglo ={filaInt,columnaInt};</b>
+<b class="fc">&nbsp;                    downPositionTiles.add(arreglo);</b>
 &nbsp;                }
 &nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        return downPositionTiles;</b>
+<b class="fc">&nbsp;        return downPositionTiles;</b>
 &nbsp;    }
 &nbsp;    /**
 &nbsp;     * find the up border of a glue.
 &nbsp;     * @return ArrayList&lt;Integer[]&gt;, list of the border.
 &nbsp;     */
 &nbsp;    protected ArrayList&lt;Integer[]&gt; upPositionTiles(){
-<b class="nc">&nbsp;        ArrayList&lt;Integer[]&gt; upPositionTiles = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;        for (int fila = 0;  fila &lt; height ; fila ++){</b>
-<b class="nc">&nbsp;            for (int columna = 0; columna &lt; width ; columna ++){</b>
-<b class="nc">&nbsp;                if ((fila == 0 &amp; glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null &amp;&amp; fila-1 &gt;= 0 &amp;&amp; glueBoard[fila-1][columna] == null)){</b>
-<b class="nc">&nbsp;                    Integer filaInt = fila;</b>
-<b class="nc">&nbsp;                    Integer columnaInt = columna;</b>
-<b class="nc">&nbsp;                    Integer[] arreglo ={filaInt,columnaInt};</b>
-<b class="nc">&nbsp;                    upPositionTiles.add(arreglo);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Integer[]&gt; upPositionTiles = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int fila = 0;  fila &lt; height ; fila ++){</b>
+<b class="fc">&nbsp;            for (int columna = 0; columna &lt; width ; columna ++){</b>
+<b class="pc">&nbsp;                if ((fila == 0 &amp; glueBoard[fila][columna] != null)||(glueBoard[fila][columna] != null &amp;&amp; fila-1 &gt;= 0 &amp;&amp; glueBoard[fila-1][columna] == null)){</b>
+<b class="fc">&nbsp;                    Integer filaInt = fila;</b>
+<b class="fc">&nbsp;                    Integer columnaInt = columna;</b>
+<b class="fc">&nbsp;                    Integer[] arreglo ={filaInt,columnaInt};</b>
+<b class="fc">&nbsp;                    upPositionTiles.add(arreglo);</b>
 &nbsp;                }
 &nbsp;                    
 &nbsp;            }
 &nbsp;        }
-<b class="nc">&nbsp;        return upPositionTiles;</b>
+<b class="fc">&nbsp;        return upPositionTiles;</b>
 &nbsp;    }
 &nbsp;    
 &nbsp;    public abstract boolean isPosibleLeftTilt();
@@ -195,7 +195,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    protected boolean glueInHole(){
 <b class="pc">&nbsp;        for (int row = 0; row &lt; height; row ++){</b>
-<b class="pc">&nbsp;            for (int col = 0; col &lt; width; col ++){</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; width; col ++){</b>
 <b class="pc">&nbsp;                if (glueBoard[row][col] != null &amp;&amp; puzzle.getMatrizHole()[row][col] == null){</b>
 <b class="fc">&nbsp;                    return false;    </b>
 &nbsp;                }
@@ -254,7 +254,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2024-11-05 18:31</div>
+    <div style="float:right;">generated on 2024-11-05 20:45</div>
 </div>
 </body>
 </html>
